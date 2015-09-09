@@ -1,18 +1,17 @@
 {
-    "name": "csci490/ezadvising",
-    "description": "An easy to use academic planning service",
-    "require": {
-      
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^4.8",
-        "phpunit/dbunit": "^1.4",
-        "mockery/mockery": "^0.9.4"
-    },
-    "authors": [
-        {
-            "name": "Phillip Wall",
-            "email": "ptwall@coastal.edu"
-        }
-    ]
+  "name": "csci490/ezadvising",
+  "description": "An easy to use academic planning service",
+  "require": {
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^4.8",
+    "phpunit/dbunit": "^1.4",
+    "mockery/mockery": "^0.9.4"
+  },
+  "authors": [
+    {
+      "name": "Phillip Wall",
+      "email": "ptwall@coastal.edu"
+    }
+  ]
 }
