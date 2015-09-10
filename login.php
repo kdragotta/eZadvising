@@ -21,7 +21,7 @@ if(isset($_POST['submit'])) {
     }
 
     //display errors
-
+    //test
     //get username and salt from database
 }
 
