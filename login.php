@@ -25,7 +25,7 @@ if(isset($_POST['submit'])) {
     //get username and salt from database
 }
 
-
+//Test for kdragotta
 
 ?>
 
