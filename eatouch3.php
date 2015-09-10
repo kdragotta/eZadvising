@@ -6,6 +6,7 @@ $_SESSION['token'] = "ABC";
 /** login, registration and enter records, import records, auto-plan, print option, email option **/
 /** scrape for course availability **/
 ?>
+//test
 <!DOCTYPE html>
 <html>
 <head>
