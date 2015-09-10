@@ -2,29 +2,34 @@
 
 $operators = array("and", "or", "not");
 $num_operands = array("and" => 2, "or" => 2, "not" => 1);
-$parenthesis  = array("(", ")");
+$parenthesis = array("(", ")");
 
-function is_operator($token) {
+function is_operator($token)
+{
     global $operators;
     return in_array($token, $operators);
 }
 
-function is_right_parenthesis($token) {
+function is_right_parenthesis($token)
+{
     global $parenthesis;
     return $token == $parenthesis[1];
 }
 
-function is_left_parenthesis($token) {
+function is_left_parenthesis($token)
+{
     global $parenthesis;
     return $token == $parenthesis[0];
 }
 
-function is_parenthesis($token) {
+function is_parenthesis($token)
+{
     return is_right_parenthesis($token) || is_left_parenthesis($token);
 }
 
 // check whether the precedence if $a is less than or equal to that of $b
-function is_precedence_less_or_equal($a, $b) {
+function is_precedence_less_or_equal($a, $b)
+{
     // "not" always comes first
     if ($b == "not")
         return true;
@@ -43,15 +48,16 @@ function is_precedence_less_or_equal($a, $b) {
 }
 
 
-function shunting_yard($input_tokens) {
+function shunting_yard($input_tokens)
+{
     $stack = array();
     $output_queue = array();
 
     foreach ($input_tokens as $token) {
         if (is_operator($token)) {
-            while (is_operator($stack[count($stack)-1]) && is_precedence_less_or_equal($token, $stack[count($stack)-1])) {
-                    $o2 = array_pop($stack);
-                    array_push($output_queue, $o2);
+            while (is_operator($stack[count($stack) - 1]) && is_precedence_less_or_equal($token, $stack[count($stack) - 1])) {
+                $o2 = array_pop($stack);
+                array_push($output_queue, $o2);
             }
             array_push($stack, $token);
 
@@ -59,17 +65,17 @@ function shunting_yard($input_tokens) {
             if (is_left_parenthesis($token)) {
                 array_push($stack, $token);
             } else {
-                while (!is_left_parenthesis($stack[count($stack)-1]) && count($stack) > 0) {
+                while (!is_left_parenthesis($stack[count($stack) - 1]) && count($stack) > 0) {
                     array_push($output_queue, array_pop($stack));
                 }
                 if (count($stack) == 0) {
-                    echo ("parse error");
+                    echo("parse error");
                     die();
                 }
                 $lp = array_pop($stack);
             }
         } else {
-            array_push($output_queue, $token);  
+            array_push($output_queue, $token);
         }
     }
 
@@ -83,15 +89,17 @@ function shunting_yard($input_tokens) {
     return $output_queue;
 }
 
-function str2bool($s) {
+function str2bool($s)
+{
     if ($s == "true")
         return true;
     if ($s == "false")
         return false;
-    die('$s doesn\'t contain valid boolean string: '.$s.'\n');
+    die('$s doesn\'t contain valid boolean string: ' . $s . '\n');
 }
 
-function apply_operator($operator, $a, $b) {
+function apply_operator($operator, $a, $b)
+{
     if (is_string($a))
         $a = str2bool($a);
     if (!is_null($b) and is_string($b))
@@ -102,24 +110,28 @@ function apply_operator($operator, $a, $b) {
     else if ($operator == "or")
         return $a or $b;
     else if ($operator == "not")
-        return ! $a;
+        return !$a;
     else die("unknown operator `$function'");
 }
 
-function get_num_operands($operator) {
+function get_num_operands($operator)
+{
     global $num_operands;
     return $num_operands[$operator];
 }
 
-function is_unary($operator) {
+function is_unary($operator)
+{
     return get_num_operands($operator) == 1;
 }
 
-function is_binary($operator) {
+function is_binary($operator)
+{
     return get_num_operands($operator) == 2;
 }
 
-function eval_rpn($tokens) {
+function eval_rpn($tokens)
+{
     $stack = array();
     foreach ($tokens as $t) {
         if (is_operator($t)) {
@@ -147,8 +159,8 @@ function eval_rpn($tokens) {
 // $input = array("A", "and", "B", "or", "C", "and", "(", "D", "or", "F", "or", "not", "G", ")");
 $input = array("false", "and", "true", "or", "true", "and", "(", "false", "or", "false", "or", "not", "true", ")");
 // math or math or math and other and other
-$input = array("(","true","or","false","or","false",")","and","true","and","true");
-$input = array("true","and","false");
+$input = array("(", "true", "or", "false", "or", "false", ")", "and", "true", "and", "true");
+$input = array("true", "and", "false");
 $tokens = shunting_yard($input);
 $result = eval_rpn($tokens);
 /*foreach($input as $t)

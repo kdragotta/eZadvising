@@ -1,13 +1,12 @@
 <?php
 
 
-
-define("DBUSER","advising");
-define("DBPASSWORD","adv123");
+define("DBUSER", "advising");
+define("DBPASSWORD", "adv123");
 define("DBSERVER", "localhost");
-define("DBNAME","ezadvising");
+define("DBNAME", "ezadvising");
 
-$connectionString = "mysql:host=".DBSERVER.";dbname=".DBNAME;
+$connectionString = "mysql:host=" . DBSERVER . ";dbname=" . DBNAME;
 
 define("DBCONNECTSTRING", $connectionString);
 
