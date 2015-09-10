@@ -15,7 +15,10 @@ if(isset($_POST['submit'])) {
     $FORMFIELD['password'] = trim($_POST['password']);
 
     //check for empty fields
-
+    if(!isset($FORMFIELD['username']))
+    {
+        echo 'enter username!!!!';
+    }
 
     //display errors
 
