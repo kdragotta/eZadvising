@@ -9,20 +9,44 @@
 $pagetitle = "Login";
 require_once 'config.php';
 
+//if the formfield is submitted
 if(isset($_POST['submit'])) {
     //cleanse the data entered
     $FORMFIELD['username'] = trim($_POST['username']);
     $FORMFIELD['password'] = trim($_POST['password']);
 
+    $errorMessage = '';
     //check for empty fields
+    //checks if the username is entered
     if(!isset($FORMFIELD['username']))
     {
-        echo 'enter username!!!!';
+        $errorMessage .= 'Please enter your UserName';
+    }
+    //Checks if the password is entered
+    if(!isset($FORMFIELD['password']))
+    {
+        $errorMessage .= 'Please enter your Password';
     }
 
     //display errors
-    //test
-    //get username and salt from database
+    if($errorMessage != '')
+    {
+        echo $errorMessage;
+    }
+    else
+    {
+
+        //get username and salt from database
+        //Do we have any requirements for password?
+
+
+
+
+    }
+
+
+
+
 }
 
 
