@@ -30,6 +30,9 @@ $_SESSION['token'] = "ABC";
             <tr>
                 <th>Requirements</th>
             </tr>
+            <tr>
+                <th><button type="button" onclick="window.location.href='eligibleNow.php'">Eligible Now</button></th>
+            </tr>
         </table>
         <div id="currentState">
 
