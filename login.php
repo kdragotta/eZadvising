@@ -9,32 +9,40 @@
 $pagetitle = "Login";
 require_once 'config.php';
 
+$showForm = 1;
+$errorMessage = '';
+
 //if the formfield is submitted
+
 if(isset($_POST['submit'])) {
     //cleanse the data entered
     $FORMFIELD['username'] = trim($_POST['username']);
     $FORMFIELD['password'] = trim($_POST['password']);
 
-    $errorMessage = '';
+
     //check for empty fields
     //checks if the username is entered
-    if(!isset($FORMFIELD['username']))
+    if(empty($FORMFIELD['username']))
     {
-        $errorMessage .= 'Please enter your UserName';
+        $errorMessage .= 'Please enter your Username' . '<br>';
     }
     //Checks if the password is entered
-    if(!isset($FORMFIELD['password']))
+    if(empty($FORMFIELD['password']))
     {
-        $errorMessage .= 'Please enter your Password';
+        $errorMessage .= 'Please enter your Password' . '<br>';
     }
 
     //display errors
     if($errorMessage != '')
     {
-        echo $errorMessage;
+        $showForm = 0;
+       // echo 'Error: ' . $errorMessage;
+        echo 'An error has occured: ' . '<br>' .  $errorMessage;
+        echo '<br>';
     }
     else
     {
+
 
         //get username and salt from database
         //Do we have any requirements for password?
@@ -51,8 +59,9 @@ if(isset($_POST['submit'])) {
 
 //Test for kdragotta
 
-?>
 
+if($showForm == 1){
+?>
 <p>Please log in to access registration.</p>
 
 <form name="loginForm" id="loginForm" method="post" action="login.php">
@@ -73,3 +82,6 @@ if(isset($_POST['submit'])) {
 
 
 </form>
+<?php
+}
+?>
