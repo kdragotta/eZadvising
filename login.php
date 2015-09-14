@@ -9,6 +9,9 @@
 $pagetitle = "Login";
 require_once 'config.php';
 
+
+$showForm = 1;
+
 //if the formfield is submitted
 if(isset($_POST['submit'])) {
     //cleanse the data entered
@@ -40,7 +43,7 @@ if(isset($_POST['submit'])) {
         //Do we have any requirements for password?
 
 
-
+        $showForm = 0;
 
     }
 
@@ -50,7 +53,8 @@ if(isset($_POST['submit'])) {
 }
 
 //Test for kdragotta
-
+if($showForm == 1)
+{
 ?>
 
 <p>Please log in to access registration.</p>
@@ -73,3 +77,5 @@ if(isset($_POST['submit'])) {
 
 
 </form>
+<?php
+}
