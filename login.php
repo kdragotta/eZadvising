@@ -44,6 +44,33 @@ if(isset($_POST['submit'])) {
     {
 
         $showForm = 0;
+
+        ///this is what she has in her advising_functions.php
+        $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
+
+        //we do not have a database for users.. so we may have to create one. I won't put one
+        // in until we decide what to call it together. I'll  just leave it blank.
+        try
+        {
+            $sql='SELECT _______________________ FROM ________________WHERE__________';
+            $login = $conn->prepare($sql);
+            $login->bindParam(':userName', $FORMFIELD['username']);
+            $login->execute();
+            $count = $login->rowCount();
+        }
+        catch(PDOException $e)
+        {
+            echo  $e->getMessage();
+            exit();
+        }
+
+        //is the username in the database?
+        if($count < 1)
+        {
+            echo "Entered wrong userName!";
+            exit();
+        }
+
         //get username and salt from database
         //Do we have any requirements for password?
 
