@@ -35,7 +35,7 @@ if(isset($_POST['submit'])) {
     //display errors
     if($errorMessage != '')
     {
-        $showForm = 0;
+
        // echo 'Error: ' . $errorMessage;
         echo 'An error has occured: ' . '<br>' .  $errorMessage;
         echo '<br>';
@@ -43,7 +43,7 @@ if(isset($_POST['submit'])) {
     else
     {
 
-
+        $showForm = 0;
         //get username and salt from database
         //Do we have any requirements for password?
 
