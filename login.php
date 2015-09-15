@@ -67,7 +67,6 @@ if(isset($_POST['submit'])) {
         if($count < 1)
         {
             echo "Entered wrong userName!";
-            exit();
         }
         else{
 
@@ -87,7 +86,7 @@ if(isset($_POST['submit'])) {
 
             if($confirm<1){
                 echo "Entered wrong Password!";
-                exit();
+
             }
             else{
              echo "You are Logged in!";
