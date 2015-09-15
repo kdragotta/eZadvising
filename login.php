@@ -52,7 +52,7 @@ if(isset($_POST['submit'])) {
         // in until we decide what to call it together. I'll  just leave it blank.
         try
         {
-            $sql='SELECT _______________________ FROM ________________WHERE__________';
+            $sql='SELECT username FROM accounts WHERE username = :userName';
             $login = $conn->prepare($sql);
             $login->bindParam(':userName', $FORMFIELD['username']);
             $login->execute();
@@ -70,7 +70,14 @@ if(isset($_POST['submit'])) {
             echo "Entered wrong userName!";
             exit();
         }
+        else{
 
+
+
+
+
+
+        }
         //get username and salt from database
         //Do we have any requirements for password?
 
