@@ -37,21 +37,20 @@ if(isset($_POST['submit'])) {
     {
 
        // echo 'Error: ' . $errorMessage;
-        echo 'An error has occured: ' . '<br>' .  $errorMessage;
-        echo '<br>';
+        echo 'An error has occurred: ' . '<br>' .  $errorMessage;
+        echo '<br />';
     }
     else
     {
 
-        $showForm = 0;
-
         ///this is what she has in her advising_functions.php
-        $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
+
 
         //we do not have a database for users.. so we may have to create one. I won't put one
         // in until we decide what to call it together. I'll  just leave it blank.
         try
         {
+            $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
             $sql='SELECT username FROM accounts WHERE username = :userName';
             $login = $conn->prepare($sql);
             $login->bindParam(':userName', $FORMFIELD['username']);
@@ -72,8 +71,28 @@ if(isset($_POST['submit'])) {
         }
         else{
 
+            try{
+                $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
+                $sql='SELECT username FROM accounts WHERE username = :userName AND password = :password';
+                $confirmLogin = $conn->prepare($sql);
+                $confirmLogin->bindParam(':userName', $FORMFIELD['username']);
+                $confirmLogin->bindParam(':password', $FORMFIELD['password']);
+                $confirmLogin->execute();
+                $confirm = $confirmLogin->rowCount();
+            }
+            catch(PDOException $e){
+                echo  $e->getMessage();
+                exit();
+            }
 
-
+            if($confirm<1){
+                echo "Entered wrong Password!";
+                exit();
+            }
+            else{
+             echo "You are Logged in!";
+                $showForm = 0;
+            }
 
 
 
