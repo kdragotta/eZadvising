@@ -37,8 +37,8 @@ if(isset($_POST['submit'])) {
     {
 
        // echo 'Error: ' . $errorMessage;
-        echo 'An error has occured: ' . '<br>' .  $errorMessage;
-        echo '<br>';
+        echo 'An error has occurred: ' . '<br>' .  $errorMessage;
+        echo '<br />';
     }
     else
     {
