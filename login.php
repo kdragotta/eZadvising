@@ -89,7 +89,21 @@ if(isset($_POST['submit'])) {
 
             }
             else{
-             echo "You are Logged in!";
+                try{
+                    $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
+                    $sql='SELECT username FROM accounts WHERE username = :use';
+                    $welcome =$conn->prepare($sql);
+                    $welcome ->bindValue(':username', $FORMFIELD['username']);
+                    $welcome->execute();
+                }
+                catch(PDOException $e)
+                {
+                    echo $e->getMessage();
+                    exit();
+                }
+                $row = $welcome->fetch();
+
+             echo "You are Logged in, ". $row['first'];
                 $showForm = 0;
             }
 
