@@ -85,6 +85,18 @@ $_SESSION['token'] = "ABC";
 
         </div>
 
+        <table id = "nonRequredCourse">
+            <th>Add Nonrequired Course</th>
+        </table>
+        <div id = "addNonrequred">
+            <select id = "departmentList">
+                <option>Select Department</option>
+            </select>
+            <select id = "courseList">
+                <option>Select Course</option>
+            </select>
+            <button>Add Course</button>
+        </div>
         <!-- end stillRequiredList div -->
 
 
