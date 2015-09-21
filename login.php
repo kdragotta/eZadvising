@@ -69,8 +69,10 @@ if(isset($_POST['submit'])) {
             echo "Entered wrong userName!";
         }
         else{
+            //fetch the salt
             $login -> $secure->fetch();
             $confirmSalt = $secure['salt'];
+            //cypt the password to the hashed so it should match the one in the database
             $hashPassword = crypt($FORMFIELD['password'], $$confirmSalt);
 
             try{
