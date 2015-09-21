@@ -51,7 +51,7 @@ if(isset($_POST['submit'])) {
         try
         {
             $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
-            $sql='SELECT username FROM accounts WHERE username = :userName';
+            $sql='SELECT * FROM accounts WHERE username = :userName';
             $login = $conn->prepare($sql);
             $login->bindParam(':userName', $FORMFIELD['username']);
             $login->execute();
