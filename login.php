@@ -70,10 +70,10 @@ if(isset($_POST['submit'])) {
         }
         else{
             //fetch the salt
-            $login -> $secure->fetch();
+            $secure = $login->fetch();
             $confirmSalt = $secure['salt'];
             //cypt the password to the hashed so it should match the one in the database
-            $hashPassword = crypt($FORMFIELD['password'], $$confirmSalt);
+            $hashPassword = crypt($FORMFIELD['password'], $confirmSalt);
 
             try{
                 $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
@@ -90,7 +90,7 @@ if(isset($_POST['submit'])) {
             }
 
             if($confirm<1){
-                echo "Entered wrong Password or hash is wrong!";
+                echo "Entered wrong Password or hash is wrong!<br/>";
 
             }
             else{
