@@ -58,7 +58,7 @@ if(isset($_POST['submit'])) {
         $errorMessage .= 'Please enter your last name' . '<br>';
     }
     //Checks if the type is entered
-    if(empty($FORMFIELD['type']))
+    if(empty($FORMFIELD['type']) && $FORMFIELD != 0)
     {
         $errorMessage .= 'Please enter the user type' . '<br>';
     }
