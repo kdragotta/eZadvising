@@ -198,7 +198,7 @@ if($showForm == 1){
         </tr>
         <tr>
             <td>Type</td>
-            <td><input type="number" name="type" id="type" size="1"/></td>
+            <td><input type="number" name="type" id="type" min="0" max="1"/></td>
         </tr>
         <tr>
             <td>Submit:</td>
