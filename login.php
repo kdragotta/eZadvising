@@ -51,7 +51,7 @@ if(isset($_POST['submit'])) {
         try
         {
             $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
-            $sql='SELECT username FROM accounts WHERE username = :userName';
+            $sql='SELECT * FROM accounts WHERE username = :userName';
             $login = $conn->prepare($sql);
             $login->bindParam(':userName', $FORMFIELD['username']);
             $login->execute();
@@ -69,13 +69,18 @@ if(isset($_POST['submit'])) {
             echo "Entered wrong userName!";
         }
         else{
+            //fetch the salt
+            $secure = $login->fetch();
+            $confirmSalt = $secure['salt'];
+            //cypt the password to the hashed so it should match the one in the database
+            $hashPassword = crypt($FORMFIELD['password'], $confirmSalt);
 
             try{
                 $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
                 $sql='SELECT username FROM accounts WHERE username = :userName AND password = :password';
                 $confirmLogin = $conn->prepare($sql);
                 $confirmLogin->bindParam(':userName', $FORMFIELD['username']);
-                $confirmLogin->bindParam(':password', $FORMFIELD['password']);
+                $confirmLogin->bindParam(':password', $hashPassword);
                 $confirmLogin->execute();
                 $confirm = $confirmLogin->rowCount();
             }
@@ -85,11 +90,25 @@ if(isset($_POST['submit'])) {
             }
 
             if($confirm<1){
-                echo "Entered wrong Password!";
+                echo "Entered wrong Password or hash is wrong!<br/>";
 
             }
             else{
-             echo "You are Logged in!";
+                try{
+                    $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
+                    $sql='SELECT * FROM accounts WHERE username = :username';
+                    $welcome =$conn->prepare($sql);
+                    $welcome ->bindValue(':username', $FORMFIELD['username']);
+                    $welcome->execute();
+                }
+                catch(PDOException $e)
+                {
+                    echo $e->getMessage();
+                    exit();
+                }
+                $row = $welcome->fetch();
+
+             echo "You are Logged in, ". $row['first'];
                 $showForm = 0;
             }
 
