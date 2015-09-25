@@ -1,7 +1,7 @@
 function getCurrentState($token, $studentId) {
     //alert("in getCurrentState");
     $.ajax({
-        url: "getSomething.php",
+        url: "../../model/getSomething.php",
         success: function (result) {
             //$("#div1").html(result);
             alert(result);
@@ -416,7 +416,7 @@ function initState() {
 
     //fix hardcoding for student, pass as post params
     $.ajax({
-        url: "reqsByStudent.php",
+        url: "../model/reqsByStudent.php",
         success: function (result) {
 
             //Build DOM
@@ -614,7 +614,7 @@ function handleDropEventOnWorking(event, ui) {
         //console.dir(event.this.id);
         var semesterCode = targId.substr(5, 1);
         var planYear = targId.substr(1, 4);
-        var url = "addPlanItem.php";
+        var url = "../../model/addPlanItem.php";
         var proposedReqId = "";
         //get selected course
         //var selOptionBox=$(plannedEl).
@@ -658,7 +658,7 @@ function handleDropEventOnWorking(event, ui) {
 
         //insert into database
         $.ajax({
-            url: "addPlanItem.php",
+            url: "../../model/addPlanItem.php",
             method: 'POST',
             data: {
                 programId: programId,
@@ -749,7 +749,7 @@ function handleDropEventOnPlan(event, ui) {
         var semesterCode = targId.substr(5, 1);
         var planYear = targId.substr(1, 4);
         $(plannedEl).data("onSemester", targId);
-        var url = "addPlanItem.php";
+        var url = "../../model/addPlanItem.php";
         var proposedReqId = "";
         //get selected course
         //var selOptionBox=$(plannedEl).
@@ -881,7 +881,7 @@ function handleDropEventOnPlan(event, ui) {
         fromSemesterCode = fromSemesterCode.substr(5, 1);
         var fromPlanYear = $(ui.draggable).data('onSemester');
         fromPlanYear = fromPlanYear.substr(1, 4);
-        var url = "movePlanItem.php";
+        var url = "../model/movePlanItem.php";
         var proposedReqId = "";
 
 
@@ -904,7 +904,7 @@ function handleDropEventOnPlan(event, ui) {
         //insert into database &&&&&&&&&&& function movePlanItem($token, $studentId, $courseId, $semester, $year, $toSemester, $toYear,$reqId=null)
 
         $.ajax({
-            url: "movePlanItem.php",
+            url: "../model/movePlanItem.php",
             method: 'POST',
             data: {
                 courseId: courseId, studentId: 1, fromSem: fromSemesterCode, fromYear: fromPlanYear,
