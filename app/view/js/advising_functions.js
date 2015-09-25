@@ -881,7 +881,7 @@ function handleDropEventOnPlan(event, ui) {
         fromSemesterCode = fromSemesterCode.substr(5, 1);
         var fromPlanYear = $(ui.draggable).data('onSemester');
         fromPlanYear = fromPlanYear.substr(1, 4);
-        var url = "../model/movePlanItem.php";
+        var url = "../../index.php";
         var proposedReqId = "";
 
 
@@ -904,7 +904,7 @@ function handleDropEventOnPlan(event, ui) {
         //insert into database &&&&&&&&&&& function movePlanItem($token, $studentId, $courseId, $semester, $year, $toSemester, $toYear,$reqId=null)
 
         $.ajax({
-            url: "../model/movePlanItem.php",
+            url: "../../index.php",
             method: 'POST',
             data: {
                 courseId: courseId, studentId: 1, fromSem: fromSemesterCode, fromYear: fromPlanYear,
