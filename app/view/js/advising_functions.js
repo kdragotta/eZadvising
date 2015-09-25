@@ -614,7 +614,7 @@ function handleDropEventOnWorking(event, ui) {
         //console.dir(event.this.id);
         var semesterCode = targId.substr(5, 1);
         var planYear = targId.substr(1, 4);
-        var url = "../../model/addPlanItem.php";
+        var url = "../../../index.php";
         var proposedReqId = "";
         //get selected course
         //var selOptionBox=$(plannedEl).
@@ -658,7 +658,7 @@ function handleDropEventOnWorking(event, ui) {
 
         //insert into database
         $.ajax({
-            url: "../../model/addPlanItem.php",
+            url: "../../../index.php",
             method: 'POST',
             data: {
                 programId: programId,
@@ -749,7 +749,7 @@ function handleDropEventOnPlan(event, ui) {
         var semesterCode = targId.substr(5, 1);
         var planYear = targId.substr(1, 4);
         $(plannedEl).data("onSemester", targId);
-        var url = "../../model/addPlanItem.php";
+        var url = "../../index.php";
         var proposedReqId = "";
         //get selected course
         //var selOptionBox=$(plannedEl).
@@ -793,7 +793,7 @@ function handleDropEventOnPlan(event, ui) {
 
         //insert into database
         $.ajax({
-            url: "addPlanItem.php",
+            url: "../../index.php",
             method: 'POST',
             data: {
                 programId: programId,

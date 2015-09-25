@@ -13,7 +13,17 @@
 //T4-7,7-10,4-7W,Thursday am
 
 require_once("../config/config.php");
-require_once("pe.php");
+//require_once("pe.php");
+/*
+ * PE.php has bug and i have no idea what it does and it's not used here
+ * ( ! ) Notice: Undefined offset: -1 in /Applications/MAMP/htdocs/eZadvising/app/model/pe.php on line 58
+Call Stack
+#	Time	Memory	Function	Location
+1	0.0008	231440	{main}( )	../reqsByStudent.php:0
+2	0.0068	365832	require_once( '/Applications/MAMP/htdocs/eZadvising/app/model/advising_functions.php' )	../reqsByStudent.php:1
+3	0.0086	402872	require_once( '/Applications/MAMP/htdocs/eZadvising/app/model/pe.php' )	../advising_functions.php:16
+4	0.0087	405824	shunting_yard( )	../pe.php:164
+ */
 
 /*
 check--evalSinglePrereq($token, $studentId, $prereqId)

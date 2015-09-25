@@ -1,5 +1,5 @@
 <?php
-require(__DIR__.'/../model/PlanModel.php');
+require_once(__DIR__.'/../model/PlanModel.php');
 
 class PlanController {
 
@@ -8,11 +8,64 @@ class PlanController {
     public function __construct() {
         $this->planModel = new PlanModel();
     }
+
     public function handleRequest() {
-        $this->movePlanItem();
+        $this->handleAddPlanItem();
+        $this->handleMovePlanItem();
     }
 
-    public function movePlanItem() {
+    public function handleAddPlanItem() {
+        if(isset($_POST ['courseId']))
+            $courseId = $_POST['courseId'];
+        else
+            $courseId = NULL;
+
+        if(isset($_POST['semesterCode']))
+            $semesterCode = $_POST['semesterCode'];
+        else
+            $semesterCode = NULL;
+
+        if(isset($_POST['planYear']))
+            $planYear = $_POST['planYear'];
+        else
+            $planYear = NULL;
+
+        if(isset($_POST['reqId']))
+            $reqId = $_POST['reqId'];
+        else
+            $reqId = NULL;
+
+        if(isset($_POST['proposedReqId']))
+            $proposedReqId = $_POST['proposedReqId'];
+        else
+            $proposedReqId = NULL;
+
+        if(isset($_POST['hours']))
+            $hours = $_POST['hours'];
+        else
+            $hours = NULL;
+
+        if(isset($_POST['programId']))
+            $programId = $_POST['programId'];
+        else
+            $programId = NULL;
+
+        if(isset($_POST['progYear']))
+            $progYear = $_POST['progYear'];
+        else
+            $progYear = NULL;
+
+        if(!$courseId || !$semesterCode || !$planYear || !$reqId ||
+            !$proposedReqId || !$hours || !$programId)
+            echo 'something null';
+
+        echo $this->planModel->addPlanItem("ABC", 1, $courseId, $hours,
+                                             $semesterCode, $planYear,
+                                             $progYear, $programId,
+                                             $reqId, $proposedReqId);
+    }
+
+    public function handleMovePlanItem() {
         if(isset($_POST ['courseId']))
             $courseId = $_POST['courseId'];
         else
@@ -46,8 +99,9 @@ class PlanController {
             !$toSem || !$toYear || !$studentId)
             echo 'something null';
 
-        echo ($this->planModel->movePlanItem("ABC", $studentId, $courseId, $fromSem,
-                                       $fromYear, $toSem, $toYear, $reqId));
+        echo $this->planModel->movePlanItem("ABC", $studentId, $courseId,
+                                              $fromSem, $fromYear, $toSem,
+                                              $toYear, $reqId);
     }
 }
 ?>
