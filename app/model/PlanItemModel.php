@@ -9,6 +9,7 @@ class PlanItemModel {
         $this->conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
     }
 
+
     //UPDATED DONE USED
     public function movePlanItem($token, $studentId, $courseId, $semester,
                                  $year, $toSemester, $toYear, $reqId = null)
@@ -20,7 +21,10 @@ class PlanItemModel {
 
             //  if(empty($studentId)) return 404;
 
-            $sql = 'UPDATE course_records SET semesterCode=:toSemester, year=:toYear WHERE studentId=:studentId AND courseId= :courseId AND semesterCode=:semester AND year=:year AND type=2';
+            $sql = 'UPDATE course_records SET semesterCode=:toSemester, '.
+                   'year=:toYear WHERE studentId=:studentId AND .'.
+                   'courseId= :courseId AND semesterCode=:semester AND '.
+                   'year=:year AND type=2';
             //$sql = $sql. ' VALUES (null, :studentId, :courseId, null, :semester, :year, :reqId, 2, :proposedReqId)';
             $stmt = $this->conn->prepare($sql);
 
@@ -46,7 +50,8 @@ class PlanItemModel {
         return $inserted;
     }
 
-    function addPlanItem($token, $studentId, $courseId, $semester, $year, $reqId = null, $proposedReqId = null)
+    public function addPlanItem($token, $studentId, $courseId, $semester,
+                                $year, $reqId = null, $proposedReqId = null)
     {
         echo "in addPlanItem";
         try {
@@ -84,5 +89,40 @@ class PlanItemModel {
 
     }
 
+
+    //NOT UPDATED DONE USED
+    public function removePlanItem($token, $studentId, $courseId, $semester, $year, $reqId = null)
+    {
+        try {
+            //if (!validateToken($token, $studentId)) {
+            //    return 403;
+            //}
+
+            //  if(empty($studentId)) return 404;
+
+            $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
+            $sql = 'DELETE FROM course_records WHERE studentId=:studentId AND courseId= :courseId AND semester=:semester AND year=:year AND type=2';
+            //$sql = $sql. ' VALUES (null, :studentId, :courseId, null, :semester, :year, :reqId, 2, :proposedReqId)';
+            $stmt = $conn->prepare($sql);
+
+            $stmt->bindParam(':studentId', $studentId);
+            $stmt->bindParam(':semester', $semester);
+            $stmt->bindParam(':year', $year);
+            $stmt->bindParam(':courseId', $courseId);
+
+            $success = $stmt->execute();
+            $inserted = $success ? "yes" : "no";
+            echo "<h4>success:" . $inserted . "</h4>";
+
+
+        }//end try
+        catch (PDOException $e) {
+            //echo $sql . "<br>" . $e->getMessage();
+            return 500;
+        }
+
+        $conn = null;
+
+    }
 }
 ?>
