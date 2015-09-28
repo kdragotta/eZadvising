@@ -1,14 +1,13 @@
 <?php
-//require 'app/classes/loader.php';
-require 'app/controller/PlanController.php';
-/*
-$loader = new Loader($_GET);
-$controller = $loader->CreateController();
-$controller->ExecuteAction();
-*/
+require 'app/controller/PlanItemController.php';
+
+$planItemController = new PlanItemController();
+$planItemController->handleRequest();
 
 $planController = new PlanController();
-$planController->handleRequest();
+$planController->handleRequests();
 
+$studentController = new StudentController();
+$studentController->handleRequest();
 
 ?>
