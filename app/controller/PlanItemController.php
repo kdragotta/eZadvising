@@ -56,10 +56,11 @@ class PlanItemController {
             $progYear = NULL;
 
         if(!$courseId || !$semesterCode || !$planYear || !$reqId ||
-            !$proposedReqId || !$hours || !$programId)
-            echo 'something null';
+            !$proposedReqId || !$hours || !$programId) {
+            return;
+        }
 
-        echo $this->planModel->addPlanItem("ABC", 1, $courseId, $hours,
+        echo $this->planItemModel->addPlanItem("ABC", 1, $courseId, $hours,
                                              $semesterCode, $planYear,
                                              $progYear, $programId,
                                              $reqId, $proposedReqId);
@@ -101,8 +102,9 @@ class PlanItemController {
             $studentId = NULL;
 
         if(!$courseId || !$fromSem || !$fromYear || !$reqId ||
-            !$toSem || !$toYear || !$studentId)
-            echo 'something null';
+            !$toSem || !$toYear || !$studentId) {
+            return;
+        }
 
         echo $this->planItemModel->movePlanItem("ABC", $studentId, $courseId,
                                               $fromSem, $fromYear, $toSem,

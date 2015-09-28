@@ -2,22 +2,34 @@
 
 require_once(__DIR__ . '/../model/PlanModel.php');
 
-class PlanController {
+class PlanController
+{
     private $planModel = NULL;
 
-    public function __construct() {
+    public function __construct()
+    {
         $planModel = new PlanModel();
     }
 
-    public function handleRequests() {
+    public function handleRequests()
+    {
         $this->handleCreatePlan();
     }
 
     public function handleCreatePlan()
     {
-        if(isset($_POST['submit']))
-        {
+        if (isset($_POST['submit'])) {
             $this->planModel->createPlan();
+        }
+
+        if(empty($_GET) && empty($_POST))
+        {
+            session_start();
+            $_SESSION['username'] = "crystal";
+            $_SESSION['studentId'] = 1;
+            $_SESSION['token'] = "ABC";
+
+include __DIR__ . "/../view/eatouch4.php";
         }
     }
 

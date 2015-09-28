@@ -415,9 +415,19 @@ function initState() {
 //idea:simple course prereq calculator in javascript - load prereq data for each course and fill with true or
 
     //fix hardcoding for student, pass as post params
+    //$token || studentId || $programId || !$year)
+
     $.ajax({
-        url: "../model/reqsByStudent.php",
+        url: "index.php",
+        method: 'POST',
+        data: {
+            token: 'ABC',
+            studentId: 1,
+            programId: 1,
+            year: 2014
+        },
         success: function (result) {
+            console.log(result);
 
             //Build DOM
             var reqs = JSON.parse(result); //reqs is array of requirement objects
@@ -614,7 +624,7 @@ function handleDropEventOnWorking(event, ui) {
         //console.dir(event.this.id);
         var semesterCode = targId.substr(5, 1);
         var planYear = targId.substr(1, 4);
-        var url = "../../../index.php";
+        var url = "index.php";
         var proposedReqId = "";
         //get selected course
         //var selOptionBox=$(plannedEl).
@@ -658,7 +668,7 @@ function handleDropEventOnWorking(event, ui) {
 
         //insert into database
         $.ajax({
-            url: "../../../index.php",
+            url: "index.php",
             method: 'POST',
             data: {
                 programId: programId,
@@ -749,7 +759,7 @@ function handleDropEventOnPlan(event, ui) {
         var semesterCode = targId.substr(5, 1);
         var planYear = targId.substr(1, 4);
         $(plannedEl).data("onSemester", targId);
-        var url = "../../index.php";
+        var url = "index.php";
         var proposedReqId = "";
         //get selected course
         //var selOptionBox=$(plannedEl).
@@ -793,7 +803,7 @@ function handleDropEventOnPlan(event, ui) {
 
         //insert into database
         $.ajax({
-            url: "../../index.php",
+            url: "index.php",
             method: 'POST',
             data: {
                 programId: programId,
@@ -881,7 +891,7 @@ function handleDropEventOnPlan(event, ui) {
         fromSemesterCode = fromSemesterCode.substr(5, 1);
         var fromPlanYear = $(ui.draggable).data('onSemester');
         fromPlanYear = fromPlanYear.substr(1, 4);
-        var url = "../../index.php";
+        var url = "index.php";
         var proposedReqId = "";
 
 
@@ -904,7 +914,7 @@ function handleDropEventOnPlan(event, ui) {
         //insert into database &&&&&&&&&&& function movePlanItem($token, $studentId, $courseId, $semester, $year, $toSemester, $toYear,$reqId=null)
 
         $.ajax({
-            url: "../../index.php",
+            url: "index.php",
             method: 'POST',
             data: {
                 courseId: courseId, studentId: 1, fromSem: fromSemesterCode, fromYear: fromPlanYear,

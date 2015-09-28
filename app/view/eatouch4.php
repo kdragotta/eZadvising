@@ -1,24 +1,15 @@
-<?php
-session_start();
-$_SESSION['username'] = "crystal";
-$_SESSION['studentId'] = 1;
-$_SESSION['token'] = "ABC";
-/** login, registration and enter records, import records, auto-plan, print option, email option **/
-/** scrape for course availability **/
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
     <title> eZAdvising </title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-    <script src="js/jquery-simulate.js"></script>
+    <script src="app/view/js/jquery-simulate.js"></script>
     <!--<script src="planTitle.js"></script>-->
 
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
-    <link rel="stylesheet" type="text/css" href="css/planNamePopup.css">
+    <link rel="stylesheet" type="text/css" href="app/view/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="app/view/css/planNamePopup.css">
 </head>
 
 <body>
@@ -105,4 +96,4 @@ $_SESSION['token'] = "ABC";
 <footer>
 </footer>
 <div id="temp_hidden" class="temp_hidden"></div>
-<script src="js/advising_functions.js"></script>
+<script src="app/view/js/advising_functions.js"></script>

@@ -1,5 +1,6 @@
-<?php
 
+//not used right now
+<?php
 class Loader {
     private $controller;
     private $action;
