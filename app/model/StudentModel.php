@@ -54,7 +54,8 @@ class StudentModel
             // set the PDO error mode to exception
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             /* $sql = 'SELECT p.id, p.dept, p.num FROM courses, courses as p, prereqs, prereq_detail
-         WHERE courses.num="150" AND courses.id = prereqs.courseId AND prereqs.id = prereq_detail.prereqId AND prereq_detail.type=2
+         WHERE courses.num="150" AND courses.id = prereqs.courseId AND
+            prereqs.id = prereq_detail.prereqId AND prereq_detail.type=2
          AND prereq_detail.courseId=p.id';*/
             $sql = 'SELECT prereqs.expression FROM courses, prereqs '.
                    'WHERE courses.num="150" AND courses.id = prereqs.courseId';
@@ -100,7 +101,8 @@ class StudentModel
 
         //echo "starting getRrequiements";
         //return array of requirement objects
-        // each requirement has an id, category, title, numcredit hours, min grade, and array of course objects
+        // each requirement has an id, category, title, numcredit hours,
+        // min grade, and array of course objects
         //   each course object has an id, dept, num title, description
         $result = array();
         try {
@@ -173,7 +175,11 @@ class StudentModel
                 $r->hours = $req['hours'];
 
                 //now get courses for that group
-                $secondSql = 'SELECT courses.id as "id", courses.defaultCreditHours as "hours", dept, num, title, description FROM course_groups, courses WHERE course_groups.groupId=:groupId AND course_groups.courseId=courses.id';
+                $secondSql = 'SELECT courses.id as "id", courses.default'.
+                             'CreditHours as "hours", dept, num, title, '.
+                             'description FROM course_groups, courses WHERE '.
+                             'course_groups.groupId=:groupId AND '.
+                             'course_groups.courseId=courses.id';
 
                 $stmt2 = $conn->prepare($secondSql);
 
@@ -202,7 +208,13 @@ class StudentModel
                 $r->courseOptions = $courseOptions;
 
                 //now get whether the requirement is met for the student
-                $sqlCoursesTaken = 'SELECT courses.id, courses.dept, courses.num, courses.title, courses.description, course_records.hours, course_records.type,course_records.semesterCode, course_records.year FROM courses, course_records WHERE course_records.studentId=:stuId AND course_records.courseId=courses.id AND course_records.reqId=:reqId';
+                $sqlCoursesTaken =
+                    'SELECT courses.id, courses.dept, courses.num, '.
+                    'courses.title, courses.description, course_records.'.
+                    'hours, course_records.type,course_records.semesterCode,'.
+                    'course_records.year FROM courses, course_records WHERE '.
+                    'course_records.studentId=:stuId AND course_records.courseId='.
+                    'courses.id AND course_records.reqId=:reqId';
                 $stmtCoursesTaken = $conn->prepare($sqlCoursesTaken);
                 $stmtCoursesTaken->bindParam(':stuId', $studentId);
                 $stmtCoursesTaken->bindParam(':reqId', $r->id);
