@@ -111,7 +111,7 @@ function apply_operator($operator, $a, $b)
         return $a or $b;
     else if ($operator == "not")
         return !$a;
-    else die("unknown operator `$function'");
+    else die("unknown operator '$operator'");
 }
 
 function get_num_operands($operator)

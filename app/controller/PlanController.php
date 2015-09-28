@@ -16,7 +16,7 @@ class PlanController
         $this->handleCreatePlan();
     }
 
-    public function handleCreatePlan()
+    private function handleCreatePlan()
     {
         if (isset($_POST['submit'])) {
             $this->planModel->createPlan();

@@ -14,7 +14,7 @@ class PlanItemController {
         $this->handleMovePlanItem();
     }
 
-    public function handleAddPlanItem() {
+    private function handleAddPlanItem() {
         if(isset($_POST ['courseId']))
             $courseId = $_POST['courseId'];
         else
@@ -66,7 +66,7 @@ class PlanItemController {
                                              $reqId, $proposedReqId);
     }
 
-    public function handleMovePlanItem() {
+    private function handleMovePlanItem() {
         if(isset($_POST ['courseId']))
             $courseId = $_POST['courseId'];
         else
@@ -96,6 +96,7 @@ class PlanItemController {
             $toYear = $_POST['toYear'];
         else
             $toYear = NULL;
+
         if(isset($_POST['studentId']))
             $studentId = $_POST['studentId'];
         else

@@ -427,7 +427,6 @@ function initState() {
             year: 2014
         },
         success: function (result) {
-            console.log(result);
 
             //Build DOM
             var reqs = JSON.parse(result); //reqs is array of requirement objects

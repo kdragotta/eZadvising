@@ -262,8 +262,6 @@ function getUpdatedRequirementForStudent($token, $studentId, $reqId, $programId,
 
 }
 
-
-
 //NOT YET USED
 function getRequirements($programId, $year)
 {

@@ -22,9 +22,10 @@ class PlanItemModel {
             //  if(empty($studentId)) return 404;
 
             $sql = 'UPDATE course_records SET semesterCode=:toSemester, '.
-                   'year=:toYear WHERE studentId=:studentId AND .'.
+                   'year=:toYear WHERE studentId=:studentId AND '.
                    'courseId= :courseId AND semesterCode=:semester AND '.
                    'year=:year AND type=2';
+
             //$sql = $sql. ' VALUES (null, :studentId, :courseId, null, :semester, :year, :reqId, 2, :proposedReqId)';
             $stmt = $this->conn->prepare($sql);
 
