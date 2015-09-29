@@ -3,8 +3,8 @@
 class Student {
 
     private $name = "";
-    private $username = "":
-    private $email = "":
+    private $username = "";
+    private $email = "";
     private $ezplan = 0;  //make obj
     private $coursesCompleted = 0; //makeobj
 
@@ -14,7 +14,7 @@ class Student {
     }
 
     function setEmail($email) {
-        if(filter_var($email, FILTER_VALIDATE_EMAIL)
+        if(filter_var($email, FILTER_VALIDATE_EMAIL))
             $this->email = email;
     }
 

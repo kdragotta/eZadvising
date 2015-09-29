@@ -11,7 +11,6 @@ class Course {
     private $number;
     private $difficulty;
 
-
     function __construct($name="", $department="", $number=0, $difficulty=0) {
         $this->name = $name;
         $this->department = $department;
@@ -65,7 +64,7 @@ class Course {
             return 0;
     }
 
-    #String output 
+    #String output
     function toString() {
         $toString = "";
         $toString .= "Name: " . $this->name . "\n";

@@ -1,7 +1,7 @@
 function getCurrentState($token, $studentId) {
     //alert("in getCurrentState");
     $.ajax({
-        url: "getSomething.php",
+        url: "../../model/getSomething.php",
         success: function (result) {
             //$("#div1").html(result);
             alert(result);
@@ -48,7 +48,6 @@ function processReqUpdate(req, update) {
     var selEl = $("<select></select>");
     var newId = "op" + req.id;
     $(selEl).attr("id", newId); //each select field has id "opX" where X is req.id
-
 
     var optionsCount = 0;
     for (j = 0; j < courseOptions.length; j++) {
@@ -397,7 +396,8 @@ function incrementSemester(sem, year, scale) {
 
 var reqs;
 var semesterList;
-$(initSemesterStart);
+$(initSemesterStart('#thePlan0'));
+$(initSemesterStart('#thePlan1'));
 $(initState);
 
 $(init);
@@ -415,8 +415,17 @@ function initState() {
 //idea:simple course prereq calculator in javascript - load prereq data for each course and fill with true or
 
     //fix hardcoding for student, pass as post params
+    //$token || studentId || $programId || !$year)
+
     $.ajax({
-        url: "reqsByStudent.php",
+        url: "index.php",
+        method: 'POST',
+        data: {
+            token: 'ABC',
+            studentId: 1,
+            programId: 1,
+            year: 2014
+        },
         success: function (result) {
 
             //Build DOM
@@ -432,7 +441,9 @@ function initState() {
             for (i = 0; i < reqs.length; i++) {
 
                 var req = reqs[i];
+
                 processReqUpdate(req);
+
 
             }//end for each requirement
 
@@ -446,7 +457,7 @@ function initState() {
 
 
 
-function initSemesterStart() {
+function initSemesterStart($divPlan) {
 
 //get date of first planned for student or current semester and show whichever
 // is earlier
@@ -503,7 +514,7 @@ function initSemesterStart() {
         $(newEl).append("<footer class='stats' id='fstats" + innerDivId + "'>0</footer>");
 
 
-        $('#thePlan').append(newEl);
+        $($divPlan).append(newEl);
 
         //add the semester to the semList drop-down on right
         var optId = "d" + year + sem;
@@ -614,7 +625,7 @@ function handleDropEventOnWorking(event, ui) {
         //console.dir(event.this.id);
         var semesterCode = targId.substr(5, 1);
         var planYear = targId.substr(1, 4);
-        var url = "addPlanItem.php";
+        var url = "index.php";
         var proposedReqId = "";
         //get selected course
         //var selOptionBox=$(plannedEl).
@@ -658,7 +669,7 @@ function handleDropEventOnWorking(event, ui) {
 
         //insert into database
         $.ajax({
-            url: "addPlanItem.php",
+            url: "index.php",
             method: 'POST',
             data: {
                 programId: programId,
@@ -749,7 +760,7 @@ function handleDropEventOnPlan(event, ui) {
         var semesterCode = targId.substr(5, 1);
         var planYear = targId.substr(1, 4);
         $(plannedEl).data("onSemester", targId);
-        var url = "addPlanItem.php";
+        var url = "index.php";
         var proposedReqId = "";
         //get selected course
         //var selOptionBox=$(plannedEl).
@@ -793,7 +804,7 @@ function handleDropEventOnPlan(event, ui) {
 
         //insert into database
         $.ajax({
-            url: "addPlanItem.php",
+            url: "index.php",
             method: 'POST',
             data: {
                 programId: programId,
@@ -881,7 +892,7 @@ function handleDropEventOnPlan(event, ui) {
         fromSemesterCode = fromSemesterCode.substr(5, 1);
         var fromPlanYear = $(ui.draggable).data('onSemester');
         fromPlanYear = fromPlanYear.substr(1, 4);
-        var url = "movePlanItem.php";
+        var url = "index.php";
         var proposedReqId = "";
 
 
@@ -904,7 +915,7 @@ function handleDropEventOnPlan(event, ui) {
         //insert into database &&&&&&&&&&& function movePlanItem($token, $studentId, $courseId, $semester, $year, $toSemester, $toYear,$reqId=null)
 
         $.ajax({
-            url: "movePlanItem.php",
+            url: "index.php",
             method: 'POST',
             data: {
                 courseId: courseId, studentId: 1, fromSem: fromSemesterCode, fromYear: fromPlanYear,
