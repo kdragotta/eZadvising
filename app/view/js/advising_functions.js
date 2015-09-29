@@ -397,7 +397,8 @@ function incrementSemester(sem, year, scale) {
 
 var reqs;
 var semesterList;
-$(initSemesterStart);
+$(initSemesterStart('#thePlan0'));
+$(initSemesterStart('#thePlan1'));
 $(initState);
 
 $(init);
@@ -441,7 +442,9 @@ function initState() {
             for (i = 0; i < reqs.length; i++) {
 
                 var req = reqs[i];
+
                 processReqUpdate(req);
+
 
             }//end for each requirement
 
@@ -455,7 +458,7 @@ function initState() {
 
 
 
-function initSemesterStart() {
+function initSemesterStart($divPlan) {
 
 //get date of first planned for student or current semester and show whichever
 // is earlier
@@ -512,7 +515,7 @@ function initSemesterStart() {
         $(newEl).append("<footer class='stats' id='fstats" + innerDivId + "'>0</footer>");
 
 
-        $('#thePlan').append(newEl);
+        $($divPlan).append(newEl);
 
         //add the semester to the semList drop-down on right
         var optId = "d" + year + sem;

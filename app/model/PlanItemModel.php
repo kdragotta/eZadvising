@@ -26,7 +26,8 @@ class PlanItemModel {
                    'courseId= :courseId AND semesterCode=:semester AND '.
                    'year=:year AND type=2';
 
-            //$sql = $sql. ' VALUES (null, :studentId, :courseId, null, :semester, :year, :reqId, 2, :proposedReqId)';
+            //$sql = $sql. ' VALUES (null, :studentId, :courseId, null, :semester,
+            // :year, :reqId, 2, :proposedReqId)';
             $stmt = $this->conn->prepare($sql);
 
             $stmt->bindParam(':studentId', $studentId);
@@ -61,8 +62,10 @@ class PlanItemModel {
             //  if(empty($studentId)) return 404;
 
             $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
-            $sql = 'INSERT INTO course_records (id, studentId, courseId, grade, semesterCode, year, reqId, type, proposedReqId) ';
-            $sql = $sql . ' VALUES (null, :studentId, :courseId, null, :semester, :year, :reqId, 2, :proposedReqId)';
+            $sql = 'INSERT INTO course_records (id, studentId, courseId, '.
+                   'grade, semesterCode, year, reqId, type, proposedReqId) ';
+            $sql = $sql . ' VALUES (null, :studentId, :courseId, null, '.
+                          ':semester, :year, :reqId, 2, :proposedReqId)';
             $stmt = $conn->prepare($sql);
 
             echo "courseid: " . $courseId;
@@ -102,8 +105,11 @@ class PlanItemModel {
             //  if(empty($studentId)) return 404;
 
             $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
-            $sql = 'DELETE FROM course_records WHERE studentId=:studentId AND courseId= :courseId AND semester=:semester AND year=:year AND type=2';
-            //$sql = $sql. ' VALUES (null, :studentId, :courseId, null, :semester, :year, :reqId, 2, :proposedReqId)';
+            $sql = 'DELETE FROM course_records WHERE studentId=:studentId '.
+                   'AND courseId= :courseId AND semester=:semester '.
+                   'AND year=:year AND type=2';
+            //$sql = $sql. ' VALUES (null, :studentId, :courseId, null, :semester,
+            // :year, :reqId, 2, :proposedReqId)';
             $stmt = $conn->prepare($sql);
 
             $stmt->bindParam(':studentId', $studentId);

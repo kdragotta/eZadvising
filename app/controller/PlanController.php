@@ -29,7 +29,7 @@ class PlanController
             $_SESSION['studentId'] = 1;
             $_SESSION['token'] = "ABC";
 
-include __DIR__ . "/../view/eatouch4.php";
+            include __DIR__."/../view/eatouch4.php";
         }
     }
 

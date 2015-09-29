@@ -9,6 +9,11 @@ class PlanModel
         $this->conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
     }
 
+    public function getPlans()
+    {
+
+    }
+
     public function createPlan()
     {
         $errormsg = "";
@@ -25,7 +30,8 @@ class PlanModel
             // Check for duplicate title
             if ($formfield['title'] != $_POST['origtitle']) {
                 try {
-                    // Pulls titles from the database & binds value to variable to be used
+                    // Pulls titles from the database & binds
+                    // value to variable to be used
                     $sqltitle = 'SELECT * FROM '.DBNAME.' WHERE title = :title';
                     $stmttitle = $this->conn->prepare($sqltitle);
                     $stmttitle->bindValue(':title', $formfield['title']);
@@ -37,7 +43,8 @@ class PlanModel
                    //     $errormsg .= "<p>Duplicate plan name.</p>";
                    // }
                 } catch (PDOException $e) {
-                    echo 'Unable to fetch title to check for existing. <br />ERROR: <br />' . $e->getMessage();
+                    echo 'Unable to fetch title to check for existing. '.
+                         '<br />ERROR: <br />' .
                     exit();
                 }
             }
