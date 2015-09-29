@@ -49,7 +49,6 @@ function processReqUpdate(req, update) {
     var newId = "op" + req.id;
     $(selEl).attr("id", newId); //each select field has id "opX" where X is req.id
 
-
     var optionsCount = 0;
     for (j = 0; j < courseOptions.length; j++) {
 
