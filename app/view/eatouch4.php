@@ -28,9 +28,7 @@
                 <th>Requirements</th>
             </tr>
         </table>
-        <div id="currentState">
-
-        </div>
+        <div id="currentState"></div>
     </div>
 
     <!-- newlayout <div id="col23"> -->
@@ -40,9 +38,7 @@
             <li class="active"><a data-toggle="pill" href="#plan0">Home</a></li>
             <li><a data-toggle="pill" href="#plan1">Menu 1</a></li>
         </ul>
-
         <?php include 'plan.php'; ?>
-
     </div>
     <!-- end div main -->
 
@@ -68,18 +64,14 @@
                 <th>Need to Take</th>
             </tr>
         </table>
+
         <div id="eligibleSwitch">
             <input type="checkbox" id="semCheckBox"/>
             <span>Highlight Courses Eligible </span>
             <select id="semList"></select>
         </div>
-        <div id="stillRequiredList">
 
-        </div>
-
-        <!-- end stillRequiredList div -->
-
-
+        <div id="stillRequiredList"></div>
     </div>
     <!-- end div right -->
 

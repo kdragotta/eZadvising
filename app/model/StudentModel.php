@@ -110,9 +110,14 @@ class StudentModel
 
 
             $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
-            $sql = 'SELECT program_requirements.id as "reqId", program_requirements.category as "category", program_requirements.groupId as "groupId", groups.name as "name", program_requirements.numCreditHours as "hours", program_requirements.minGrade as "grade" ';
+            $sql = 'SELECT program_requirements.id as "reqId", '.
+                   'program_requirements.category as "category", '.
+                   'program_requirements.groupId as "groupId", groups.name '.
+                   'as "name", program_requirements.numCreditHours as "hours"'.
+                   ', program_requirements.minGrade as "grade" ';
             $sql = $sql . ' FROM program_requirements, groups WHERE ';
-            $sql = $sql . ' program_requirements.programId=:programId AND program_requirements.catalogYear=:year';
+            $sql = $sql . ' program_requirements.programId=:programId AND '.
+                          'program_requirements.catalogYear=:year';
             $sql = $sql . ' AND program_requirements.groupId=groups.id';
 
 
@@ -297,7 +302,6 @@ class StudentModel
             return 500;
         }
 
-        $conn = null;
         return $jsonResult;
 
     }

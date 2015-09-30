@@ -9,7 +9,7 @@ if($planCount > 1)
 for($i = 0; $i < $planCount; $i++) {
 ?>
 
-<div id="plan<?php echo $i; ?>" class="tab-pane fade in active">
+<div id="plan<?php echo $i; ?>" class="tab-pane fade <?php if($i == 0) echo'in active'; ?>">
 
 <tr>
     <!-- Plan Title Manipulation -->
@@ -28,5 +28,6 @@ for($i = 0; $i < $planCount; $i++) {
 </table>
 <div id="thePlan<?php echo $i; ?>"></div>
 </div>
-
 <?php } ?>
+</div>
+

@@ -55,8 +55,9 @@ class PlanItemController {
         else
             $progYear = NULL;
 
-        if(!$courseId || !$semesterCode || !$planYear || !$reqId ||
-            !$proposedReqId || !$hours || !$programId) {
+        if(!$courseId || !$semesterCode || !$planYear || /*!$reqId ||*/
+            /*!$proposedReqId ||*/ !$hours || !$programId) {
+            //echo '<script>alert(0);</script>';
             return;
         }
 

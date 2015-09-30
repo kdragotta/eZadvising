@@ -11,6 +11,7 @@ function getCurrentState($token, $studentId) {
 }//end function getCurrentState
 
 function processReqUpdate(req, update) {
+    console.log(req);
     var reqsParentDiv = $('#currentState'); //left
     var missingParentDiv = $('#stillRequiredList'); //right
 
@@ -159,6 +160,7 @@ function processReqUpdate(req, update) {
         pYear = theCourseP.year;
         pStr = "p" + pYear + pSem;
 
+        console.log(pStr);
         var theCoursePId = theCourseP.id;
         //console.dir("looking for: "+pStr);
 
@@ -923,7 +925,7 @@ function handleDropEventOnPlan(event, ui) {
             },
             success: function (result) {
                 //alert("success");
-                alert(result);
+                //alert(result);
                 /*
                  var req=JSON.parse(result); //reqs is array of requirement objects
                  //each req object also has a list of course option objects and list of courses taken objects
