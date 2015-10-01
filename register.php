@@ -58,7 +58,7 @@ if(isset($_POST['submit'])) {
         $errorMessage .= 'Please enter your last name' . '<br>';
     }
     //Checks if the type is entered
-    if(empty($FORMFIELD['type']))
+    if(empty($FORMFIELD['type']) && $FORMFIELD != 0)
     {
         $errorMessage .= 'Please enter the user type' . '<br>';
     }
@@ -198,7 +198,7 @@ if($showForm == 1){
         </tr>
         <tr>
             <td>Type</td>
-            <td><input type="number" name="type" id="type" size="1"/></td>
+            <td><input type="number" name="type" id="type" size="1" min="0" max="1"/></td>
         </tr>
         <tr>
             <td>Submit:</td>
