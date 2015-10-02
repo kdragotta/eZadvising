@@ -1,16 +1,4 @@
-function getCurrentState($token, $studentId) {
-    //alert("in getCurrentState");
-    $.ajax({
-        url: "../../model/getSomething.php",
-        success: function (result) {
-            //$("#div1").html(result);
-            alert(result);
-            return result;
-        }//end success
-    });//end ajax
-}//end function getCurrentState
-
-function processReqUpdate(req, update) {
+function processReqUpdate(req, update, index) {
     console.log(req);
     var reqsParentDiv = $('#currentState'); //left
     var missingParentDiv = $('#stillRequiredList'); //right
@@ -20,6 +8,8 @@ function processReqUpdate(req, update) {
     var coursesCounting = req.coursesCounting; //coursesCounting is now array of course records
     var coursesCountingPlanned = req.coursesCountingPlanned;
 
+    console.log('asdf');
+    console.log(coursesCountingPlanned);
     //build base classes
     var classStr = "req_box";
     //TODO: add classes for category
@@ -158,7 +148,9 @@ function processReqUpdate(req, update) {
         //if planned then put on plan for matching semester
         pSem = theCourseP.semester;
         pYear = theCourseP.year;
-        pStr = "p" + pYear + pSem;
+        //pStr = "plan" + index + pYear + pSem;
+        pStr = "plan" + index + pYear + pSem;
+
 
         console.log(pStr);
         var theCoursePId = theCourseP.id;
@@ -398,8 +390,8 @@ function incrementSemester(sem, year, scale) {
 
 var reqs;
 var semesterList;
-$(initSemesterStart('#thePlan0'));
-$(initSemesterStart('#thePlan1'));
+$(initSemesterStart(0));
+$(initSemesterStart(1));
 $(initState);
 
 $(init);
@@ -444,7 +436,7 @@ function initState() {
 
                 var req = reqs[i];
 
-                processReqUpdate(req);
+                processReqUpdate(req, false, 0);
 
 
             }//end for each requirement
@@ -459,7 +451,7 @@ function initState() {
 
 
 
-function initSemesterStart($divPlan) {
+function initSemesterStart(index) {
 
 //get date of first planned for student or current semester and show whichever
 // is earlier
@@ -509,14 +501,14 @@ function initSemesterStart($divPlan) {
 
         var innerDivStr = '<div class="target semester_plan"></div>';
         var innerDiv = $(innerDivStr);
-        var innerDivId = "p" + year + sem;
+        var innerDivId = 'plan' + index + year + sem;
         $(innerDiv).attr('id', innerDivId);
         $(innerDiv).data("currentHours", 0);
         $(newEl).append(innerDiv);
         $(newEl).append("<footer class='stats' id='fstats" + innerDivId + "'>0</footer>");
 
 
-        $($divPlan).append(newEl);
+        $('#thePlan' + index).append(newEl);
 
         //add the semester to the semList drop-down on right
         var optId = "d" + year + sem;
@@ -625,8 +617,9 @@ function handleDropEventOnWorking(event, ui) {
         var req = $(plannedEl).data('req');
         var reqId = req.id;
         //console.dir(event.this.id);
-        var semesterCode = targId.substr(5, 1);
-        var planYear = targId.substr(1, 4);
+        var semesterCode = targId.substr(10, 1);
+        //note:  (5,4) to get 2015 from 'plan020151'
+        var planYear = targId.substr(5, 4);
         var url = "index.php";
         var proposedReqId = "";
         //get selected course
@@ -692,7 +685,7 @@ function handleDropEventOnWorking(event, ui) {
                 //alert("after parse");
                 //for(i=0;i<reqs.length;i++)
                 //{
-                processReqUpdate(req, true);
+                processReqUpdate(req, true, 0);
                 //}
                 //parse reqs
 
@@ -759,8 +752,9 @@ function handleDropEventOnPlan(event, ui) {
         var req = $(plannedEl).data('req');
         var reqId = req.id;
         //console.dir(event.this.id);
-        var semesterCode = targId.substr(5, 1);
-        var planYear = targId.substr(1, 4);
+        var semesterCode = targId.substr(9, 1);
+        //note:  (5, 8) to get 2015 from 'plan2015'
+        var planYear = targId.substr(5, 4);
         $(plannedEl).data("onSemester", targId);
         var url = "index.php";
         var proposedReqId = "";
@@ -827,7 +821,7 @@ function handleDropEventOnPlan(event, ui) {
                 //	alert("after parse");
                 //for(i=0;i<reqs.length;i++)
                 //{
-                processReqUpdate(req, true);
+                processReqUpdate(req, true, 0);
                 //}
                 //parse reqs
 
@@ -888,12 +882,20 @@ function handleDropEventOnPlan(event, ui) {
         ///var reqId=req.id;
         //console.dir(event.this.id);
 
-        var toSemesterCode = targId.substr(5, 1);
-        var toPlanYear = targId.substr(1, 4);
+        //alert('tosem');
+        //alert(targId);
+        var toSemesterCode = targId.substr(9, 1);
+        //alert(toSemesterCode);
+        //note:  (5, 4) to get 2015 from 'plan020153'
+        var toPlanYear = targId.substr(5, 4);
         var fromSemesterCode = $(ui.draggable).data('onSemester');
-        fromSemesterCode = fromSemesterCode.substr(5, 1);
+        //alert('fromsem');
+        //alert(fromSemesterCode);
+        fromSemesterCode = fromSemesterCode.substr(9, 1);
+        //alert(fromSemesterCode);
         var fromPlanYear = $(ui.draggable).data('onSemester');
-        fromPlanYear = fromPlanYear.substr(1, 4);
+        fromPlanYear = fromPlanYear.substr(5, 4);
+
         var url = "index.php";
         var proposedReqId = "";
 
