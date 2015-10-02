@@ -43,7 +43,7 @@
                         <th>Requirements</th>
                     </tr>
                 </table>
-                <div id="currentState"></div>
+                <div id="currentState<?php echo $i; ?>"></div>
             </div>
 
             <!-- newlayout <div id="col23"> -->

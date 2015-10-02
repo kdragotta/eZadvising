@@ -1,6 +1,6 @@
 function processReqUpdate(req, update, index) {
     console.log(req);
-    var reqsParentDiv = $('#currentState'); //left
+    var reqsParentDiv = $('#currentState' + index); //left
     var missingParentDiv = $('#stillRequiredList'); //right
 
     //var req = ;
@@ -263,7 +263,7 @@ function processReqUpdate(req, update, index) {
 
         if (update) {
             var replaceIdNewEl = $(newEl).attr('id');
-            $("#currentState #" + replaceIdNewEl).replaceWith(newEl);
+            $("#currentState" + index + " #" + replaceIdNewEl).replaceWith(newEl);
         } else {
             $(reqsParentDiv).append(newEl);
         }
@@ -276,7 +276,7 @@ function processReqUpdate(req, update, index) {
         //UPDATE
         if (update) {
             var replaceIdNewEl = $(newEl).attr('id');
-            $("#currentState #" + replaceIdNewEl).replaceWith(newEl);
+            $("#currentState" + index + "#" + replaceIdNewEl).replaceWith(newEl);
         } else {
             $(reqsParentDiv).append(newEl);
         }
@@ -289,7 +289,7 @@ function processReqUpdate(req, update, index) {
         //UPDATE
         if (update) {
             var replaceIdNewEl = $(newEl).attr('id');
-            $("#currentState #" + replaceIdNewEl).replaceWith(newEl);
+            $("#currentState" + index + "#" + replaceIdNewEl).replaceWith(newEl);
         } else {
             $(reqsParentDiv).append(newEl);
         }
@@ -391,7 +391,8 @@ var reqs;
 var semesterList;
 $(initSemesterStart(0));
 $(initSemesterStart(1));
-$(initState);
+$(initState(0));
+$(initState(1));
 
 $(init);
 
@@ -400,7 +401,7 @@ function showHideSummers() {
 }
 
 
-function initState() {
+function initState(index) {
 
 //get user id from session or redirect to login (wiht message to come back)
 //student meets prereqs based on already loaded classes
@@ -427,7 +428,7 @@ function initState() {
             // courses taken objects, and a list of courses planned objects
             //  see advising.php for description of these objects
 
-            var reqsParentDiv = $('#currentState'); //left
+            var reqsParentDiv = $('#currentState' + index); //left
             var missingParentDiv = $('#stillRequiredList'); //right
 
             //parse reqs
