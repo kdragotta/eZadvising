@@ -174,7 +174,6 @@ function processReqUpdate(req, update, index) {
         $(newElPlan).addClass("req_on_plan");
         $(newElPlan).attr('id', planId);
 
-
         $(newElPlan).draggable({
             containment: 'document',
             cursor: 'move',
