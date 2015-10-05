@@ -400,6 +400,10 @@ function showHideSummers() {
     $(".semester_block.minor").toggle();
 }
 
+function showTitle(){
+    var input = prompt("Enter the title that you want for this plan: ", "");
+    $("#title").text(input);
+}
 
 function initState(index) {
 
