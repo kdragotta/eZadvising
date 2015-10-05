@@ -24,6 +24,7 @@ function processReqUpdate(req, update) {
      else if(req.category==3) classStr+=" major";
      */
     for (var i = 0; i < count; i++) {
+
         //create the MAIN requirement box element
         //group name is the requirement name (now comes from program_requirements.title)
         var newElStr = "<div draggable=true class='" + classStr + "'><header>" + req.groupName + "</header>" + "</div>";
@@ -153,7 +154,6 @@ function processReqUpdate(req, update) {
             //if planned then put on plan for matching semester
             pSem = theCourseP.semester;
             pYear = theCourseP.year;
-            //pStr = "plan" + index + pYear + pSem;
             pStr = "plan" + i + pYear + pSem;
 
 
@@ -171,6 +171,14 @@ function processReqUpdate(req, update) {
             $(newElPlanWorking).addClass("req_been_planned");
             $(newElPlanWorking).attr('id', workingSideId);
 
+            $(newElPlanWorking).draggable({
+                containment: 'document',
+                cursor: 'move',
+                snap: '.target',
+                helper: 'clone',
+                revert: 'true'
+            });//end draggable
+
             //add to right
             // $(missingParentDiv).append(newElPlanWorking);
 
@@ -178,6 +186,7 @@ function processReqUpdate(req, update) {
             $(newElPlan).data("whereami", "plan");
             $(newElPlan).addClass("req_on_plan");
             $(newElPlan).attr('id', planId);
+
 
             $(newElPlan).draggable({
                 containment: 'document',
@@ -192,7 +201,13 @@ function processReqUpdate(req, update) {
                 var replaceIdPlan = $(newElPlan).attr('id');
                 $("#" + pStr + " #" + replaceIdPlan).replaceWith(newElPlan);
             } else {
-                $("#" + pStr).append(newElPlan);
+                if (i == index) {
+                    $("#" + pStr).append(newElPlan);
+                }
+                else {
+                    $("#stillRequiredList" + i).append(newElPlanWorking);
+                }
+
             }
             //set the drop-down box to be the right course
             $("#" + pStr + " #op" + req.id).val(theCoursePId);
@@ -207,26 +222,24 @@ function processReqUpdate(req, update) {
         }
 
         //already added classes to plan and plan-working,
-        // now add for left side and right side unplanned
+        //now add for left side and right side unplanned
         //Clones have id's and data attributes whereami to help identify
         //Req object must be re-added after each clone
 
-        var met = req.complete;
-        var metPlanned = req.completePlanned;
-        var somePlanned = req.somePlanned;
-
-        //start with classes for the left side
-        if (met) {
-            $(newEl).addClass("req_complete");
-        }
-        else if (metPlanned) {
-            $(newEl).addClass("req_completePlanned");
-        }
-        else if (somePlanned) {
-            $(newEl).addClass("req_partialPlanned");
-        }
-        else {
-            $(newEl).addClass("req_incomplete");
+        if (i == index) {
+            //start with classes for the left side
+            if (req.complete) {
+                $(newEl).addClass("req_complete");
+            }
+            else if (req.completePlanned) {
+                $(newEl).addClass("req_completePlanned");
+            }
+            else if (req.somePlanned) {
+                $(newEl).addClass("req_partialPlanned");
+            }
+            else {
+                $(newEl).addClass("req_incomplete");
+            }
         }
 
         //set up stats data
@@ -260,7 +273,7 @@ function processReqUpdate(req, update) {
         $(newEl).data("req", req);
         $(newElWorking).data("req", req);
 
-        if (met) {
+        if (req.complete) {
             //place on left
             $(newEl).addClass("req_complete");
 
@@ -268,10 +281,12 @@ function processReqUpdate(req, update) {
                 var replaceIdNewEl = $(newEl).attr('id');
                 $("#currentState" + i + " #" + replaceIdNewEl).replaceWith(newEl);
             } else {
+
                 $("#currentState" + i).append(newEl);
+
             }
         }
-        else if (metPlanned) {
+        else if (req.completePlanned) {
             //place on left
             // $(reqsParentDiv).append(newEl);
             //$(newEl).addClass("req_completePlanned");
@@ -281,6 +296,7 @@ function processReqUpdate(req, update) {
                 var replaceIdNewEl = $(newEl).attr('id');
                 $("#currentState" + i + "#" + replaceIdNewEl).replaceWith(newEl);
             } else {
+
                 $("#currentState" + i).append(newEl);
             }
         }
@@ -295,6 +311,7 @@ function processReqUpdate(req, update) {
                 $("#currentState" + i + "#" + replaceIdNewEl).replaceWith(newEl);
             } else {
                 $("#currentState" + i).append(newEl);
+
             }
 
             //****return
@@ -310,6 +327,7 @@ function processReqUpdate(req, update) {
             }
 
             $(newElWorking).addClass("req_working");
+
             $(newElWorking).draggable({
                 containment: 'document',
                 cursor: 'move',
@@ -786,11 +804,16 @@ function handleDropEventOnPlan(event, ui) {
 
         console.dir("hours: " + hours);
 
+        //get 0 of 'plan0'
+        var plan = $('.tab-pane.active')[0].id.substr(4,1);
+        plan = parseInt(plan);
+
         //insert into database
         $.ajax({
             url: "index.php",
             method: 'POST',
             data: {
+                plan: plan,
                 programId: programId,
                 courseId: courseId,
                 hours: hours,
