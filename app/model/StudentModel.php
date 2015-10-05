@@ -114,11 +114,11 @@ class StudentModel
                    'program_requirements.category as "category", '.
                    'program_requirements.groupId as "groupId", groups.name '.
                    'as "name", program_requirements.numCreditHours as "hours"'.
-                   ', program_requirements.minGrade as "grade" ';
-            $sql = $sql . ' FROM program_requirements, groups WHERE ';
-            $sql = $sql . ' program_requirements.programId=:programId AND '.
-                          'program_requirements.catalogYear=:year';
-            $sql = $sql . ' AND program_requirements.groupId=groups.id';
+                   ', program_requirements.minGrade as "grade" '.
+                   'FROM program_requirements, groups WHERE '.
+                   'program_requirements.programId=:programId AND '.
+                   'program_requirements.catalogYear=:year '.
+                   'AND program_requirements.groupId=groups.id';
 
 
             $stmt = $conn->prepare($sql);
@@ -163,7 +163,7 @@ class StudentModel
                  * dept
                  * num
                  * title
-                 * desription
+                 * description
                  * hours - hours taken or planned for this course record
                  * type - 1 is complete, 2 is planned
                  *
@@ -178,6 +178,7 @@ class StudentModel
                 $r->groupName = $req['name'];
                 $r->grade = $req['grade'];
                 $r->hours = $req['hours'];
+                $r->plan = "0";
 
                 //now get courses for that group
                 $secondSql = 'SELECT courses.id as "id", courses.default'.
@@ -216,10 +217,14 @@ class StudentModel
                 $sqlCoursesTaken =
                     'SELECT courses.id, courses.dept, courses.num, '.
                     'courses.title, courses.description, course_records.'.
-                    'hours, course_records.type,course_records.semesterCode,'.
-                    'course_records.year FROM courses, course_records WHERE '.
-                    'course_records.studentId=:stuId AND course_records.courseId='.
-                    'courses.id AND course_records.reqId=:reqId';
+                    'hours, course_records.type, course_records.semesterCode,'.
+                    'course_records.year, '.
+                    'course_records.plan '.
+                    'FROM courses, course_records '.
+                    'WHERE course_records.studentId=:stuId '.
+                    'AND course_records.courseId=courses.id '.
+                    'AND course_records.reqId=:reqId';
+
                 $stmtCoursesTaken = $conn->prepare($sqlCoursesTaken);
                 $stmtCoursesTaken->bindParam(':stuId', $studentId);
                 $stmtCoursesTaken->bindParam(':reqId', $r->id);
@@ -247,6 +252,7 @@ class StudentModel
                         $c->type = $course['type'];
                         $c->semester = $course['semesterCode'];
                         $c->year = $course['year'];
+                        $c->plan = $course['plan'];
                         $c->dirty = false;
 
                         if ($c->type == 1) //complete
@@ -260,6 +266,7 @@ class StudentModel
                             $coursesCountingPlanned[] = $c;
                         }
 
+                        $r->plan = $c->plan;
 
                     }//end foreach
                 }//end if
