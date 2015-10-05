@@ -88,7 +88,8 @@ class PlanItemModel {
         //	echo $sql . "<br>" . $e->getMessage();
         return 500;
     }
-        return $result;
+
+    return $result;
 
 }
     //NOT UPDATED DONE USED
@@ -241,7 +242,16 @@ class PlanItemModel {
             $r->courseOptions = $courseOptions;
 
             //now get whether the requirement is met for the student
-            $sqlCoursesTaken = 'SELECT courses.id, courses.dept, courses.num, courses.title, courses.description, course_records.hours, course_records.type,course_records.semesterCode, course_records.year FROM courses, course_records WHERE course_records.studentId=:stuId AND course_records.courseId=courses.id AND course_records.reqId=:reqId';
+            $sqlCoursesTaken = 'SELECT courses.id, courses.dept, courses.num, '.
+                               'courses.title, courses.description, '.
+                               'course_records.hours, course_records.type,'.
+                               'course_records.semesterCode, '.
+                               'course_records.year, course_records.plan '.
+                               'FROM courses, course_records '.
+                               'WHERE course_records.studentId=:stuId '.
+                               'AND course_records.courseId=courses.id '.
+                               'AND course_records.reqId=:reqId';
+
             $stmtCoursesTaken = $this->conn->prepare($sqlCoursesTaken);
             $stmtCoursesTaken->bindParam(':stuId', $studentId);
             $stmtCoursesTaken->bindParam(':reqId', $r->id);
@@ -269,6 +279,7 @@ class PlanItemModel {
                     $c->type = $course['type'];
                     $c->semester = $course['semesterCode'];
                     $c->year = $course['year'];
+                    $c->plan = $course['plan'];
                     $c->dirty = false;
 
                     if ($c->type == 1) //complete
@@ -282,6 +293,7 @@ class PlanItemModel {
                         $coursesCountingPlanned[] = $c;
                     }
 
+                    $r->plan = $c->plan;
 
                 }//end foreach
             }//end if

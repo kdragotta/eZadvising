@@ -2,10 +2,10 @@
 <html>
 <head>
     <title> eZAdvising </title>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="app/view/js/jquery-simulate.js"></script>
+    <script src="app/view/js/lib/jquery.min.js"></script>
+    <script src="app/view/js/lib/jquery-ui.min.js"></script>
+    <script src="app/view/js/lib/bootstrap.min.js"></script>
+    <script src="app/view/js/lib/jquery-simulate.js"></script>
 
     <!--<script src="planTitle.js"></script>-->
 
@@ -21,8 +21,8 @@
 
 </div>
 <ul class="nav nav-pills">
-    <li class="active"><a data-toggle="pill" href="#plan0">Home</a></li>
-    <li><a data-toggle="pill" href="#plan1">Menu 1</a></li>
+    <li class="planpill active"><a data-toggle="pill" href="#plan0">Home</a></li>
+    <li class="planpill"><a data-toggle="pill" href="#plan1">Menu 1</a></li>
 </ul>
 
     <?php
@@ -99,7 +99,7 @@
                     <select id="semList"></select>
                 </div>
 
-                <div id="stillRequiredList"></div>
+                <div id="stillRequiredList<?php echo $i; ?>"></div>
             </div>
             <!-- end div right -->
         </div>
