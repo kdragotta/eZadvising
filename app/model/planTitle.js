@@ -3,15 +3,9 @@
  */
 
 function title_show() {
-    $('#popUp').dialog();
-}
+    var title = prompt("Enter new plan title:");
 
-function titleSubmit() {
-    var rice = document.getElementById("titleName").value;
-
-    alert(rice);
-
-    $("#titleForm").submit(function(e) {
-        e.preventDefault();
-    });
+    if (title != null) {
+        alert(title);
+    }
 }

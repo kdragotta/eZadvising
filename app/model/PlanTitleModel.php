@@ -11,14 +11,14 @@ class planTitle
         $this->conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
     }
 
-    public function addTitle($planTitle)
+    public function addTitle($plan_title)
     {
         try {
             $sql = 'INSERT INTO plan_title (plan_title) ';
-            $sql = $sql . ' VALUES (:planTitle)';
+            $sql = $sql . ' VALUES (:plan_title)';
             $stmt = $this->conn->prepare($sql);
 
-            $stmt->bindParam(':planTitle', $plan_title);
+            $stmt->bindParam(':plan_title', $plan_title);
             $stmt->execute();
         }
         catch (PDOException $e) {
