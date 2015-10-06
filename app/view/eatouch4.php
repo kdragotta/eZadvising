@@ -6,8 +6,7 @@
     <script src="app/view/js/lib/jquery-ui.min.js"></script>
     <script src="app/view/js/lib/bootstrap.min.js"></script>
     <script src="app/view/js/lib/jquery-simulate.js"></script>
-
-    <!--<script src="planTitle.js"></script>-->
+    <script src="planTitle.js"></script>
 
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
