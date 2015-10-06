@@ -51,7 +51,9 @@ class PlanItemModel {
         return $inserted;
     }
 
-    public function addPlanItem($token, $studentId, $courseId, $hours, $semester, $planYear, $progYear, $programId, $reqId = null, $proposedReqId = null)
+    public function addPlanItem($token, $studentId, $courseId, $hours,
+                                $semester, $planYear, $progYear, $programId,
+                                $reqId = null, $proposedReqId = null, $plan)
 {
 //echo "in addPlanItem";
     try {
@@ -61,15 +63,18 @@ class PlanItemModel {
 
         //  if(empty($studentId)) return 404;
 
-        $sql = 'INSERT INTO course_records (id, studentId, courseId, grade, hours, semesterCode, year, reqId, type, proposedReqId) ';
-        $sql = $sql . ' VALUES (null, :studentId, :courseId, null, :hours, :semester, :year, :reqId, 2, :proposedReqId)';
+        $sql = 'INSERT INTO course_records '.
+               '(id, plan, studentId, courseId, grade, hours, semesterCode, '.
+               'year, reqId, type, proposedReqId) '.
+               ' VALUES (null, :plan, :studentId, :courseId, null, :hours, '.
+               ':semester, :year, :reqId, 2, :proposedReqId)';
         $stmt = $this->conn->prepare($sql);
 
-//echo "courseid: ".$courseId;
 
         if ($proposedReqId == '') {$proposedReqId = null;}  //Fixes mysql failure when proposedReqID is an empty string
 
         $stmt->bindParam(':studentId', $studentId);
+        $stmt->bindParam(':plan', $plan);
         $stmt->bindParam(':semester', $semester);
         $stmt->bindParam(':year', $planYear);
         $stmt->bindParam(':courseId', $courseId);
@@ -85,7 +90,7 @@ class PlanItemModel {
 
     }//end try
     catch (PDOException $e) {
-        //	echo $sql . "<br>" . $e->getMessage();
+        //echo $sql . "<br>" . $e->getMessage();
         return 500;
     }
 

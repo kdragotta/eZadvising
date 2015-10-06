@@ -55,6 +55,11 @@ class PlanItemController {
         else
             $progYear = NULL;
 
+        if(isset($_POST['plan']))
+            $plan = $_POST['plan'];
+        else
+            $plan = NULL;
+
         if(!$courseId || !$semesterCode || !$planYear || /*!$reqId ||*/
             /*!$proposedReqId ||*/ !$hours || !$programId) {
             //echo '<script>alert(0);</script>';
@@ -64,7 +69,7 @@ class PlanItemController {
         echo $this->planItemModel->addPlanItem("ABC", 1, $courseId, $hours,
                                              $semesterCode, $planYear,
                                              $progYear, $programId,
-                                             $reqId, $proposedReqId);
+                                             $reqId, $proposedReqId, $plan);
     }
 
     private function handleMovePlanItem() {
