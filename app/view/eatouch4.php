@@ -6,8 +6,7 @@
     <script src="app/view/js/lib/jquery-ui.min.js"></script>
     <script src="app/view/js/lib/bootstrap.min.js"></script>
     <script src="app/view/js/lib/jquery-simulate.js"></script>
-
-    <!--<script src="planTitle.js"></script>-->
+    <script src="app/model/planTitle.js"></script>
 
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -20,21 +19,17 @@
     <h3> eZAdvising </h3>
 
 </div>
-<ul class="nav nav-pills">
-    <li class="planpill active"><a data-toggle="pill" href="#plan0">Home</a></li>
-    <li class="planpill"><a data-toggle="pill" href="#plan1">Menu 1</a></li>
-</ul>
 
-    <?php
-    $planCount = 2;
+<?php
+$planCount = 2;
 
-    if ($planCount > 1) {
-        echo('<div class="tab-content">');
-    }
+if ($planCount > 1) {
+    echo('<div class="tab-content">');
+}
 
-    for ($i = 0; $i < $planCount; $i++) {
+for ($i = 0; $i < $planCount; $i++) {
     ?>
-        <div id="plan<?php echo $i; ?>" class="tab-pane fade<?php if ($i == 0) echo ' in active'; ?>">
+    <div id="plan<?php echo $i; ?>" class="tab-pane fade<?php if ($i == 0) echo ' in active'; ?>">
 
         <div id="wrapper">
             <div id="left">
@@ -49,12 +44,12 @@
             <!-- newlayout <div id="col23"> -->
 
             <div id="main">
-
                 <tr>
-                    <!-- Plan Title Manipulation -->
-                    <td><h3 id="title <?php echo $i; ?>">Default Title <?php echo $i; ?></h3></td>
+                    <ul class="nav nav-pills">
+                        <li class="planpill active"><a data-toggle="pill" href="#plan0">Home</a></li>
+                        <li class="planpill"><a data-toggle="pill" href="#plan1">Menu 1</a></li>
+                    </ul>
                 </tr>
-
                 <tr>
                     <td>
                         <button data-show="on" onclick="title_show()"> Change Plan Name</button>
@@ -64,7 +59,6 @@
                 <!-- <tr> <td><button onclick="unplan()" > Save Plan </button> </td> </tr>
                 <tr> <td><button onclick="unplan()" > Revert to Saved Plan </button></td></tr>
                 -->
-                </table>
                 <div id="thePlan<?php echo $i; ?>"></div>
             </div>
 
@@ -72,14 +66,10 @@
 
             <!-- Popup Title Form -->
             <div id="popUp" title="Change Plan Name" style="display: none">
-                <div id="titlePopup">
-                    <div id="changePlanTitle">
-                        <form action="#" id="titleForm" method="post" name="titleForm">
-                            <input id="titleName" name="name" placeholder="Name" type="text">
-                            <input type="submit" id="changeTitle" onclick="titleSubmit();" value="Submit">
-                        </form>
-                    </div>
-                </div>
+                <form name='changeTitle' method='POST' action="#">
+                    <input id="titleName" name="name" placeholder="Name" type="text">
+                    <input type="button" id="changeTitle" onclick="titleSubmit();" value="Submit">
+                </form>
             </div>
             <!-- End of Title Form -->
 
@@ -104,8 +94,8 @@
             <!-- end div right -->
         </div>
     </div>
-    <?php } ?>
-    </div>
+<?php } ?>
+</div>
 <!-- end div wrapper -->
 
 </body>
