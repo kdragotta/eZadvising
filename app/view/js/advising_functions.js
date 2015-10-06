@@ -6,6 +6,48 @@ $(initState());
 $(init(0));
 $(init(1));
 
+function initState() {
+
+//get user id from session or redirect to login (wiht message to come back)
+//student meets prereqs based on already loaded classes
+//would student meet prereq based on already loaded plus plan
+//idea:simple course prereq calculator in javascript - load prereq data for each course and fill with true or
+
+    //fix hardcoding for student, pass as post params
+    //$token || studentId || $programId || !$year)
+
+    $.ajax({
+        url: "index.php",
+        method: 'POST',
+        data: {
+            token: 'ABC',
+            studentId: 1,
+            programId: 1,
+            year: 2014
+        },
+        success: function (result) {
+
+            //Build DOM
+            var reqs = JSON.parse(result); //reqs is array of requirement objects
+            //each req object also has a list of course option objects, a list of
+            // courses taken objects, and a list of courses planned objects
+            //  see advising.php for description of these objects
+
+            //parse reqs
+            for (i = 0; i < reqs.length; i++) {
+
+                var req = reqs[i];
+                console.log(req);
+                processReqUpdate(req, false);
+
+            }//end for each requirement
+
+            //return result;
+        }//end success
+    });//end ajax
+
+}//end function
+
 function processReqUpdate(req, update) {
 
     var index = req.plan;
@@ -357,109 +399,29 @@ function processReqUpdate(req, update) {
     }
 }
 
-function getSemesterName(code) {
-    //keep in sync with semester_code table
-    // but don't need to query database for this for performance reasons
-    var name = "";
-    switch (code) {
-        case 1:
-            name = "Fall";
-            break;
-        case 2:
-            name = "Spring";
-            break;
-        case 3:
-            name = "May";
-            break;
-        case 4:
-            name = "Summer 1";
-            break;
-        case 5:
-            name = "Summer II";
-            break;
-        case 6:
-            name = "Summer 8-week";
-            break;
-        default:
-            name = "N/A";
-    }
-    return name;
-}
+function init(index) {
+    $('.req_box').draggable({
+        containment: 'document',
+        cursor: 'move',
+        snap: '.target',
+        helper: 'clone',
+        revert: true
+    });
 
-function incrementSemester(sem, year, scale) {
-    //add code for scale later (increment to next major or next minor)
-    var nextSemester = 0;
-    var nextYear = 0;
-    switch (sem) {
-        case 1:
-            nextSemester = 2;
-            nextYear = ++year;
-            break;
-        case 6:
-            nextSemester = 1;
-            nextYear = year;
-            break;
-        default:
-            nextSemester = ++sem;
-            nextYear = year;
+    $('.semester_plan').droppable({
+        drop: handleDropEventOnPlan,
+        hoverClass: "highlight_drop"
+    });
+    $('#stillRequiredList' + index).droppable({
+        drop: handleDropEventOnWorking,
+        hoverClass: "highlight_drop"
+    });
 
-    }
-    var next = [nextYear, nextSemester];
-    return next;
+    // $( ".req_box" ).draggable( "option", "helper", 'clone' );
+    // $( ".req_box" ).on( "dragstop", function( event, ui ) {} ); //dragstart, drag, dragstop, dragcrete
+
 
 }
-
-function showHideSummers() {
-    $(".semester_block.minor").toggle();
-}
-
-function showTitle(){
-    var input = prompt("Enter the title that you want for this plan: ", "");
-    $("#title").text(input);
-}
-
-function initState() {
-
-//get user id from session or redirect to login (wiht message to come back)
-//student meets prereqs based on already loaded classes
-//would student meet prereq based on already loaded plus plan
-//idea:simple course prereq calculator in javascript - load prereq data for each course and fill with true or
-
-    //fix hardcoding for student, pass as post params
-    //$token || studentId || $programId || !$year)
-
-    $.ajax({
-        url: "index.php",
-        method: 'POST',
-        data: {
-            token: 'ABC',
-            studentId: 1,
-            programId: 1,
-            year: 2014
-        },
-        success: function (result) {
-
-            //Build DOM
-            var reqs = JSON.parse(result); //reqs is array of requirement objects
-            //each req object also has a list of course option objects, a list of
-            // courses taken objects, and a list of courses planned objects
-            //  see advising.php for description of these objects
-
-            //parse reqs
-            for (i = 0; i < reqs.length; i++) {
-
-                var req = reqs[i];
-                console.log(req);
-                processReqUpdate(req, false);
-
-            }//end for each requirement
-
-            //return result;
-        }//end success
-    });//end ajax
-
-}//end function
-
 
 function initSemesterStart(index) {
 
@@ -534,35 +496,72 @@ function initSemesterStart(index) {
 
 }//end function
 
+function getSemesterName(code) {
+    //keep in sync with semester_code table
+    // but don't need to query database for this for performance reasons
+    var name = "";
+    switch (code) {
+        case 1:
+            name = "Fall";
+            break;
+        case 2:
+            name = "Spring";
+            break;
+        case 3:
+            name = "May";
+            break;
+        case 4:
+            name = "Summer 1";
+            break;
+        case 5:
+            name = "Summer II";
+            break;
+        case 6:
+            name = "Summer 8-week";
+            break;
+        default:
+            name = "N/A";
+    }
+    return name;
+}
+
+function incrementSemester(sem, year, scale) {
+    //add code for scale later (increment to next major or next minor)
+    var nextSemester = 0;
+    var nextYear = 0;
+    switch (sem) {
+        case 1:
+            nextSemester = 2;
+            nextYear = ++year;
+            break;
+        case 6:
+            nextSemester = 1;
+            nextYear = year;
+            break;
+        default:
+            nextSemester = ++sem;
+            nextYear = year;
+
+    }
+    var next = [nextYear, nextSemester];
+    return next;
+
+}
+
+function showHideSummers() {
+    $(".semester_block.minor").toggle();
+}
+
+function showTitle(){
+    var input = prompt("Enter the title that you want for this plan: ", "");
+    $("#title").text(input);
+}
+
 function highlightEligible() {
 //TODO if single course requirement - hightlight whole box with yellow or green
 //If multiple options, highlight lighter box and highlight options
 }
 
-
-function init(index) {
-    $('.req_box').draggable({
-        containment: 'document',
-        cursor: 'move',
-        snap: '.target',
-        helper: 'clone',
-        revert: true
-    });
-
-    $('.semester_plan').droppable({
-        drop: handleDropEventOnPlan,
-        hoverClass: "highlight_drop"
-    });
-    $('#stillRequiredList' + index).droppable({
-        drop: handleDropEventOnWorking,
-        hoverClass: "highlight_drop"
-    });
-
-    // $( ".req_box" ).draggable( "option", "helper", 'clone' );
-    // $( ".req_box" ).on( "dragstop", function( event, ui ) {} ); //dragstart, drag, dragstop, dragcrete
-
-
-}
 function handleDropEventOnRequired(event, ui) {
 //if($("#" + name).length == 0) {
     //it doesn't exist
