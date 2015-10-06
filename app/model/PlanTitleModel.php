@@ -14,11 +14,11 @@ class planTitle
     public function addTitle($planTitle)
     {
         try {
-            $sql = 'INSERT INTO plan_title (planTitle) ';
+            $sql = 'INSERT INTO plan_title (plan_title) ';
             $sql = $sql . ' VALUES (:planTitle)';
             $stmt = $this->conn->prepare($sql);
 
-            $stmt->bindParam(':planTitle', $planTitle);
+            $stmt->bindParam(':planTitle', $plan_title);
             $stmt->execute();
         }
         catch (PDOException $e) {
