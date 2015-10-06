@@ -6,354 +6,337 @@ $(initState());
 $(init(0));
 $(init(1));
 
-function processReqUpdate(req, update) {
 
-    var index = req.plan;
-    var count = $('.planpill').length;
+function ClassBox(req, classStr, newEl) {
+    this.req = req;
+    this.classStr = classStr;
+    this.newEl = newEl;
+    this.reqSideId;
+    this.planId;
+    this.workingSideId;
+    this.pStr;
+};
 
+ClassBox.prototype.createBox = function () {
+    //prepare the ids
+    this.reqSideId = "r" + this.req.id;
+    this.planId = "p" + this.req.id;
+    this.workingSideId = "w" + this.req.id;
 
-    //var req = ;
-    var courseOptions = req.courseOptions; //courseOptions is now array of courses
-    var coursesCounting = req.coursesCounting; //coursesCounting is now array of course records
-    var coursesCountingPlanned = req.coursesCountingPlanned;
+    //add the data object before cloning (I don't think clone method copies data object too?)
+    //Convert into jQuery object
+    // not sure why but some things don't work without doing this first
+    $(this.newEl).data("req", this.req);
+};
 
-    //build base classes
-    var classStr = "req_box";
-    //TODO: add classes for category
-    /* if(req.category==2) classStr+=" foundation";
-     else if(req.category==3) classStr+=" major";
-     */
-    for (var i = 0; i < count; i++) {
+ClassBox.prototype.addCourseOptions = function () {
 
-        //create the MAIN requirement box element
-        //group name is the requirement name (now comes from program_requirements.title)
-        var newElStr = "<div draggable=true class='" + classStr + "'><header>" + req.groupName + "</header>" + "</div>";
+// /***************** OPTIONS BOX *********************/
+    //add the select box for options OR select box for what counts including PLANNED
+    var selEl = $("<select></select>");
+    var newId = "op" + this.req.id;
+    $(selEl).attr("id", newId); //each select field has id "opX" where X is req.id
 
-        //Convert into jQuery object
-        // not sure why but some things don't work without doing this first
-        var newEl = $(newElStr);
+    var optionsCount = 0;
+    for (j = 0; j < this.req.courseOptions.length; j++) {
 
-        //prepare the ids
-        var reqSideId = "r" + req.id + i;
-        var planId = "p" + req.id + i;
-        var workingSideId = "w" + req.id + i;
-
-        //add the data object before cloning (I don't think clone method copies data object too?)
-        $(newEl).data("req", req);
-
-        /***************** OPTIONS BOX *********************/
-        //add the select box for options OR select box for what counts including PLANNED
-        var selEl = $("<select></select>");
-        var newId = "op" + req.id;
-        $(selEl).attr("id", newId); //each select field has id "opX" where X is req.id
-
-        var optionsCount = 0;
-        for (j = 0; j < courseOptions.length; j++) {
-
-            //Is course already taken or planned? If so, remove from options list or add a NOTE and style
-            var tempId = courseOptions[j].id;
-            var found = false;
-            for (q = 0; q < coursesCounting.length; q++) {
-                if (coursesCounting[q].id == tempId) {
+        //Is course already taken or planned? If so, remove from options list or add a NOTE and style
+        var tempId = this.req.courseOptions[j].id;
+        var found = false;
+        for (q = 0; q < this.req.coursesCounting.length; q++) {
+            if (this.req.coursesCounting[q].id == tempId) {
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+            for (q = 0; q < this.req.coursesCountingPlanned.length; q++) {
+                if (this.req.coursesCountingPlanned[q].id == tempId) {
                     found = true;
                     break;
                 }
             }
-            if (!found)
-                for (q = 0; q < coursesCountingPlanned.length; q++) {
-                    if (coursesCountingPlanned[q].id == tempId) {
-                        found = true;
-                        break;
-                    }
-                }
 
-            if (!found) {
+        if (!found) {
 
-                var opEl = $("<option>" + courseOptions[j].dept + " " + courseOptions[j].num + "</option>");
-                $(opEl).attr("value", courseOptions[j].id);
-                $(opEl).data("hours", courseOptions[j].hours);
-                $(opEl).addClass("option_available");
-                $(opEl).attr('id', "opt" + courseOptions[j].id);
-                $(selEl).append(opEl);
-                optionsCount++;
-            }
-            if (found) {
-                var opEl = $("<option>" + courseOptions[j].dept + " " + courseOptions[j].num + "- USED </option>");
-                $(opEl).attr("value", courseOptions[j].id);
-                $(opEl).data("hours", courseOptions[j].hours);
-                $(opEl).addClass("option_used");
-                $(opEl).attr('id', "opt" + courseOptions[j].id);
-                $(selEl).append(opEl);
-                optionsCount++;
-            }
-        }//end for j - creating options drop down
-        //add class to remove the drop-down arrow if single
-        if (optionsCount <= 1) {
-            $(selEl).addClass("single");
+            var opEl = $("<option>" + this.req.courseOptions[j].dept + " " + this.req.courseOptions[j].num + "</option>");
+            $(opEl).attr("value", this.req.courseOptions[j].id);
+            $(opEl).data("hours", this.req.courseOptions[j].hours);
+            $(opEl).addClass("option_available");
+            $(opEl).attr('id', "opt" + this.req.courseOptions[j].id);
+            $(selEl).append(opEl);
+            optionsCount++;
         }
-
-        //put the options in a div
-        var boxStr = "<div class='options'> Options: </div>";
-        var boxEl = $(boxStr);
-        $(boxEl).append(selEl);
-        $(boxEl).attr('id', req.id + "opbox");
-
-        $(newEl).append(boxEl);
-
-        /***************** COMPLETED COURSES BOX *********************/
-
-        //Create the courses taken list within the requirement
-        //  Use CSS to only show on left side
-
-        var takenBoxStr = "<div class='taken'> Completed: </div>";
-        var takenBoxEl = $(takenBoxStr);
-
-        for (j = 0; j < coursesCounting.length; j++) {
-            var theCourse = coursesCounting[j];
-            var theCourseName = theCourse.dept + " " + theCourse.num;
-            var courseTowardsStr = "<span class='course_box course_counting'>" + theCourseName + "</span>";
-            var courseTowardsEl = $(courseTowardsStr);
-
-            //attach the course data object and req id to each course span element
-            $(courseTowardsEl).data('course', theCourse);
-            $(courseTowardsEl).data('forReq', req.id);
-
-            $(takenBoxEl).append(courseTowardsEl);
-            //attach the course data and the requirement id req.id
-
-            //first time through, add the containing div with the first course
-            if (j == 0) {
-                $(newEl).append(takenBoxEl);
-            }
-            //after, just add more courses to the containing div
+        if (found) {
+            var opEl = $("<option>" + this.req.courseOptions[j].dept + " " + this.req.courseOptions[j].num + "- USED </option>");
+            $(opEl).attr("value", this.req.courseOptions[j].id);
+            $(opEl).data("hours", this.req.courseOptions[j].hours);
+            $(opEl).addClass("option_used");
+            $(opEl).attr('id', "opt" + this.req.courseOptions[j].id);
+            $(selEl).append(opEl);
+            optionsCount++;
         }
+    }//end for j - creating options drop down
+    //add class to remove the drop-down arrow if single
+    if (optionsCount <= 1) {
+        $(selEl).addClass("single");
+    }
 
-        $(newEl).append(takenBoxEl);
+    //put the options in a div
+    var boxStr = "<div class='options'> Options: </div>";
+    var boxEl = $(boxStr);
+    $(boxEl).append(selEl);
+    $(boxEl).attr('id', this.req.id + "opbox");
 
-        //repeat loop for courses counting (and place courses counting in middle)
-        var plannedBoxStr = "<div class='planned'> Planned: </div>";
-        var plannedBoxEl = $(plannedBoxStr);
+    $(this.newEl).append(boxEl);
+};
 
-        for (k = 0; k < coursesCountingPlanned.length; k++) {
-            var theCourseP = coursesCountingPlanned[k];
-            var theCourseNameP = theCourseP.dept + " " + theCourseP.num;
-            var courseTowardsStrP = "<span class='course_box course_counting_planned'>" + theCourseNameP + "</span>";
-            var courseTowardsElP = $(courseTowardsStrP);
-            $(courseTowardsElP).data('course', theCourseP);
-            $(courseTowardsElP).data('forReq', req.id);
-            $(courseTowardsElP).attr('id', "planned-" + planId);
+ClassBox.prototype.addCompletedCourses = function () {
+    /***************** COMPLETED COURSES BOX *********************/
 
+    //Create the courses taken list within the requirement
+    //  Use CSS to only show on left side
 
-            $(plannedBoxEl).append(courseTowardsElP);
+    var takenBoxStr = "<div class='taken'> Completed: </div>";
+    var takenBoxEl = $(takenBoxStr);
 
-            //need to go ahead and append the span here before putting on the plan
-            if (k == 0) {
-                $(newEl).append(plannedBoxEl);
-            }
+    for (j = 0; j < this.req.coursesCounting.length; j++) {
+        var theCourse = this.req.coursesCounting[j];
+        var theCourseName = theCourse.dept + " " + theCourse.num;
+        var courseTowardsStr = "<span class='course_box course_counting'>" + theCourseName + "</span>";
+        var courseTowardsEl = $(courseTowardsStr);
 
-            //if planned then put on plan for matching semester
-            pSem = theCourseP.semester;
-            pYear = theCourseP.year;
-            pStr = "plan" + i + pYear + pSem;
+        //attach the course data object and req id to each course span element
+        $(courseTowardsEl).data('course', theCourse);
+        $(courseTowardsEl).data('forReq', req.id);
 
+        $(takenBoxEl).append(courseTowardsEl);
+        //attach the course data and the requirement id req.id
 
-            //console.log(pStr);
-            var theCoursePId = theCourseP.id;
-            //console.dir("looking for: "+pStr);
-
-            var newElPlan = $(newEl).clone(true); //to put on plan
-            var newElPlanWorking = $(newEl).clone(true); //to put on right side in case it gets moved off plan
-            //$(newElPlan).data("req",req);
-            //$(newElPlanWorking).data("req",req);
-
-            $(newElPlanWorking).data("whereami", "working");
-            $(newElPlanWorking).addClass("req_working");
-            $(newElPlanWorking).addClass("req_been_planned");
-            $(newElPlanWorking).attr('id', workingSideId);
-
-            $(newElPlanWorking).draggable({
-                containment: 'document',
-                cursor: 'move',
-                snap: '.target',
-                helper: 'clone',
-                revert: 'true'
-            });//end draggable
-
-            //add to right
-            // $(missingParentDiv).append(newElPlanWorking);
-
-            $(newElPlan).data("onSemester", pStr);
-            $(newElPlan).data("whereami", "plan");
-            $(newElPlan).addClass("req_on_plan");
-            $(newElPlan).attr('id', planId);
-
-
-            $(newElPlan).draggable({
-                containment: 'document',
-                cursor: 'move',
-                snap: '.target',
-                helper: 'clone',
-                revert: 'true'
-            });//end draggable
-
-
-            if (update) {
-                var replaceIdPlan = $(newElPlan).attr('id');
-                $("#" + pStr + " #" + replaceIdPlan).replaceWith(newElPlan);
-            } else {
-                if (i == index) {
-                    $("#" + pStr).append(newElPlan);
-                }
-                else {
-                    $("#stillRequiredList" + i).append(newElPlanWorking);
-                }
-
-            }
-            //set the drop-down box to be the right course
-            $("#" + pStr + " #op" + req.id).val(theCoursePId);
-
-            //update hours for each semester
-            var currentHours = parseInt($("#" + pStr).data("currentHours"), 10);
-            var add = parseInt(theCourseP.hours);
-            currentHours = currentHours + add;
-            $("#" + pStr).data("currentHours", currentHours);
-            var targetElSel = "#fstats" + pStr;
-            $(targetElSel).text(currentHours);
+        //first time through, add the containing div with the first course
+        if (j == 0) {
+            $(this.newEl).append(takenBoxEl);
         }
+        //after, just add more courses to the containing div
+    }
 
-        //already added classes to plan and plan-working,
-        //now add for left side and right side unplanned
-        //Clones have id's and data attributes whereami to help identify
-        //Req object must be re-added after each clone
+    $(this.newEl).append(takenBoxEl);
+}
 
-        if (i == index) {
-            //start with classes for the left side
-            if (req.complete) {
-                $(newEl).addClass("req_complete");
-            }
-            else if (req.completePlanned) {
-                $(newEl).addClass("req_completePlanned");
-            }
-            else if (req.somePlanned) {
-                $(newEl).addClass("req_partialPlanned");
-            }
-            else {
-                $(newEl).addClass("req_incomplete");
-            }
+ClassBox.prototype.addPlannedCourses = function () {
+    //repeat loop for courses counting (and place courses counting in middle)
+    var plannedBoxStr = "<div class='planned'> Planned: </div>";
+    var plannedBoxEl = $(plannedBoxStr);
+    for (k = 0; k < this.req.coursesCountingPlanned.length; k++) {
+        var theCourseP = this.req.coursesCountingPlanned[k];
+        var theCourseNameP = theCourseP.dept + " " + theCourseP.num;
+        var courseTowardsStrP = "<span class='course_box course_counting_planned'>" + theCourseNameP + "</span>";
+        var courseTowardsElP = $(courseTowardsStrP);
+        $(courseTowardsElP).data('course', theCourseP);
+        $(courseTowardsElP).data('forReq', this.req.id);
+        $(courseTowardsElP).attr('id', "planned-" + this.planId);
+
+        $(plannedBoxEl).append(courseTowardsElP);
+
+        //need to go ahead and append the span here before putting on the plan
+        if (k == 0) {
+            $(this.newEl).append(plannedBoxEl);
         }
-
-        //set up stats data
-        $(newEl).data("hoursCounting", req.hoursCounting);
-        $(newEl).data("hoursCountingPlanned", req.hoursCountingPlanned);
-        $(newEl).data("hours", req.hours);
-        var needed = req.hours - req.hoursCounting - req.hoursCountingPlanned;
-        $(newEl).data("stillNeeded", needed);
-
-        //split into left only and right clone here
-        var newElWorking = $(newEl).clone(true); //for the right side
-        $(newElWorking).attr('id', workingSideId);
-        $(newElWorking).data("whereami", "working");
-
-        $(newEl).attr('id', reqSideId);
-        $(newEl).data("whereami", "reqs");
+        //if planned then put on plan for matching semester
+        pSem = theCourseP.semester;
+        pYear = theCourseP.year;
+        this.pStr = "plan" + pYear + pSem;
 
 
-        //Add stats to left side box
-        $(newEl).append("<span class='stats'> c:" + req.hoursCounting + "/p:" + req.hoursCountingPlanned + "/r:" + req.hours + "</span>");
+        //console.log(pStr);
+        var theCoursePId = theCourseP.id;
+        //set the drop-down box to be the right course
+        $("#" + this.pStr + " #op" + this.req.id).val(theCoursePId);
 
-        //Add stats to right side box
-        $(newElWorking).append("<span class='stats'> need:" + needed + "</span>");
+        //update hours for each semester
+        var currentHours = parseInt($("#" + this.pStr).data("currentHours"), 10);
+        var add = parseInt(theCourseP.hours);
+        currentHours = currentHours + add;
+        $("#" + this.pStr).data("currentHours", currentHours);
+        var targetElSel = "#fstats" + this.pStr;
+        $(targetElSel).text(currentHours);
+    }
+}
 
+ClassBox.prototype.addCourseToPlan = function () {
+    var newElPlan = $(this.newEl).clone(true); //to put on plan
 
-        // groupName not currently used
-        $(newEl).attr("groupName", req['groupName']);
+    $(newElPlan).data("onSemester", this.pStr);
+    $(newElPlan).data("whereami", "plan");
+    $(newElPlan).addClass("req_on_plan");
+    $(newElPlan).attr('id', this.planId);
 
+    $(newElPlan).draggable({
+        containment: 'document',
+        cursor: 'move',
+        snap: '.target',
+        helper: 'clone',
+        revert: 'true'
+    });//end draggable
 
-        //add the jquery data object - TODO check if already added
-        $(newEl).data("req", req);
-        $(newElWorking).data("req", req);
+    if (typeof this.req.plan != "undefined")
+        $("#plan" + this.req.plan).append(newElPlan);
 
-        if (req.complete) {
-            //place on left
-            $(newEl).addClass("req_complete");
+}
 
-            if (update) {
-                var replaceIdNewEl = $(newEl).attr('id');
-                $("#currentState" + i + " #" + replaceIdNewEl).replaceWith(newEl);
-            } else {
+ClassBox.prototype.createWorkingPlan = function () {
+    var newElPlanWorking = $(this.newEl).clone(true); //to put on right side in case it gets moved off plan
 
-                $("#currentState" + i).append(newEl);
+    $(newElPlanWorking).data("whereami", "working");
+    $(newElPlanWorking).addClass("req_working");
+    $(newElPlanWorking).addClass("req_been_planned");
+    $(newElPlanWorking).attr('id', this.workingSideId);
 
-            }
+    $(newElPlanWorking).draggable({
+        containment: 'document',
+        cursor: 'move',
+        snap: '.target',
+        helper: 'clone',
+        revert: 'true'
+    });//end draggable
+
+    $("#plan020162").append(newElPlanWorking);
+}
+
+ClassBox.prototype.addToCurrentState = function (index) {
+    var newEl = $(this.newEl).clone(true); //for the right side
+
+    //set up stats data
+    $(newEl).data("hoursCounting", this.req.hoursCounting);
+    $(newEl).data("hoursCountingPlanned", this.req.hoursCountingPlanned);
+    $(newEl).data("hours", this.req.hours);
+
+    var needed = this.req.hours - this.req.hoursCounting - this.req.hoursCountingPlanned;
+    $(newEl).data("stillNeeded", needed);
+
+    $(newEl).attr('id', this.reqSideId);
+    $(newEl).data("whereami", "reqs");
+
+    //Add stats to left side box
+    $(newEl).append("<span class='stats'> c:" + this.req.hoursCounting + "/p:" +
+        this.req.hoursCountingPlanned + "/r:" + this.req.hours + "</span>");
+
+    // groupName not currently used
+    $(newEl).attr("groupName", this.req['groupName']);
+
+    $(newEl).data("req", this.req);
+
+    if (typeof this.req.plan != "undefined") {
+        var planIndex = this.req.plan.substr(0, 1);
+        if(planIndex == index) {
+            $(newEl).addClass("req_completePlanned");
         }
-        else if (req.completePlanned) {
-            //place on left
-            // $(reqsParentDiv).append(newEl);
-            //$(newEl).addClass("req_completePlanned");
+    }
+    else {
+        $(newEl).addClass("req_incomplete");
+    }
 
-            //UPDATE
-            if (update) {
-                var replaceIdNewEl = $(newEl).attr('id');
-                $("#currentState" + i + "#" + replaceIdNewEl).replaceWith(newEl);
-            } else {
+    $("#currentState" + index).append(newEl);
+}
 
-                $("#currentState" + i).append(newEl);
-            }
+ClassBox.prototype.addToRequiredList = function (index) {
+    var needed = this.req.hours - this.req.hoursCounting - this.req.hoursCountingPlanned;
+
+    //split into left only and right clone here
+    var newElWorking = $(this.newEl).clone(true); //for the right side
+    $(newElWorking).attr('id', this.workingSideId);
+    $(newElWorking).data("whereami", "working");
+
+    //Add stats to right side box
+    $(newElWorking).append("<span class='stats'> need:" + needed + "</span>");
+
+    //add the jquery data object - TODO check if already added
+    $(newElWorking).data("req", this.req);
+
+    //start with classes for the left side
+    if (this.req.complete) {
+        $(newElWorking).addClass("req_complete");
+    }
+    else if (this.req.completePlanned) {
+        $(newElWorking).addClass("req_completePlanned");
+    }
+    else if (this.req.somePlanned) {
+        $(newElWorking).addClass("req_partialPlanned");
+    }
+    else {
+        $(newElWorking).addClass("req_incomplete");
+    }
+
+    $(newElWorking).addClass("req_working");
+
+    $(newElWorking).draggable({
+        containment: 'document',
+        cursor: 'move',
+        snap: '.target',
+        helper: function (event) {
+            //return $('<span style="white-space:nowrap;"/>').text($(this).text() + " helper");
+
+            var theClone = $(this).clone(true);
+            var baseId = $(theClone).attr('id');
+            var selectedValue = $("#" + baseId + " #op" + baseId.substr(1)).val();
+            console.dir("dragging: " + selectedValue);
+            $(theClone).attr('id', "dragging" + baseId);
+            //var test = $(theClone).attr('id'); console.dir("teset: "+test);
+            //add the clone to a hidden area of the dom so we can select it
+            $(theClone).addClass("temp_hidden").appendTo($("#temp_hidden"));
+
+            //console.dir($("#dragging"+baseId+" #op"+baseId.substr(1)));
+            $("#dragging" + baseId + " #op" + baseId.substr(1)).val(selectedValue);
+            //$("#temp_hidden").remove($(theClone));
+            return $(theClone);
+        },
+
+        revert: 'true'
+    });//end draggable
+
+    if (typeof this.req.plan != "undefined") {
+        var planIndex = this.req.plan.substr(0, 1);
+        if(planIndex != index) {
+            $("#stillRequiredList" + index).append(newElWorking);
         }
-        else {
+    }
+    else {
+        $("#stillRequiredList" + index).append(newElWorking);
+    }
+}
 
-            //still place on left but also on right
-            $(newEl).addClass("req_incomplete");
-            //
-            //UPDATE
-            if (update) {
-                var replaceIdNewEl = $(newEl).attr('id');
-                $("#currentState" + i + "#" + replaceIdNewEl).replaceWith(newEl);
-            } else {
-                $("#currentState" + i).append(newEl);
 
-            }
 
-            //****return
-            //
+function processReqUpdate(req) {
 
-            //UPDATE
-            if (update) {
-                var replaceIdNewElWorking = $(newElWorking).attr('id');
-                $("#stillRequiredList" + i + " #" + replaceIdNewElWorking).replaceWith(newElWorking);
+    var courseOptions = req.courseOptions; //courseOptions is now array of courses
+    var coursesCounting = req.coursesCounting; //coursesCounting is now array of course records
+    var coursesCountingPlanned = req.coursesCountingPlanned;
 
-            } else {
-                $("#stillRequiredList" + i).append(newElWorking);
-            }
+    var classStr = "req_box";
+    //create the MAIN requirement box element
+    //group name is the requirement name (now comes from program_requirements.title)
+    var newElStr = "<div draggable=true class='" + classStr + "'><header>" + req.groupName + "</header>" + "</div>";
+    var newEl = $(newElStr);
 
-            $(newElWorking).addClass("req_working");
+    var count = $('.planpill').length;
 
-            $(newElWorking).draggable({
-                containment: 'document',
-                cursor: 'move',
-                snap: '.target',
-                helper: function (event) {
-                    //return $('<span style="white-space:nowrap;"/>').text($(this).text() + " helper");
+    //build base classes
+    //TODO: add classes for category
+    /* if(req.category==2) classStr+=" foundation";
+     else if(req.category==3) classStr+=" major";
+     */
 
-                    var theClone = $(this).clone(true);
-                    var baseId = $(theClone).attr('id');
-                    var selectedValue = $("#" + baseId + " #op" + baseId.substr(1)).val();
-                    console.dir("dragging: " + selectedValue);
-                    $(theClone).attr('id', "dragging" + baseId);
-                    //var test = $(theClone).attr('id'); console.dir("teset: "+test);
-                    //add the clone to a hidden area of the dom so we can select it
-                    $(theClone).addClass("temp_hidden").appendTo($("#temp_hidden"));
+    var classBox = new ClassBox(req, classStr, newEl);
+    classBox.createBox();
+    classBox.addCourseOptions();
+    classBox.addCompletedCourses();
+    classBox.addPlannedCourses();
+    classBox.addCourseToPlan();
 
-                    //console.dir($("#dragging"+baseId+" #op"+baseId.substr(1)));
-                    $("#dragging" + baseId + " #op" + baseId.substr(1)).val(selectedValue);
-                    //$("#temp_hidden").remove($(theClone));
-                    return $(theClone);
-                },
-
-                revert: 'true'
-            });//end draggable
-
-        }//end else
+    for(var i = 0; i < count; i++) {
+        classBox.addToCurrentState(i);
+        classBox.addToRequiredList(i);
     }
 }
 
@@ -442,11 +425,11 @@ function initState() {
             //  see advising.php for description of these objects
 
             //parse reqs
-            for (i = 0; i < reqs.length; i++) {
+            for (var i = 0; i < reqs.length; i++) {
 
                 var req = reqs[i];
                 console.log(req);
-                processReqUpdate(req, false);
+                processReqUpdate(req);
 
             }//end for each requirement
 
@@ -691,7 +674,7 @@ function handleDropEventOnWorking(event, ui) {
                 //alert("after parse");
                 //for(i=0;i<reqs.length;i++)
                 //{
-                processReqUpdate(req, true, 0);
+                processReqUpdate(req);
                 //}
                 //parse reqs
 
@@ -804,9 +787,8 @@ function handleDropEventOnPlan(event, ui) {
 
         console.dir("hours: " + hours);
 
-        //get 0 of 'plan0'
-        var plan = $('.tab-pane.active')[0].id.substr(4,1);
-        plan = parseInt(plan);
+        //get '020154' of plan020154
+        var plan = this.id.substr(4);
 
         //insert into database
         $.ajax({
@@ -832,7 +814,7 @@ function handleDropEventOnPlan(event, ui) {
                 //	alert("after parse");
                 //for(i=0;i<reqs.length;i++)
                 //{
-                processReqUpdate(req, true, 0);
+                processReqUpdate(req);
                 //}
                 //parse reqs
 
