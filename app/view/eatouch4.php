@@ -19,21 +19,17 @@
     <h3> eZAdvising </h3>
 
 </div>
-<ul class="nav nav-pills">
-    <li class="planpill active"><a data-toggle="pill" href="#plan0">Home</a></li>
-    <li class="planpill"><a data-toggle="pill" href="#plan1">Menu 1</a></li>
-</ul>
 
-    <?php
-    $planCount = 2;
+<?php
+$planCount = 2;
 
-    if ($planCount > 1) {
-        echo('<div class="tab-content">');
-    }
+if ($planCount > 1) {
+    echo('<div class="tab-content">');
+}
 
-    for ($i = 0; $i < $planCount; $i++) {
+for ($i = 0; $i < $planCount; $i++) {
     ?>
-        <div id="plan<?php echo $i; ?>" class="tab-pane fade<?php if ($i == 0) echo ' in active'; ?>">
+    <div id="plan<?php echo $i; ?>" class="tab-pane fade<?php if ($i == 0) echo ' in active'; ?>">
 
         <div id="wrapper">
             <div id="left">
@@ -49,6 +45,12 @@
 
             <div id="main">
                 <tr>
+                    <ul class="nav nav-pills">
+                        <li class="planpill active"><a data-toggle="pill" href="#plan0">Home</a></li>
+                        <li class="planpill"><a data-toggle="pill" href="#plan1">Menu 1</a></li>
+                    </ul>
+                </tr>
+                <tr>
                     <td>
                         <button data-show="on" onclick="title_show()"> Change Plan Name</button>
                         <button data-show="on" onclick="showHideSummers()"> Show/Hide Summers</button>
@@ -57,11 +59,19 @@
                 <!-- <tr> <td><button onclick="unplan()" > Save Plan </button> </td> </tr>
                 <tr> <td><button onclick="unplan()" > Revert to Saved Plan </button></td></tr>
                 -->
-                </table>
                 <div id="thePlan<?php echo $i; ?>"></div>
             </div>
 
             <!-- end div main -->
+
+            <!-- Popup Title Form -->
+            <div id="popUp" title="Change Plan Name" style="display: none">
+                <form name='changeTitle' method='POST' action="#">
+                    <input id="titleName" name="name" placeholder="Name" type="text">
+                    <input type="button" id="changeTitle" onclick="titleSubmit();" value="Submit">
+                </form>
+            </div>
+            <!-- End of Title Form -->
 
             <!-- newlayout </div> --><!-- end div col23 -->
 
@@ -84,8 +94,8 @@
             <!-- end div right -->
         </div>
     </div>
-    <?php } ?>
-    </div>
+<?php } ?>
+</div>
 <!-- end div wrapper -->
 
 </body>
