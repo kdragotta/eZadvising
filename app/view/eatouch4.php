@@ -17,20 +17,24 @@
 <body>
 <div id="top" class="top">
     <h3> eZAdvising </h3>
-
 </div>
+
+<ul class="nav nav-pills">
+    <li class="planpill active"><a data-toggle="pill" href="#plan0">Home</a></li>
+    <li class="planpill"><a data-toggle="pill" href="#plan1">New Plan</a></li>
+</ul>
+
 
 <?php
 $planCount = 2;
 
-if ($planCount > 1) {
+if ($planCount != 1) {
     echo('<div class="tab-content">');
 }
 
 for ($i = 0; $i < $planCount; $i++) {
     ?>
     <div id="plan<?php echo $i; ?>" class="tab-pane fade<?php if ($i == 0) echo ' in active'; ?>">
-
         <div id="wrapper">
             <div id="left">
                 <table>
@@ -45,15 +49,11 @@ for ($i = 0; $i < $planCount; $i++) {
 
             <div id="main">
                 <tr>
-                    <ul class="nav nav-pills">
-                        <li class="planpill active"><a data-toggle="pill" href="#plan0">Home</a></li>
-                        <li class="planpill"><a data-toggle="pill" href="#plan1">Menu 1</a></li>
-                    </ul>
-                </tr>
-                <tr>
                     <td>
-                        <button data-show="on" onclick="title_show()"> Change Plan Name</button>
-                        <button data-show="on" onclick="showHideSummers()"> Show/Hide Summers</button>
+                        <h4>
+                            <button data-show="on" onclick="title_show()"> Change Plan Name</button>
+                            <button data-show="on" onclick="showHideSummers()"> Show/Hide Summers</button>
+                        </h4>
                     </td>
                 </tr>
                 <!-- <tr> <td><button onclick="unplan()" > Save Plan </button> </td> </tr>
