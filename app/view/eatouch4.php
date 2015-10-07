@@ -20,6 +20,10 @@
 
 </div>
 
+    <ul class="nav nav-pills">
+        <li class="planpill active"><a data-toggle="pill" href="#plan0">Home</a></li>
+        <li class="planpill"><a data-toggle="pill" href="#plan1">Menu 1</a></li>
+    </ul>
 <?php
 $planCount = 2;
 
@@ -44,12 +48,6 @@ for ($i = 0; $i < $planCount; $i++) {
             <!-- newlayout <div id="col23"> -->
 
             <div id="main">
-                <tr>
-                    <ul class="nav nav-pills">
-                        <li class="planpill active"><a data-toggle="pill" href="#plan0">Home</a></li>
-                        <li class="planpill"><a data-toggle="pill" href="#plan1">Menu 1</a></li>
-                    </ul>
-                </tr>
                 <tr>
                     <td>
                         <button data-show="on" onclick="title_show()"> Change Plan Name</button>
