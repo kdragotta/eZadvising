@@ -440,7 +440,9 @@ div.taken, div.planned, div.options {
 
 /* Navigation Pills */
 .nav {
+    border-bottom: solid 1px black;
     padding: 5px;
     margin: auto;
     text-align: center;
+    background-color: #f3f2f2;
 }
