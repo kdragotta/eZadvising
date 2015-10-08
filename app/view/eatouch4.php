@@ -39,7 +39,7 @@ for ($i = 0; $i < $planCount; $i++) {
             <div id="left">
                 <table>
                     <tr>
-                        <th>Requirements</th>
+                        <th>Classes Selected</th>
                     </tr>
                 </table>
                 <div id="currentState<?php echo $i; ?>"></div>

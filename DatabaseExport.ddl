@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:8889
--- Generation Time: Oct 03, 2015 at 12:44 AM
+-- Generation Time: Oct 07, 2015 at 03:44 AM
 -- Server version: 5.5.42
 -- PHP Version: 5.5.26
 
@@ -112,7 +112,7 @@ INSERT INTO `course_groups` (`id`, `groupId`, `courseId`) VALUES
 
 CREATE TABLE `course_records` (
   `id` int(11) NOT NULL,
-  `plan` int(11) NOT NULL,
+  `plan` varchar(10) NOT NULL,
   `studentId` int(11) NOT NULL,
   `courseId` int(11) NOT NULL,
   `grade` varchar(5) DEFAULT NULL,
@@ -122,15 +122,15 @@ CREATE TABLE `course_records` (
   `proposedReqId` int(11) DEFAULT NULL,
   `hours` int(11) NOT NULL,
   `semesterCode` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=161 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=247 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `course_records`
 --
 
 INSERT INTO `course_records` (`id`, `plan`, `studentId`, `courseId`, `grade`, `year`, `reqId`, `type`, `proposedReqId`, `hours`, `semesterCode`) VALUES
-(159, 0, 1, 7, NULL, 2016, 1, 2, NULL, 3, 4),
-(160, 0, 1, 5, NULL, 2016, 2, 2, NULL, 3, 3);
+(245, '020163', 1, 7, NULL, 2016, 1, 2, NULL, 3, 3),
+(246, '120163', 1, 7, NULL, 2016, 1, 2, NULL, 3, 3);
 
 -- --------------------------------------------------------
 
@@ -425,7 +425,7 @@ ALTER TABLE `course_groups`
 -- AUTO_INCREMENT for table `course_records`
 --
 ALTER TABLE `course_records`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=161;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=247;
 --
 -- AUTO_INCREMENT for table `groups`
 --
