@@ -795,32 +795,15 @@ function handleDropEventOnPlan(event, ui) {
             }//end success
         });//end ajax
 
-        //update hours for the semester
-        /*
-         already done on update
-         var currentHours = parseInt( $("#"+targId).data("currentHours"), 10);
-         var add = parseInt(hours);
-         currentHours = currentHours + add;
-         $("#"+targId).data("currentHours",currentHours);
-         var targetElSel = "#fstats"+targId;
-         $(targetElSel).text(currentHours);
-         */
-
-        //Will this complete the requirement? If so, disable on right, otherwise, update hours on right
-        //update left and right with returned requirement
-
-        //style the copy of requirement still left on working side
-        //
-
     }//end if original move
     else if (sourceId.substr(0, 1) == "p") //move from one semester to another
     {
         //move, don't clone
         $(ui.draggable).appendTo($(this)).css({position: 'relative', top: 0, left: 0});
 
-        var fromSemesterCode = $(plannedEl).data('semesterCode');
-        var fromYear = $(plannedEl).data('year');
-        var plan = $(plannedEl).data('plan');
+        var fromSemesterCode = $(ui.draggable).data('semesterCode');
+        var fromYear = $(ui.draggable).data('year');
+        var plan = $(ui.draggable).data('plan');
 
         var toSemesterCode = targId.substr(9, 1);
         var toPlanYear = targId.substr(5, 4);  //note:  (5, 4) to get 2015 from 'plan020153'
@@ -849,21 +832,15 @@ function handleDropEventOnPlan(event, ui) {
             url: "index.php",
             method: 'POST',
             data: {
-                groupId: groupId, studentId: 1, fromSem: fromSemesterCode, fromYear: fromYear,
-                toSem: toSemesterCode, toYear: toPlanYear, plan: plan
+                groupId: groupId,
+                studentId: 1,
+                fromSem: fromSemesterCode,
+                fromYear: fromYear,
+                toSem: toSemesterCode,
+                toYear: toPlanYear,
+                plan: plan
             },
             success: function (result) {
-                //alert("success");
-                //alert(result);
-                /*
-                 var req=JSON.parse(result); //reqs is array of requirement objects
-                 //each req object also has a list of course option objects and list of courses taken objects
-                 alert("after parse");
-                 //for(i=0;i<reqs.length;i++)
-                 //{
-                 processReqUpdate(req);
-                 //}
-                 */
 
             }//end success
         });//end ajax

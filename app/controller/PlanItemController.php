@@ -67,9 +67,9 @@ class PlanItemController {
         }
 
         echo $this->planItemModel->addPlanItem("ABC", 1, $courseId, $hours,
-                                             $semesterCode, $planYear,
-                                             $progYear, $programId,
-                                             $reqId, $proposedReqId, $plan);
+                                               $semesterCode, $planYear,
+                                               $progYear, $programId,
+                                               $reqId, $proposedReqId, $plan);
     }
 
     private function handleMovePlanItem() {
@@ -89,9 +89,9 @@ class PlanItemController {
             $fromYear = NULL;
 
         if(isset($_POST['plan']))
-            $reqId = $_POST['plan'];
+            $plan = $_POST['plan'];
         else
-            $reqId = NULL;
+            $plan = NULL;
 
         if(isset($_POST['toSem']))
             $toSem = $_POST['toSem'];
@@ -108,14 +108,14 @@ class PlanItemController {
         else
             $studentId = NULL;
 
-        if(!$groupId || !$fromSem || !$fromYear || !$plan ||
+        if(!$groupId || !$fromSem || !$fromYear || /*!$plan ||*/
             !$toSem || !$toYear || !$studentId) {
             return;
         }
 
         echo $this->planItemModel->movePlanItem("ABC", $studentId, $groupId,
-                                              $fromSem, $fromYear, $toSem,
-                                              $toYear, $plan);
+                                                $fromSem, $fromYear, $toSem,
+                                                $toYear, $plan);
     }
 }
 ?>
