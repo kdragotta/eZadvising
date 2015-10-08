@@ -11,8 +11,8 @@ class PlanItemModel {
 
 
     //UPDATED DONE USED
-    public function movePlanItem($token, $studentId, $courseId, $semester,
-                                 $year, $toSemester, $toYear, $reqId = null)
+    public function movePlanItem($token, $studentId, $groupId, $semester,
+                                 $year, $toSemester, $toYear, $plan)
     {
         try {
            // if (!validateToken($token, $studentId)) {
@@ -21,10 +21,13 @@ class PlanItemModel {
 
             //  if(empty($studentId)) return 404;
 
-            $sql = 'UPDATE course_records SET semesterCode=:toSemester, '.
-                   'year=:toYear WHERE studentId=:studentId AND '.
-                   'courseId= :courseId AND semesterCode=:semester AND '.
-                   'year=:year AND type=2';
+            $sql = 'UPDATE course_records '.
+                   'SET semesterCode = :toSemester, year = :toYear, '.
+                   'plan = plan '.
+                   'WHERE studentId = :studentId '.
+                   'AND groupId = :groupId '.
+                   'AND semesterCode = :semester '.
+                   'AND year = :year';
 
             //$sql = $sql. ' VALUES (null, :studentId, :courseId, null, :semester,
             // :year, :reqId, 2, :proposedReqId)';
@@ -33,14 +36,11 @@ class PlanItemModel {
             $stmt->bindParam(':studentId', $studentId);
             $stmt->bindParam(':semester', $semester);
             $stmt->bindParam(':year', $year);
-            $stmt->bindParam(':courseId', $courseId);
+            $stmt->bindParam(':groupId', $groupId);
             $stmt->bindParam(':toSemester', $toSemester);
             $stmt->bindParam(':toYear', $toYear);
 
             $success = $stmt->execute();
-            $inserted = $success ? "yes" : "no";
-            //echo "<h4>success:".$inserted."</h4>";
-
 
         }//end try
         catch (PDOException $e) {
@@ -48,7 +48,7 @@ class PlanItemModel {
             //return 500;
         }
 
-        return $inserted;
+        return $success;
     }
 
     public function addPlanItem($token, $studentId, $courseId, $hours,
