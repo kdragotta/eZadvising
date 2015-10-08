@@ -163,46 +163,6 @@ ClassBox.prototype.addPlannedCourses = function () {
     }
 }
 
-ClassBox.prototype.addCourseToPlan = function () {
-    var newElPlan = $(this.newEl).clone(true); //to put on plan
-
-    $(newElPlan).data("onSemester", this.pStr);
-    $(newElPlan).data("whereami", "plan");
-    $(newElPlan).addClass("req_on_plan");
-    $(newElPlan).attr('id', this.planId);
-
-    $(newElPlan).draggable({
-        containment: 'document',
-        cursor: 'move',
-        snap: '.target',
-        helper: 'clone',
-        revert: 'true'
-    });//end draggable
-
-    if (typeof this.req.plan != "undefined")
-        $("#plan" + this.req.plan).append(newElPlan);
-
-}
-
-ClassBox.prototype.createWorkingPlan = function () {
-    var newElPlanWorking = $(this.newEl).clone(true); //to put on right side in case it gets moved off plan
-
-    $(newElPlanWorking).data("whereami", "working");
-    $(newElPlanWorking).addClass("req_working");
-    $(newElPlanWorking).addClass("req_been_planned");
-    $(newElPlanWorking).attr('id', this.workingSideId);
-
-    $(newElPlanWorking).draggable({
-        containment: 'document',
-        cursor: 'move',
-        snap: '.target',
-        helper: 'clone',
-        revert: 'true'
-    });//end draggable
-
-    $("#plan020162").append(newElPlanWorking);
-}
-
 ClassBox.prototype.addToCurrentState = function (index) {
     var newEl = $(this.newEl).clone(true); //for the right side
 
@@ -240,36 +200,36 @@ ClassBox.prototype.addToCurrentState = function (index) {
 }
 
 ClassBox.prototype.addToRequiredList = function (index) {
+    var newEl = $(this.newEl).clone(true); //for the right side
     var needed = this.req.hours - this.req.hoursCounting - this.req.hoursCountingPlanned;
 
     //split into left only and right clone here
-    var newElWorking = $(this.newEl).clone(true); //for the right side
-    $(newElWorking).attr('id', this.workingSideId);
-    $(newElWorking).data("whereami", "working");
+    $(newEl).attr('id', this.workingSideId);
+    $(newEl).data("whereami", "working");
 
     //Add stats to right side box
-    $(newElWorking).append("<span class='stats'> need:" + needed + "</span>");
+    $(newEl).append("<span class='stats'> need:" + needed + "</span>");
 
     //add the jquery data object - TODO check if already added
-    $(newElWorking).data("req", this.req);
+    $(newEl).data("req", this.req);
 
     //start with classes for the left side
     if (this.req.complete) {
-        $(newElWorking).addClass("req_complete");
+        $(newEl).addClass("req_complete");
     }
     else if (this.req.completePlanned) {
-        $(newElWorking).addClass("req_completePlanned");
+        $(newEl).addClass("req_completePlanned");
     }
     else if (this.req.somePlanned) {
-        $(newElWorking).addClass("req_partialPlanned");
+        $(newEl).addClass("req_partialPlanned");
     }
     else {
-        $(newElWorking).addClass("req_incomplete");
+        $(newEl).addClass("req_incomplete");
     }
 
-    $(newElWorking).addClass("req_working");
+    $(newEl).addClass("req_working");
 
-    $(newElWorking).draggable({
+    $(newEl).draggable({
         containment: 'document',
         cursor: 'move',
         snap: '.target',
@@ -297,13 +257,33 @@ ClassBox.prototype.addToRequiredList = function (index) {
     if (typeof this.req.plan != "undefined") {
         var planIndex = this.req.plan.substr(0, 1);
         if(planIndex != index) {
-            $("#stillRequiredList" + index).append(newElWorking);
+            $("#stillRequiredList" + index).append(newEl);
         }
     }
     else {
-        $("#stillRequiredList" + index).append(newElWorking);
+        $("#stillRequiredList" + index).append(newEl);
     }
 }
+
+ClassBox.prototype.addCourseToPlan = function () {
+        var newElPlan = $(this.newEl).clone(true); //to put on plan
+
+        $(newElPlan).data("onSemester", this.pStr);
+        $(newElPlan).data("whereami", "plan");
+        $(newElPlan).addClass("req_on_plan");
+        $(newElPlan).attr('id', 'p' + this.req.id);
+
+        $(newElPlan).draggable({
+            containment: 'document',
+            cursor: 'move',
+            snap: '.target',
+            helper: 'clone',
+            revert: 'true'
+        });//end draggable
+
+        $("#plan" + this.req.plan).append(newElPlan);
+}
+
 
 
 
@@ -332,12 +312,14 @@ function processReqUpdate(req) {
     classBox.addCourseOptions();
     classBox.addCompletedCourses();
     classBox.addPlannedCourses();
-    classBox.addCourseToPlan();
 
     for(var i = 0; i < count; i++) {
         classBox.addToCurrentState(i);
         classBox.addToRequiredList(i);
     }
+
+    classBox.addCourseToPlan();
+
 }
 
 function getSemesterName(code) {

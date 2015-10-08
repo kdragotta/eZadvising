@@ -65,9 +65,9 @@ class PlanItemModel {
 
         $sql = 'INSERT INTO course_records '.
                '(id, plan, studentId, courseId, grade, hours, semesterCode, '.
-               'year, reqId, type, proposedReqId) '.
+               'year, groupId, type, proposedReqId) '.
                ' VALUES (null, :plan, :studentId, :courseId, null, :hours, '.
-               ':semester, :year, :reqId, 2, :proposedReqId)';
+               ':semester, :year, :groupId, 2, :proposedReqId)';
         $stmt = $this->conn->prepare($sql);
 
 
@@ -78,7 +78,7 @@ class PlanItemModel {
         $stmt->bindParam(':semester', $semester);
         $stmt->bindParam(':year', $planYear);
         $stmt->bindParam(':courseId', $courseId);
-        $stmt->bindParam(':reqId', $reqId);
+        $stmt->bindParam(':groupId', $reqId);
         $stmt->bindParam(':proposedReqId', $proposedReqId);
         $stmt->bindParam(':hours', $hours);
         $success = $stmt->execute();
