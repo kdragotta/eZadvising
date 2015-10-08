@@ -152,7 +152,7 @@
                 <td><span draggable="true" class="completed_courses" id="c105">CSCI 140L</span></td>
             </tr>
             <tr class="space_under">
-                <td><span draggable="true" class="completed_courses" id="c106">CSCI 225</span></td>
+                <td><span draggable="true" class="completed_courses" id="c106">CSCI 700</span></td>
             </tr>
 
         </table>

@@ -1,0 +1,49 @@
+header
+{
+    background: teal;
+    font-size: 5.0em;
+    color: white;
+    text-align: center;
+}
+
+body
+{
+    background: seashell;
+}
+
+table
+{
+    margin: auto;
+    margin-top: 50px;
+}
+
+tr
+{
+    background: #ddffdd;
+    font-size: 1.7em;
+    padding-left: 500px;
+}
+
+input.sub
+{
+    margin-left: 900px;
+    margin-top: 25px;
+    font-size: 1.2em;
+}
+
+input.check
+{
+    margin-left: 50px;
+
+}
+
+td.center
+{
+    text-align: center;
+}
+
+
+
+
+
+

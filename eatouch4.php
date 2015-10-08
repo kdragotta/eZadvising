@@ -48,6 +48,7 @@ $_SESSION['token'] = "ABC";
             </tr>
 
             <tr></tr>
+
         </table>
 
 
@@ -88,17 +89,41 @@ $_SESSION['token'] = "ABC";
         <table id = "nonRequredCourse">
             <th>Add Nonrequired Course</th>
         </table>
-        <div id = "addNonrequred">
-            <select id = "departmentList">
-                <option>Select Department</option>
+
+        <form action = "addCourse.php" value = "rbselect" method = "post">
+            <select id = "nondept" value = "rbselect" name="nondept">
+                <option selected = "Select Dept." value = "0"></option>
+                <option value = "CSCI">Computer Science</option>
+                <option value = "ENGL">English</option>
+                <option value="JOUR">Journalism</option>
+                <option value="RSM">RSM</option>
+                <option value="POLI">Politics</option>
+                <option value="THEA">Theatre</option>
+                <option value="MUS">Music</option>
+                </option>
             </select>
-            <select id = "courseList">
-                <option>Select Course</option>
-            </select>
-            <button>Add Course</button>
-        </div>
+
+            <br/>
+            <input type="submit" class = "rbsubmit" value="Search Dept."/>
+        </form>
+
+        <?php
+            $addCourseArray = array();
+            $arrayCount = 0;
+            $t= $_POST['addc'];
+
+            $addCourseArray[$arrayCount] = $t;
+
+            echo "<div draggable='true' class = 'drag' ondragstart='event.dataTransfer.setData('text/plain', 'This text may be dragged')'>";
+            echo $addCourseArray[$arrayCount];
+            echo "</div>";
+
+            $arrayCount++;
+        ?>
+
         <!-- end stillRequiredList div -->
 
+        <!-- Feature 14 -->
 
     </div>
     <!-- end div right -->
