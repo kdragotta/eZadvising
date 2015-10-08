@@ -294,6 +294,17 @@ INSERT INTO `semester_codes` (`id`, `name`, `level`, `duration`, `order`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `plan_title`
+--
+
+CREATE TABLE `plan_title` (
+  `id` int(11) NOT NULL,
+  `plan_title` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `students`
 --
 
