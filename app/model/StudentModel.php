@@ -300,6 +300,7 @@ class StudentModel
 
             foreach ($responses as $response) {
                 $c = new stdClass();
+                $c->type = "onplan";
 
                 //todo rename js to use groupid instead of id
                 $c->groupName = $response['name'];

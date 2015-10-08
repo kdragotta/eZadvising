@@ -163,6 +163,13 @@ ClassBox.prototype.addPlannedCourses = function () {
 }
 
 ClassBox.prototype.addToCurrentState = function (index) {
+
+    if(this.req.type == "onplan") {
+        $("#r" + this.req.id).addClass("req_completePlanned");
+        $("#r" + this.req.id).removeClass("req_incomplete");
+        return;
+    }
+
     var newEl = $(this.newEl).clone(true); //for the right side
 
     //set up stats data
@@ -185,25 +192,24 @@ ClassBox.prototype.addToCurrentState = function (index) {
 
     $(newEl).data("req", this.req);
 
-    if (typeof this.req.plan != "undefined") {
-        var planIndex = this.req.plan.substr(0, 1);
-        if(planIndex == index) {
-            $(newEl).addClass("req_completePlanned");
-        }
-    }
-    else {
-        $(newEl).addClass("req_incomplete");
-    }
+    $(newEl).addClass("req_incomplete");
+
 
     $("#currentState" + index).append(newEl);
 }
 
 ClassBox.prototype.addToRequiredList = function (index) {
+
+    if(this.req.type == "onplan") {
+        $("#w" + this.req.id + this.req.plan).remove();
+        return;
+    }
+
     var newEl = $(this.newEl).clone(true); //for the right side
     var needed = this.req.hours - this.req.hoursCounting - this.req.hoursCountingPlanned;
 
     //split into left only and right clone here
-    $(newEl).attr('id', this.workingSideId);
+    $(newEl).attr('id', this.workingSideId + index);
     $(newEl).data("whereami", "working");
 
     //Add stats to right side box
@@ -253,15 +259,7 @@ ClassBox.prototype.addToRequiredList = function (index) {
         revert: 'true'
     });//end draggable
 
-    if (typeof this.req.plan != "undefined") {
-        var planIndex = this.req.plan.substr(0, 1);
-        if(planIndex != index) {
-            $("#stillRequiredList" + index).append(newEl);
-        }
-    }
-    else {
-        $("#stillRequiredList" + index).append(newEl);
-    }
+    $("#stillRequiredList" + index).append(newEl);
 }
 
 ClassBox.prototype.addCourseToPlan = function () {
@@ -294,17 +292,12 @@ ClassBox.prototype.addCourseToPlan = function () {
 
 function processReqUpdate(req) {
 
-    var courseOptions = req.courseOptions; //courseOptions is now array of courses
-    var coursesCounting = req.coursesCounting; //coursesCounting is now array of course records
-    var coursesCountingPlanned = req.coursesCountingPlanned;
+    var count = $('.planpill').length;
 
     var classStr = "req_box";
-    //create the MAIN requirement box element
-    //group name is the requirement name (now comes from program_requirements.title)
     var newElStr = "<div draggable=true class='" + classStr + "'><header>" + req.groupName + "</header>" + "</div>";
     var newEl = $(newElStr);
 
-    var count = $('.planpill').length;
 
     //build base classes
     //TODO: add classes for category

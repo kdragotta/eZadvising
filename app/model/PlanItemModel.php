@@ -42,7 +42,7 @@ class PlanItemModel {
             $stmt->bindParam(':year', $year);
 
             $success = $stmt->execute();
-            
+
         }//end try
         catch (PDOException $e) {
             return $sql . "<br>" . $e->getMessage();
