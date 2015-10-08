@@ -165,8 +165,8 @@ ClassBox.prototype.addPlannedCourses = function () {
 ClassBox.prototype.addToCurrentState = function (index) {
 
     if(this.req.type == "onplan") {
-        $("#r" + this.req.id).addClass("req_completePlanned");
-        $("#r" + this.req.id).removeClass("req_incomplete");
+        $("#r" + this.req.id + this.req.plan).addClass("req_completePlanned");
+        $("#r" + this.req.id + this.req.plan).removeClass("req_incomplete");
         return;
     }
 
@@ -180,7 +180,7 @@ ClassBox.prototype.addToCurrentState = function (index) {
     var needed = this.req.hours - this.req.hoursCounting - this.req.hoursCountingPlanned;
     $(newEl).data("stillNeeded", needed);
 
-    $(newEl).attr('id', this.reqSideId);
+    $(newEl).attr('id', this.reqSideId + index);
     $(newEl).data("whereami", "reqs");
 
     //Add stats to left side box
