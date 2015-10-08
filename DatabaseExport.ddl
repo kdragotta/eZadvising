@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:8889
--- Generation Time: Oct 08, 2015 at 04:11 AM
+-- Generation Time: Oct 08, 2015 at 09:23 AM
 -- Server version: 5.5.42
 -- PHP Version: 5.5.26
 
@@ -122,19 +122,18 @@ CREATE TABLE `course_records` (
   `proposedReqId` int(11) DEFAULT NULL,
   `hours` int(11) NOT NULL,
   `semesterCode` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=289 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `course_records`
 --
 
 INSERT INTO `course_records` (`id`, `plan`, `studentId`, `courseId`, `grade`, `year`, `groupId`, `type`, `proposedReqId`, `hours`, `semesterCode`) VALUES
-(283, '020151', 1, 7, NULL, 2015, 1, 2, NULL, 3, 1),
-(284, '020162', 1, 5, NULL, 2016, 2, 2, NULL, 3, 2),
-(285, '020164', 1, 10, NULL, 2016, 3, 2, NULL, 3, 4),
-(286, '120166', 1, 4, NULL, 2016, 8, 2, NULL, 1, 6),
-(287, '120162', 1, 7, NULL, 2016, 1, 2, NULL, 3, 2),
-(288, '120162', 1, 9, NULL, 2016, 4, 2, NULL, 3, 2);
+(35, '0', 1, 7, NULL, 2015, 1, 2, NULL, 3, 1),
+(36, '1', 1, 5, NULL, 2016, 2, 2, NULL, 3, 5),
+(37, '1', 1, 7, NULL, 2016, 1, 2, NULL, 3, 5),
+(38, '1', 1, 1, NULL, 2016, 5, 2, NULL, 3, 2),
+(39, '0', 1, 1, NULL, 2017, 5, 2, NULL, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -294,17 +293,6 @@ INSERT INTO `semester_codes` (`id`, `name`, `level`, `duration`, `order`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `plan_title`
---
-
-CREATE TABLE `plan_title` (
-  `id` int(11) NOT NULL,
-  `plan_title` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `students`
 --
 
@@ -440,7 +428,7 @@ ALTER TABLE `course_groups`
 -- AUTO_INCREMENT for table `course_records`
 --
 ALTER TABLE `course_records`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=289;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=40;
 --
 -- AUTO_INCREMENT for table `groups`
 --
