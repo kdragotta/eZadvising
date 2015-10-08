@@ -17,6 +17,7 @@
 <body>
 <div id="top" class="top">
     <h3> eZAdvising </h3>
+
 </div>
 
 <ul class="nav nav-pills">
@@ -28,13 +29,14 @@
 <?php
 $planCount = 2;
 
-if ($planCount != 1) {
+if ($planCount > 1) {
     echo('<div class="tab-content">');
 }
 
 for ($i = 0; $i < $planCount; $i++) {
     ?>
     <div id="plan<?php echo $i; ?>" class="tab-pane fade<?php if ($i == 0) echo ' in active'; ?>">
+
         <div id="wrapper">
             <div id="left">
                 <table>
