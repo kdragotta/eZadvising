@@ -49,7 +49,7 @@ for ($i = 0; $i < $planCount; $i++) {
 
             <!-- newlayout <div id="col23"> -->
 
-            <div id="main">
+            <div id="main">                
                 <tr>
                     <td>
                         <h4>
