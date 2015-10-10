@@ -44,7 +44,7 @@ class StudentModel
 
         } catch (PDOException $e) {
             echo $sql . "<br>" . $e->getMessage();
-          }
+        }
     }
 
     //todo: use json
@@ -57,8 +57,8 @@ class StudentModel
          WHERE courses.num="150" AND courses.id = prereqs.courseId AND
             prereqs.id = prereq_detail.prereqId AND prereq_detail.type=2
          AND prereq_detail.courseId=p.id';*/
-            $sql = 'SELECT prereqs.expression FROM courses, prereqs '.
-                   'WHERE courses.num="150" AND courses.id = prereqs.courseId';
+            $sql = 'SELECT prereqs.expression FROM courses, prereqs ' .
+                'WHERE courses.num="150" AND courses.id = prereqs.courseId';
 
 
             $stmt = $this->conn->prepare($sql);
@@ -108,17 +108,17 @@ class StudentModel
         try {
             //no validation needed; nothing personal
 
-
             $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
-            $sql = 'SELECT program_requirements.id as "reqId", '.
-                   'program_requirements.category as "category", '.
-                   'program_requirements.groupId as "groupId", groups.name '.
-                   'as "name", program_requirements.numCreditHours as "hours"'.
-                   ', program_requirements.minGrade as "grade" '.
-                   'FROM program_requirements, groups WHERE '.
-                   'program_requirements.programId=:programId AND '.
-                   'program_requirements.catalogYear=:year '.
-                   'AND program_requirements.groupId=groups.id';
+            $sql = 'SELECT program_requirements.id as "reqId", ' .
+                'program_requirements.category as "category", ' .
+                'program_requirements.groupId as "groupId", ' .
+                'groups.name as "name", ' .
+                'program_requirements.numCreditHours as "hours", ' .
+                'program_requirements.minGrade as "grade" ' .
+                'FROM program_requirements, groups ' .
+                'WHERE program_requirements.programId=:programId ' .
+                'AND program_requirements.catalogYear=:year ' .
+                'AND program_requirements.groupId=groups.id';
 
 
             $stmt = $conn->prepare($sql);
@@ -129,7 +129,8 @@ class StudentModel
 
             $reqs = $stmt->fetchAll();
 
-            if ($stmt->rowCount() <= 0) return $result;
+            if ($stmt->rowCount() <= 0)
+                return $result;
 
 
             foreach ($reqs as $req) {
@@ -143,7 +144,7 @@ class StudentModel
                  * grade - min grade required for credits to count toward this requirement
                  * hours - total hours required for this requirement
                  *
-                 * hoursCounting - total number of hours that are completed twoard this requirement
+                 * hoursCounting - total number of hours that are completed toward this requirement
                  * hoursCountingPlanned - total number of hours that are PLANNED toward this requirement
                  * complete - compares hours to hoursCounting (true or false)
                  * completePlanned - compares hours to hoursCountingPlanned PLUS hoursCounting (true or false)
@@ -156,7 +157,7 @@ class StudentModel
                  * title
                  * description
                  *
-                 * coursesCounting - array of  courseRecord objects that are currently counting towrd
+                 * coursesCounting - array of  courseRecord objects that are currently counting toward
                  * requirement
                  * Each courseRecord object has
                  * id - courseId
@@ -171,6 +172,7 @@ class StudentModel
                  * completed, and will count toward requirement
                  * Each courseRecord object has : SAME AS ABOVE
                  ***/
+
                 $r = new stdClass();
                 $r->id = $req['reqId'];
                 $r->category = $req['category'];
@@ -178,19 +180,17 @@ class StudentModel
                 $r->groupName = $req['name'];
                 $r->grade = $req['grade'];
                 $r->hours = $req['hours'];
-                $r->plan = "0";
 
                 //now get courses for that group
-                $secondSql = 'SELECT courses.id as "id", courses.default'.
-                             'CreditHours as "hours", dept, num, title, '.
-                             'description FROM course_groups, courses WHERE '.
-                             'course_groups.groupId=:groupId AND '.
-                             'course_groups.courseId=courses.id';
+                $secondSql = 'SELECT courses.id as "id", ' .
+                    'courses.defaultCreditHours as "hours", ' .
+                    'dept, num, title, description ' .
+                    'FROM course_groups, courses ' .
+                    'WHERE course_groups.groupId=:groupId ' .
+                    'AND course_groups.courseId=courses.id';
 
                 $stmt2 = $conn->prepare($secondSql);
-
                 $stmt2->bindParam(':groupId', $r->groupId);
-
                 $stmt2->execute();
 
                 $courses = $stmt2->fetchAll();
@@ -215,19 +215,11 @@ class StudentModel
 
                 //now get whether the requirement is met for the student
                 $sqlCoursesTaken =
-                    'SELECT courses.id, courses.dept, courses.num, '.
-                    'courses.title, courses.description, course_records.'.
-                    'hours, course_records.type, course_records.semesterCode,'.
-                    'course_records.year, '.
-                    'course_records.plan '.
-                    'FROM courses, course_records '.
-                    'WHERE course_records.studentId=:stuId '.
-                    'AND course_records.courseId=courses.id '.
-                    'AND course_records.reqId=:reqId';
+                    'SELECT courses.id, courses.dept, courses.num, ' .
+                    'courses.title, courses.description, course_records.hours ' .
+                    'FROM courses';
 
                 $stmtCoursesTaken = $conn->prepare($sqlCoursesTaken);
-                $stmtCoursesTaken->bindParam(':stuId', $studentId);
-                $stmtCoursesTaken->bindParam(':reqId', $r->id);
                 $stmtCoursesTaken->execute();
                 $coursesTaken = $stmtCoursesTaken->fetchAll();
                 //echo "<p>course Taken count: ".$stmtCoursesTaken->rowCount()."</p>";
@@ -295,16 +287,74 @@ class StudentModel
                 $result[] = $r;
 
             }//end foreach reqs as req
+
+
+
+            $sql = 'SELECT * FROM course_records, groups ' .
+                'WHERE course_records.groupId = groups.id';
+            $sql = $conn->prepare($sql);
+            $sql->execute();
+
+            //todo rename var bc courserecords and courses
+            $responses = $sql->fetchAll();
+
+            foreach ($responses as $response) {
+                $c = new stdClass();
+                $c->type = "onplan";
+
+                //todo rename js to use groupid instead of id
+                $c->groupName = $response['name'];
+                $c->plan = $response['plan'];
+                $c->id = $response['groupId'];
+                $c->year = $response['year'];
+                $c->semesterCode = $response['semesterCode'];
+
+
+                //todo fix this
+                $c->coursesCounting = [];
+                $c->coursesCountingPlanned = [];
+
+                $sql = 'SELECT course_groups.courseId FROM course_groups ' .
+                       'WHERE course_groups.groupId = :groupId';
+                $sql = $conn->prepare($sql);
+                $sql->bindParam(':groupId', $response['groupId']);
+                $sql->execute();
+
+                $responses1 = $sql->fetchAll();
+
+                foreach ($responses1 as $courseId) {
+
+                    $courseOptions = array();
+
+                    $sql = 'SELECT * FROM courses ' .
+                        'WHERE courses.id = :courseId';
+                    $sql = $conn->prepare($sql);
+                    $sql->bindParam(':courseId', $courseId['courseId']);
+                    $sql->execute();
+
+                    $responses2 = $sql->fetchAll();
+
+                    foreach ($responses2 as $response2) {
+
+                        $c2 = new stdClass();
+
+                        $c2->id = $response2['id'];
+                        $c2->dept = $response2['dept'];
+                        $c2->num = $response2['num'];
+                        $c2->title = $response2['title'];
+
+
+                        $courseOptions[] = $c2;
+                    }
+
+                    $c->courseOptions = $courseOptions;
+                }
+                $result[] = $c;
+            }
+
             $jsonResult = json_encode($result);
-            /*echo "<p>json:";
-                   echo $jsonResult;
-            echo "</p>";
-            */
-            //json_encode
 
-
-        }//end try
-        catch (PDOException $e) {
+        } catch (PDOException $e) {
             //echo $sql . "<br>" . $e->getMessage();
             return 500;
         }
@@ -313,4 +363,5 @@ class StudentModel
 
     }
 }
+
 ?>

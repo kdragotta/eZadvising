@@ -41,7 +41,7 @@ body {
     overflow: hidden;
     height: 100vh;
     margin-top: -50px;
-    padding-top: 50px;
+    padding-top: -50px;
     position: relative;
     width: 100%;
     backface-visibility: hidden;
@@ -436,4 +436,13 @@ div.taken, div.planned, div.options {
 #eligibleSwitch select {
     width: 100%;
     margin-bottom: 5px;
+}
+
+/* Navigation Pills */
+.nav {
+    border-bottom: solid 1px black;
+    padding: 5px;
+    margin: auto;
+    text-align: center;
+    background-color: #f3f2f2;
 }
