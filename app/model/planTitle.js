@@ -4,21 +4,30 @@
 
 $(function() {
     $("#submit").click(function(){
-        var title = $("#title").val();
-
-        alert(title);
-
-        if(title == '')
-        {
-            alert("Title cannot be a null value")
-        } else {
-            $.post("app/model/planTitle.php", {
-                newTitle: title
-            });
-        }
+        processInput();
     });
 });
 
-function clearInput() {
-    $("#title").val('');
+function keyStroke(event)
+{
+    if (event.keyCode == 13) {
+        processInput();
+    }
+
+    if (event.keyCode == 26) {
+        return false;
+    }
+}
+
+function processInput() {
+    var title = $("#title").val();
+
+    if(title == '')
+    {
+        alert("Title cannot be a null value");
+    } else {
+        $.post("app/model/planTitle.php", {
+            newTitle: title
+        });
+    }
 }

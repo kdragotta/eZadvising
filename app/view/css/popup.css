@@ -24,6 +24,10 @@
 }
 */
 
+#title {
+    text-align: center;
+}
+
 .modal {
     height: 100%;
     text-align: center;
@@ -39,23 +43,19 @@
 .modal-dialog {
     margin: auto;
     vertical-align: middle;
+    display: table-cell;
+    vertical-align: middle;
 }
 
 .modal-header {
     text-align: center;
-}
-
-#title {
-    text-align: center;
+    background-color: teal;
+    color: white;
+    font-weight: bold;
 }
 
 .vertical-alignment-helper {
     display: table;
     height: 100%;
     width: 100%;
-}
-
-.modal-dialog {
-    display: table-cell;
-    vertical-align: middle;
 }

@@ -67,18 +67,20 @@ for ($i = 0; $i < $planCount; $i++) {
             </div>
 
             <!-- Bootstrap Form -->
-            <div id="modal" class="modal fade" role="dialog">
+            <div id="modal" class="modal fade" role="dialog" data-keyboard="false">
                 <div class="vertical-alignment-helper">
                     <div class="modal-dialog">
                         <!-- Content -->
                         <div class="modal-content" id="form-content">
                             <div class="modal-header">
+                                <a type="button" class="close" data-dismiss="modal">x</a>
                                 <h4 class="modal-title">Change Plan Name</h4>
                             </div>
                             <div class="modal-body">
-                                <form role="form" action="" method="POST" id="form" class="changeTitle">
+                                <form role="form" action="" method="POST" id="form" class="changeTitle"
+                                      onkeydown="keyStroke(event)">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" id="title">
+                                        <input type="text" class="form-control" id="title" value="" autofocus>
                                     </div>
                                 </form>
                             </div>
