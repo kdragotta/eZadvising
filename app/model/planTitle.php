@@ -2,8 +2,23 @@
 
 require_once(__DIR__ . "/../config/config.php");
 
-$title = $_POST['title'];
+//$title = $_POST['title'];
 $errorMessage;
+
+if (isset($_POST['newTitle'])) {
+    $title = strip_tags($_POST['newTitle']);
+
+    try {
+        $inserting = 'INSERT INTO plan_title (title) VALUES (:title)';
+        $sqlInsert = $sql->prepare($inserting);
+        $sqlInsert->bindvalue(':title', $title);
+        $sqlInsert->execute();
+
+    } catch (PDOException $e) {
+        echo 'Error inserting plan title <br />ERROR MESSAGE:<br />' . $e->getMessage();
+        exit();
+    }
+}
 
 /*
 // Update current title
@@ -24,6 +39,7 @@ try {
  * Checks to see if plan title exists
  */
 
+/*
 //Started on code to prepare for checking duplicates when creating new plan
 if ($title == '') {
     try {
@@ -54,4 +70,5 @@ if ($title == '') {
         exit();
     }
 }
+*/
 ?>
