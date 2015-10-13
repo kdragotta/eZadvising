@@ -8,6 +8,8 @@
 
 $pagetitle = "Login";
 require_once 'config.php';
+require_once 'advising_functions.php';
+
 
 $showForm = 1;
 $errorMessage = '';
@@ -93,24 +95,22 @@ if(isset($_POST['submit'])) {
                 echo "Entered wrong Password or hash is wrong!<br/>";
 
             }
-            else{
-                try{
+            else {
+                try {
                     $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
-                    $sql='SELECT * FROM accounts WHERE username = :username';
-                    $welcome =$conn->prepare($sql);
-                    $welcome ->bindValue(':username', $FORMFIELD['username']);
+                    $sql = 'SELECT * FROM accounts WHERE username = :username';
+                    $welcome = $conn->prepare($sql);
+                    $welcome->bindValue(':username', $FORMFIELD['username']);
                     $welcome->execute();
-                }
-                catch(PDOException $e)
-                {
+                } catch (PDOException $e) {
                     echo $e->getMessage();
                     exit();
                 }
                 $row = $welcome->fetch();
 
-             echo "You are Logged in, ". $row['first'];
                 $showForm = 0;
             }
+
 
 
 
