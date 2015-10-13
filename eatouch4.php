@@ -99,7 +99,7 @@ $_SESSION['token'] = "ABC";
 
         <form action = "addCourse.php" value = "rbselect" method = "post">
             <select id = "nondept" value = "rbselect" name="nondept">
-                <option selected = "Select Dept." value = "0"></option>
+                <option selected = "Select Dept." value = "0">Select Dept</option>
                 <option value = "CSCI">Computer Science</option>
                 <option value = "ENGL">English</option>
                 <option value="JOUR">Journalism</option>
@@ -111,7 +111,7 @@ $_SESSION['token'] = "ABC";
             </select>
 
             <br/>
-            <input type="submit" class = "rbsubmit" value="Search Dept."/>
+            <input type="submit" class = "rbsubmit" value="Search"/>
         </form>
 
         <?php
