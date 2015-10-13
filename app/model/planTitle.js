@@ -2,35 +2,25 @@
  * Shows input form for changing title name
  */
 
-$(document).ready(function () {
-    $('#titleForm').submit(function (event) {
+$(function() {
+    $("#submit").click(function(){
+        var title = $("#title").val();
 
-        var title = $("input#title").val();
-
-        $.ajax({
-            url: "app/model/planTitle.php",
-            method: "POST",
-            data: title
-        });
+        if(title == '')
+        {
+            alert("Title cannot be a null value")
+        } else {
+            $.post("app/model/planTitle.php", {
+                newTitle: title
+            });
+        }
     });
 });
 
-/*
- $("#titleForm").submit(function () {
- $.post($("#titleForm").attr("action"),
- $("#titleForm :input").serializeArray());
- clear();
- });
+/**
+ *   Clear input when closed
  */
 
-function changeTitle() {
-    $("#popUp").dialog({
-        draggable: false
-    });
-}
-
-function clear() {
-    $("#titleForm :input").each(function () {
-        $(this).val('');
-    })
-}
+$('#modal').on('hidden.bs.modal', function(){
+    $('#title').val('');
+});
