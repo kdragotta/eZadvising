@@ -36,7 +36,6 @@
 .modal-content {
     width: inherit;
     height: inherit;
-
     margin: 0 auto;
 }
 
@@ -44,7 +43,7 @@
     margin: auto;
     vertical-align: middle;
     display: table-cell;
-    vertical-align: middle;
+    width: 30%;
 }
 
 .modal-header {
