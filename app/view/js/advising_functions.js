@@ -1,10 +1,6 @@
-$(initSemesterStart(0));
-$(initSemesterStart(1));
+planMap = {};
 
 $(initState());
-
-$(init(0));
-$(init(1));
 
 
 function ClassBox(req, classStr, newEl) {
@@ -163,13 +159,6 @@ ClassBox.prototype.addPlannedCourses = function () {
 }
 
 ClassBox.prototype.addToCurrentState = function (index) {
-
-    if(this.req.type == "onplan") {
-        $("#r" + this.req.id + this.req.plan).addClass("req_completePlanned");
-        $("#r" + this.req.id + this.req.plan).removeClass("req_incomplete");
-        return;
-    }
-
     var newEl = $(this.newEl).clone(true); //for the right side
 
     //set up stats data
@@ -199,12 +188,6 @@ ClassBox.prototype.addToCurrentState = function (index) {
 }
 
 ClassBox.prototype.addToRequiredList = function (index) {
-
-    if(this.req.type == "onplan") {
-        $("#w" + this.req.id + this.req.plan).remove();
-        return;
-    }
-
     var newEl = $(this.newEl).clone(true); //for the right side
     var needed = this.req.hours - this.req.hoursCounting - this.req.hoursCountingPlanned;
 
@@ -288,8 +271,6 @@ ClassBox.prototype.addCourseToPlan = function () {
 }
 
 
-
-
 function processReqUpdate(req) {
 
     var count = $('.planpill').length;
@@ -299,24 +280,41 @@ function processReqUpdate(req) {
     var newEl = $(newElStr);
 
 
-    //build base classes
-    //TODO: add classes for category
-    /* if(req.category==2) classStr+=" foundation";
-     else if(req.category==3) classStr+=" major";
-     */
+    if(req.type != "onplan") {
 
-    var classBox = new ClassBox(req, classStr, newEl);
-    classBox.createBox();
-    classBox.addCourseOptions();
-    classBox.addCompletedCourses();
-    classBox.addPlannedCourses();
+        var classBox = new ClassBox(req, classStr, newEl);
+        classBox.createBox();
+        classBox.addCourseOptions();
+        classBox.addCompletedCourses();
+        classBox.addPlannedCourses();
 
-    for(var i = 0; i < count; i++) {
-        classBox.addToCurrentState(i);
-        classBox.addToRequiredList(i);
+        for (var i = 0; i < count; i++) {
+            classBox.addToCurrentState(i);
+            classBox.addToRequiredList(i);
+        }
+
+        classBox.addCourseToPlan();
     }
 
-    classBox.addCourseToPlan();
+    if(req.type == "onplan") {
+
+        if(planMap[req.plan] != true) {
+            planMap[req.plan] = true;
+            $(initSemesterStart(req.plan));
+            $(init(req.plan));
+        }
+
+        $("#r" + req.id + req.plan).addClass("req_completePlanned");
+        $("#r" + req.id + req.plan).removeClass("req_incomplete");
+        $("#w" + req.id + req.plan).remove();
+
+        var classBox = new ClassBox(req, classStr, newEl);
+        classBox.createBox();
+        classBox.addCourseOptions();
+        classBox.addCompletedCourses();
+        classBox.addPlannedCourses();
+        classBox.addCourseToPlan();
+    }
 
 }
 
