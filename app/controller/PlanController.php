@@ -11,7 +11,7 @@ class PlanController
         $planModel = new PlanModel();
     }
 
-    public function handleRequests()
+    public function handleRequest()
     {
         $this->handleCreatePlan();
     }
