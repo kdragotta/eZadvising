@@ -451,3 +451,28 @@ div.taken, div.planned, div.options {
     width: 100%;
     margin-bottom: 5px;
 }
+
+input.rbsubmit
+{
+    margin-top: 10px;
+    margin-left: 25px;
+}
+
+div.drag
+{
+    font-family: 'arial';
+    background-color: lightskyblue; /* lightest gray */
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    padding: 6px;
+    z-index: 999;
+    /* for showing span only as long as contents but not wrapping */
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 4px;
+    color: white;
+    font-weight: bold;
+    font-size: 1.0em;
+}
+
