@@ -153,6 +153,52 @@ function movePlanItem($token, $studentId, $courseId, $semester, $year, $toSemest
 //TODO add function changePlanItemSelectedCourse
 //TODO add courseRecord id to all these?
 
+/*****************************************************************************/
+/**
+ * @param $min
+ * @param $max
+ * @return mixed
+ */
+function crypto_rand_secure($min, $max){
+
+    //min = 0 & max = 61
+    //range = 0 - 61 = (-61)
+
+    $range = $max - $min;
+    if($range < 1) return $min;
+    $log = ceil(log($range, 2));
+    $bytes = (int)($log/8) + 1; //length in bytes
+    $bits = (int) $log + 1; //length in bits
+    $filter = (int)(1 << $bits) - 1; //set all lower bits to 1
+
+    do{
+        $random = hexdec(bin2hex(openssl_random_pseudo_bytes($bytes)));
+        $random = $random & $filter; //discard irrelevant bits
+    }while ($random >= $range);
+    return $min + $random;
+}
+function getToken($length){
+    //echo "first step";
+
+    $token = "";
+    $codeAlpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $codeAlpha .= "abcdefghijklmnopqrstuvwxyz";
+    $codeAlpha .= "0123456789";
+   // echo "before max";
+    $max = strlen($codeAlpha) - 1;
+    for($i=0; $i<$length; $i++){
+        $token .= $codeAlpha[crypto_rand_secure(0, $max)];
+
+
+    }
+    return $token;
+}
+/***********************************************************************************/
+
+
+
+
+
 function validateToken($studentId, $token)
 {
     return true;

@@ -8,6 +8,7 @@
 
 $pagetitle = "Login";
 require_once 'config.php';
+require_once 'advising_functions.php';
 
 $showForm = 1;
 $errorMessage = '';
@@ -114,11 +115,16 @@ if(isset($_POST['submit'])) {
 
         ///this is what she has in her advising_functions.php
         //try to insert the new user into the database
+
+        //create a unique token for each user
+        $token = getToken(10);
+
+
         try
         {
             $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
-            $sql = "INSERT INTO accounts (`username`, `password`, `first`, `middle`, `last`, `salt`, `admin`)
-                      values (:username, :password, :firstName, :middleName, :lastName, :salt, :admin)";
+            $sql = "INSERT INTO accounts (`username`, `password`, `first`, `middle`, `last`, `salt`, `token`, `admin`)
+                      values (:username, :password, :firstName, :middleName, :lastName, :salt, :token, :admin)";
             $create = $conn->prepare($sql);
             $create->bindValue(':username', $FORMFIELD['username']);
             $create->bindValue(':password', $hashedPassword);
@@ -127,6 +133,7 @@ if(isset($_POST['submit'])) {
             $create->bindValue(':lastName', $FORMFIELD['lastName']);
             $create->bindValue(':salt', $salt);
             $create->bindValue(':admin', $FORMFIELD['type']);
+            $create->bindValue(':token', $token);
             $create->execute();
         }
         catch(PDOException $e)
