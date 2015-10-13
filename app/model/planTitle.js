@@ -2,21 +2,35 @@
  * Shows input form for changing title name
  */
 
-function title_show() {
+$(document).ready(function () {
+    $('#titleForm').submit(function (event) {
 
-    // $("#popUp").dialog();
+        var title = $("input#title").val();
 
-    var title = prompt("Enter new plan title:");
+        $.ajax({
+            url: "app/model/planTitle.php",
+            method: "POST",
+            data: title
+        });
+    });
+});
 
-    if (title != null) {
-        alert(title);
-    }
+/*
+ $("#titleForm").submit(function () {
+ $.post($("#titleForm").attr("action"),
+ $("#titleForm :input").serializeArray());
+ clear();
+ });
+ */
+
+function changeTitle() {
+    $("#popUp").dialog({
+        draggable: false
+    });
 }
 
-function titleSubmit() {
-    /*
-    $('#changeTitle').submit(function(e) {
-        e.preventDefault();
-    });
-    */
+function clear() {
+    $("#titleForm :input").each(function () {
+        $(this).val('');
+    })
 }
