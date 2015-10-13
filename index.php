@@ -1,19 +1,15 @@
 <?php
-require_once 'app/controller/PlanItemController.php';
 require_once 'app/controller/PlanController.php';
+require_once 'app/controller/PlanItemController.php';
 require_once 'app/controller/StudentController.php';
-require_once 'app/controller/PlanTitleController.php';
+
+$planController = new PlanController();
+$planController->handleRequest();
 
 $planItemController = new PlanItemController();
 $planItemController->handleRequest();
 
-$planController = new PlanController();
-$planController->handleRequests();
-
 $studentController = new StudentController();
 $studentController->handleRequest();
-
-//$planTitleController = new PlanTitleController();
-//$planTitleController->handleRequest();
 
 ?>

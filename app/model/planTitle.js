@@ -2,21 +2,32 @@
  * Shows input form for changing title name
  */
 
-function title_show() {
+$(function() {
+    $("#submit").click(function(){
+        processInput();
+    });
+});
 
-    // $("#popUp").dialog();
+function keyStroke(event)
+{
+    if (event.keyCode == 13) {
+        processInput();
+    }
 
-    var title = prompt("Enter new plan title:");
-
-    if (title != null) {
-        alert(title);
+    if (event.keyCode == 26) {
+        return false;
     }
 }
 
-function titleSubmit() {
-    /*
-    $('#changeTitle').submit(function(e) {
-        e.preventDefault();
-    });
-    */
+function processInput() {
+    var title = $("#title").val();
+
+    if(title == '')
+    {
+        alert("Title cannot be a null value");
+    } else {
+        $.post("app/model/planTitle.php", {
+            newTitle: title
+        });
+    }
 }
