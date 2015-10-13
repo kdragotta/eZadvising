@@ -6,6 +6,8 @@ $(function() {
     $("#submit").click(function(){
         var title = $("#title").val();
 
+        alert(title);
+
         if(title == '')
         {
             alert("Title cannot be a null value")
@@ -17,10 +19,6 @@ $(function() {
     });
 });
 
-/**
- *   Clear input when closed
- */
-
-$('#modal').on('hidden.bs.modal', function(){
-    $('#title').val('');
-});
+function clearInput() {
+    $("#title").val('');
+}
