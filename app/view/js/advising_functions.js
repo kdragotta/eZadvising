@@ -2,7 +2,6 @@ planMap = {};
 
 $(initState());
 
-
 function ClassBox(req, classStr, newEl) {
     this.req = req;
     this.classStr = classStr;
@@ -297,12 +296,14 @@ function processReqUpdate(req) {
     }
 
     if(req.type == "onplan") {
-
+        /*
+        //todo dynamically make it with tabbing
         if(planMap[req.plan] != true) {
             planMap[req.plan] = true;
             $(initSemesterStart(req.plan));
             $(init(req.plan));
         }
+        */
 
         $("#r" + req.id + req.plan).addClass("req_completePlanned");
         $("#r" + req.id + req.plan).removeClass("req_incomplete");
@@ -377,13 +378,11 @@ function showHideSummers() {
 
 function initState() {
 
-//get user id from session or redirect to login (wiht message to come back)
-//student meets prereqs based on already loaded classes
-//would student meet prereq based on already loaded plus plan
-//idea:simple course prereq calculator in javascript - load prereq data for each course and fill with true or
-
-    //fix hardcoding for student, pass as post params
-    //$token || studentId || $programId || !$year)
+    for(var i = 0; i < 5; i++)
+    {
+        $(initSemesterStart(i));
+        $(init(i));
+    }
 
     $.ajax({
         url: "index.php",
@@ -409,8 +408,7 @@ function initState() {
                 console.log(req);
                 processReqUpdate(req);
 
-            }//end for each requirement
-
+            }
             //return result;
         }//end success
     });//end ajax

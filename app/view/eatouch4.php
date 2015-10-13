@@ -21,13 +21,17 @@
 </div>
 
 <ul class="nav nav-pills">
-    <li class="planpill active"><a data-toggle="pill" href="#plan0">Home</a></li>
-    <li class="planpill"><a data-toggle="pill" href="#plan1">New Plan</a></li>
+    <li class="planpill active"><a data-toggle="pill" href="#plan0">plan0</a></li>
+    <li class="planpill"><a data-toggle="pill" href="#plan1">plan1</a></li>
+    <li class="planpill"><a data-toggle="pill" href="#plan2">plan2</a></li>
+    <li class="planpill"><a data-toggle="pill" href="#plan3">plan3</a></li>
+    <li class="planpill"><a data-toggle="pill" href="#plan4">plan4</a></li>
+
 </ul>
 
 
 <?php
-$planCount = 2;
+$planCount = 5;
 
 if ($planCount > 1) {
     echo('<div class="tab-content">');
