@@ -112,9 +112,8 @@ if(isset($_POST['submit'])) {
 
                 $_SESSION['username'] = $row['username'];
                 $_SESSION['first'] = $row['first'];
-                $first = $row['first'];
 
-
+                //echo $_SESSION['first'];
                 $showForm = 0;
 
                 header("Location: eatouch4.php");

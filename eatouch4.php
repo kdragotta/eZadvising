@@ -1,8 +1,11 @@
 <?php
+require_once 'config.php';
 session_start();
 
-//$_SESSION['username'] = "crystal";
-//$_SESSION['first'] = $first;
+
+
+$_SESSION['username'] = "crystal";
+//$_SESSION['first'] = $_REQUEST['first'];
 $_SESSION['studentId'] = 1;
 $_SESSION['token'] = "ABC";
 /** login, registration and enter records, import records, auto-plan, print option, email option **/
@@ -24,6 +27,7 @@ $_SESSION['token'] = "ABC";
 <body>
 <div id="top" class="top">
     <h3> eZAdvising </h3>
+
 </div>
 <div id="left" class="left">
     <?php
