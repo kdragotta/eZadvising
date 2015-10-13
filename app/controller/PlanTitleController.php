@@ -1,27 +1,25 @@
 <?php
-require_once(__DIR__ . '/../model/PlanTitleModel.php');
+require_once(__DIR__ . '/../model/PlanItemModel.php');
 
-class PlanTitleController
-{
-    private $conn = NULL;
+class PlanTitleController {
 
-    public function __construct()
-    {
-        $this->conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
+    private $planTitleModel = NULL;
+
+    public function __construct() {
+        $this->planTitleModel = new PlanTitleModel();
     }
 
-    public function handleRequests()
-    {
-        $this->handlePlanTitle();
+    public function handleRequest() {
+        $this->handleAddPlanTitle();
     }
 
-    private function handlePlanTitle()
-    {
-        if (isset($_POST ['planTitle']))
-            $planTitle = $_POST['planTitle'];
+    private function handleAddPlanTitle() {
+        if(isset($_POST ['title']))
+            $title = $_POST['title'];
         else
-            $planTitle = NULL;
+            $title = NULL;
 
-        echo $this->planTitle->addTitle("ABC", $planTitle);
+        echo $this->planTitleModel->addPlanTitle($title);
     }
 }
+?>
