@@ -2,10 +2,12 @@
 <html>
 <head>
     <title> eZAdvising </title>
+
     <script src="app/view/js/lib/jquery.min.js"></script>
     <script src="app/view/js/lib/jquery-ui.min.js"></script>
     <script src="app/view/js/lib/bootstrap.min.js"></script>
     <script src="app/view/js/lib/jquery-simulate.js"></script>
+
     <script src="app/model/planTitle.js"></script>
 
     <link rel="stylesheet" href="app/view/css/lib/jquery-ui.css">
@@ -49,11 +51,11 @@ for ($i = 0; $i < $planCount; $i++) {
 
             <!-- newlayout <div id="col23"> -->
 
-            <div id="main">                
+            <div id="main">
                 <tr>
                     <td>
                         <h4>
-                            <button data-show="on" onclick="changeTitle()"> Change Plan Name</button>
+                            <button data-toggle="modal" data-target="#modal" type="button">Change Plan Name</button>
                             <button data-show="on" onclick="showHideSummers()"> Show/Hide Summers</button>
                         </h4>
                     </td>
@@ -64,16 +66,31 @@ for ($i = 0; $i < $planCount; $i++) {
                 <div id="thePlan<?php echo $i; ?>"></div>
             </div>
 
-            <!-- end div main -->
-
-            <!-- Popup Title Form -->
-            <div id="popUp" title="Change Plan Name" style="display: none">
-                <form id="titleForm" method="post" action="">
-                    <input name="title" id="title" type="text">
-                    <button type="submit" id="changeTitle">Submit</button>
-                </form>
+            <!-- Bootstrap Form -->
+            <div id="modal" class="modal fade" role="dialog">
+                <div class="vertical-alignment-helper">
+                    <div class="modal-dialog">
+                        <!-- Content -->
+                        <div class="modal-content" id="form-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Change Plan Name</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form role="form" action="" method="POST" id="form" class="changeTitle">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="title">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal" id="submit">Submit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- End of Title Form -->
+            <!-- End of Bootstrap Form -->
 
             <!-- newlayout </div> --><!-- end div col23 -->
 
