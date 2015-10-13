@@ -67,16 +67,16 @@ class PlanItemController {
         }
 
         echo $this->planItemModel->addPlanItem("ABC", 1, $courseId, $hours,
-                                             $semesterCode, $planYear,
-                                             $progYear, $programId,
-                                             $reqId, $proposedReqId, $plan);
+                                               $semesterCode, $planYear,
+                                               $progYear, $programId,
+                                               $reqId, $proposedReqId, $plan);
     }
 
     private function handleMovePlanItem() {
-        if(isset($_POST ['courseId']))
-            $courseId = $_POST['courseId'];
+        if(isset($_POST ['groupId']))
+            $groupId = $_POST['groupId'];
         else
-            $courseId = NULL;
+            $groupId = NULL;
 
         if(isset($_POST['fromSem']))
             $fromSem = $_POST['fromSem'];
@@ -88,10 +88,10 @@ class PlanItemController {
         else
             $fromYear = NULL;
 
-        if(isset($_POST['reqId']))
-            $reqId = $_POST['reqId'];
+        if(isset($_POST['plan']))
+            $plan = $_POST['plan'];
         else
-            $reqId = NULL;
+            $plan = NULL;
 
         if(isset($_POST['toSem']))
             $toSem = $_POST['toSem'];
@@ -108,14 +108,14 @@ class PlanItemController {
         else
             $studentId = NULL;
 
-        if(!$courseId || !$fromSem || !$fromYear || !$reqId ||
+        if(!$groupId || !$fromSem || !$fromYear || /*!$plan ||*/
             !$toSem || !$toYear || !$studentId) {
             return;
         }
 
-        echo $this->planItemModel->movePlanItem("ABC", $studentId, $courseId,
-                                              $fromSem, $fromYear, $toSem,
-                                              $toYear, $reqId);
+        echo $this->planItemModel->movePlanItem("ABC", $studentId, $groupId,
+                                                $fromSem, $fromYear, $toSem,
+                                                $toYear, $plan);
     }
 }
 ?>

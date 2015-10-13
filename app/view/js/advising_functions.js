@@ -11,10 +11,10 @@ function ClassBox(req, classStr, newEl) {
     this.req = req;
     this.classStr = classStr;
     this.newEl = newEl;
+    this.boxId;
     this.reqSideId;
     this.planId;
     this.workingSideId;
-    this.pStr;
 };
 
 ClassBox.prototype.createBox = function () {
@@ -143,27 +143,33 @@ ClassBox.prototype.addPlannedCourses = function () {
             $(this.newEl).append(plannedBoxEl);
         }
         //if planned then put on plan for matching semester
-        pSem = theCourseP.semester;
-        pYear = theCourseP.year;
-        this.pStr = "plan" + pYear + pSem;
+        var pSem = theCourseP.semester;
+        var pYear = theCourseP.year;
+        var plan = theCourseP.plan;
+        this.boxId = "plan" + plan + pYear + pSem;
 
-
-        //console.log(pStr);
         var theCoursePId = theCourseP.id;
         //set the drop-down box to be the right course
-        $("#" + this.pStr + " #op" + this.req.id).val(theCoursePId);
+        $("#" + this.boxId + " #op" + this.req.id).val(theCoursePId);
 
         //update hours for each semester
-        var currentHours = parseInt($("#" + this.pStr).data("currentHours"), 10);
+        var currentHours = parseInt($("#" + this.boxId).data("currentHours"), 10);
         var add = parseInt(theCourseP.hours);
         currentHours = currentHours + add;
-        $("#" + this.pStr).data("currentHours", currentHours);
-        var targetElSel = "#fstats" + this.pStr;
+        $("#" + this.boxId).data("currentHours", currentHours);
+        var targetElSel = "#fstats" + this.boxId;
         $(targetElSel).text(currentHours);
     }
 }
 
 ClassBox.prototype.addToCurrentState = function (index) {
+
+    if(this.req.type == "onplan") {
+        $("#r" + this.req.id + this.req.plan).addClass("req_completePlanned");
+        $("#r" + this.req.id + this.req.plan).removeClass("req_incomplete");
+        return;
+    }
+
     var newEl = $(this.newEl).clone(true); //for the right side
 
     //set up stats data
@@ -174,7 +180,7 @@ ClassBox.prototype.addToCurrentState = function (index) {
     var needed = this.req.hours - this.req.hoursCounting - this.req.hoursCountingPlanned;
     $(newEl).data("stillNeeded", needed);
 
-    $(newEl).attr('id', this.reqSideId);
+    $(newEl).attr('id', this.reqSideId + index);
     $(newEl).data("whereami", "reqs");
 
     //Add stats to left side box
@@ -186,25 +192,24 @@ ClassBox.prototype.addToCurrentState = function (index) {
 
     $(newEl).data("req", this.req);
 
-    if (typeof this.req.plan != "undefined") {
-        var planIndex = this.req.plan.substr(0, 1);
-        if(planIndex == index) {
-            $(newEl).addClass("req_completePlanned");
-        }
-    }
-    else {
-        $(newEl).addClass("req_incomplete");
-    }
+    $(newEl).addClass("req_incomplete");
+
 
     $("#currentState" + index).append(newEl);
 }
 
 ClassBox.prototype.addToRequiredList = function (index) {
+
+    if(this.req.type == "onplan") {
+        $("#w" + this.req.id + this.req.plan).remove();
+        return;
+    }
+
     var newEl = $(this.newEl).clone(true); //for the right side
     var needed = this.req.hours - this.req.hoursCounting - this.req.hoursCountingPlanned;
 
     //split into left only and right clone here
-    $(newEl).attr('id', this.workingSideId);
+    $(newEl).attr('id', this.workingSideId + index);
     $(newEl).data("whereami", "working");
 
     //Add stats to right side box
@@ -254,26 +259,22 @@ ClassBox.prototype.addToRequiredList = function (index) {
         revert: 'true'
     });//end draggable
 
-    if (typeof this.req.plan != "undefined") {
-        var planIndex = this.req.plan.substr(0, 1);
-        if(planIndex != index) {
-            $("#stillRequiredList" + index).append(newEl);
-        }
-    }
-    else {
-        $("#stillRequiredList" + index).append(newEl);
-    }
+    $("#stillRequiredList" + index).append(newEl);
 }
 
 ClassBox.prototype.addCourseToPlan = function () {
         var newElPlan = $(this.newEl).clone(true); //to put on plan
 
-        $(newElPlan).data("onSemester", this.pStr);
+        $(newElPlan).data("semesterCode", this.req.semesterCode);
+        $(newElPlan).data("year", this.req.year);
+        $(newElPlan).data("plan", this.req.plan);
         $(newElPlan).data("whereami", "plan");
         $(newElPlan).addClass("req_on_plan");
-        $(newElPlan).attr('id', 'p' + this.req.id);
+        $(newElPlan).attr('id', 'p' + this.req.plan);
+        $(newElPlan).val(this.req.id);
 
-        $(newElPlan).draggable({
+
+    $(newElPlan).draggable({
             containment: 'document',
             cursor: 'move',
             snap: '.target',
@@ -281,7 +282,9 @@ ClassBox.prototype.addCourseToPlan = function () {
             revert: 'true'
         });//end draggable
 
-        $("#plan" + this.req.plan).append(newElPlan);
+        //boxId is a workaround should use this.boxId instead of making it
+        var boxId = "plan" + this.req.plan + this.req.year + this.req.semesterCode;
+        $("#" + boxId).append(newElPlan);
 }
 
 
@@ -289,17 +292,12 @@ ClassBox.prototype.addCourseToPlan = function () {
 
 function processReqUpdate(req) {
 
-    var courseOptions = req.courseOptions; //courseOptions is now array of courses
-    var coursesCounting = req.coursesCounting; //coursesCounting is now array of course records
-    var coursesCountingPlanned = req.coursesCountingPlanned;
+    var count = $('.planpill').length;
 
     var classStr = "req_box";
-    //create the MAIN requirement box element
-    //group name is the requirement name (now comes from program_requirements.title)
     var newElStr = "<div draggable=true class='" + classStr + "'><header>" + req.groupName + "</header>" + "</div>";
     var newEl = $(newElStr);
 
-    var count = $('.planpill').length;
 
     //build base classes
     //TODO: add classes for category
@@ -583,10 +581,6 @@ function handleDropEventOnWorking(event, ui) {
             revert: true
         }).appendTo($(this));
 
-        //insert into database then update req everywhere.
-        console.dir($(plannedEl).data('req'));
-        var req = $(plannedEl).data('req');
-        var reqId = req.id;
         //console.dir(event.this.id);
         var semesterCode = targId.substr(10, 1);
         //note:  (5,4) to get 2015 from 'plan020151'
@@ -604,7 +598,7 @@ function handleDropEventOnWorking(event, ui) {
         console.dir(theSourceSelect);
         var courseId = $(theSourceSelect).val();
 
-        var theCloneSelect = $("#" + newId + " " + "#op" + reqId);
+        var theCloneSelect = $("#" + targId + " " + "#op" + reqId);
         $(theCloneSelect).val(courseId);
         console.dir("value: " + courseId);
 
@@ -697,20 +691,23 @@ function handleDropEventOnPlan(event, ui) {
 
     var original;
     var sourceId = ui.draggable.attr('id');
-    console.log("source is " + sourceId.substr(0, 1));
-    var req;
+
+
     if (sourceId.substr(0, 1) == "w") //original move coming from the working side-insert
     {
-        //console.log("in if");
-        var oldId = sourceId;
-        var newId = "p" + sourceId.substr(1);
-        //console.dir($(ui.draggable).data('req'));
-        req = $(ui.draggable).data('req');
-        //show reqbox on plan
+        var req = $(ui.draggable).data('req');
+        var reqId = req.id;
 
         var plannedEl = $(ui.draggable).clone();
+
+
+        //todo use .data() to manage
+        var plan = targId.substr(4, 1);  //get 4 from plan020164
+        var year = targId.substr(5, 4);  //get 4 from plan020164
+        var semesterCode = targId.substr(9, 1);  //get 4 from plan020164
+
         $(plannedEl).data('req', req);
-        $(plannedEl).attr('id', newId).addClass('req_on_plan').removeClass('req_working').draggable({
+        $(plannedEl).attr('id', targId).addClass('req_on_plan').removeClass('req_working').draggable({
             containment: 'document',
             cursor: 'move',
             snap: '.target',
@@ -718,19 +715,8 @@ function handleDropEventOnPlan(event, ui) {
             revert: true
         }).appendTo($(this));
 
-        //insert into database then update req everywhere.
-        console.dir($(plannedEl).data('req'));
-        var req = $(plannedEl).data('req');
-        var reqId = req.id;
-        //console.dir(event.this.id);
-        var semesterCode = targId.substr(9, 1);
-        //note:  (5, 8) to get 2015 from 'plan2015'
-        var planYear = targId.substr(5, 4);
-        $(plannedEl).data("onSemester", targId);
         var url = "index.php";
         var proposedReqId = "";
-        //get selected course
-        //var selOptionBox=$(plannedEl).
 
         //TODO get progyear from student session data
         var progYear = 2014;
@@ -740,7 +726,7 @@ function handleDropEventOnPlan(event, ui) {
         console.dir(theSourceSelect);
         var courseId = $(theSourceSelect).val();
 
-        var theCloneSelect = $("#" + newId + " " + "#op" + reqId);
+        var theCloneSelect = $("#" + targId + " " + "#op" + reqId);
         $(theCloneSelect).val(courseId);
         console.dir("value: " + courseId);
 
@@ -769,9 +755,6 @@ function handleDropEventOnPlan(event, ui) {
 
         console.dir("hours: " + hours);
 
-        //get '020154' of plan020154
-        var plan = this.id.substr(4);
-
         //insert into database
         $.ajax({
             url: "index.php",
@@ -782,7 +765,7 @@ function handleDropEventOnPlan(event, ui) {
                 courseId: courseId,
                 hours: hours,
                 semesterCode: semesterCode,
-                planYear: planYear,
+                planYear: year,
                 progYear: progYear,
                 reqId: reqId,
                 proposedReqId: proposedReqId
@@ -805,89 +788,34 @@ function handleDropEventOnPlan(event, ui) {
             }//end success
         });//end ajax
 
-        //update hours for the semester
-        /*
-         already done on update
-         var currentHours = parseInt( $("#"+targId).data("currentHours"), 10);
-         var add = parseInt(hours);
-         currentHours = currentHours + add;
-         $("#"+targId).data("currentHours",currentHours);
-         var targetElSel = "#fstats"+targId;
-         $(targetElSel).text(currentHours);
-         */
-
-        //Will this complete the requirement? If so, disable on right, otherwise, update hours on right
-        //update left and right with returned requirement
-
-        //style the copy of requirement still left on working side
-        //
-
     }//end if original move
     else if (sourceId.substr(0, 1) == "p") //move from one semester to another
     {
         //move, don't clone
         $(ui.draggable).appendTo($(this)).css({position: 'relative', top: 0, left: 0});
-        //do db update moveplan
 
-        var req = $(ui.draggable).data('req');
-        var reqId = req.id;
+        var fromSemesterCode = $(ui.draggable).data('semesterCode');
+        var fromYear = $(ui.draggable).data('year');
+        var plan = $(ui.draggable).data('plan');
 
-        //var reqIdToMove=req.id;
-        //var reqToMove
-
-        //update hours per semester for both
-
-
-        /***** work with ****/
-
-        //no cloning, just move
-        //	var plannedEl= $(ui.draggable).clone();
-        // $(plannedEl).data('req',req);
-        /* $(plannedEl).attr('id',newId).addClass('req_on_plan').removeClass('req_working').draggable({
-         containment: 'document',
-         cursor: 'move',
-         snap: '.target',
-         helper: 'original',
-         revert: true}).appendTo($(this));
-         */
-
-        //insert into database then update req everywhere.
-        // console.dir($(plannedEl).data('req'));
-        //var req=$(plannedEl).data('req');
-        ///var reqId=req.id;
-        //console.dir(event.this.id);
-
-        //alert('tosem');
-        //alert(targId);
         var toSemesterCode = targId.substr(9, 1);
-        //alert(toSemesterCode);
-        //note:  (5, 4) to get 2015 from 'plan020153'
-        var toPlanYear = targId.substr(5, 4);
-        var fromSemesterCode = $(ui.draggable).data('onSemester');
-        //alert('fromsem');
-        //alert(fromSemesterCode);
-        fromSemesterCode = fromSemesterCode.substr(9, 1);
-        //alert(fromSemesterCode);
-        var fromPlanYear = $(ui.draggable).data('onSemester');
-        fromPlanYear = fromPlanYear.substr(5, 4);
+        var toPlanYear = targId.substr(5, 4);  //note:  (5, 4) to get 2015 from 'plan020153'
+
 
         var url = "index.php";
         var proposedReqId = "";
 
 
-        //TODO get progyear from student session data
-        // var progYear=2014;
-
         //jquery bug--doesn't properly clone or drag the selected value
-        var theSourceSelect = $("#" + sourceId + " " + "#op" + reqId);
+        var theSourceSelect = $("#" + sourceId);
         //console.dir(theSourceSelect);
-        var courseId = $(theSourceSelect).val();
+        var groupId = $(theSourceSelect).val();
 
         //TODO don't hardcode program id, pull from student session data
         var programId = 1;
 
-        var hours = 0;
-        hours = parseInt($("#op" + reqId + " #opt" + courseId).data("hours"));
+       // var hours = 0;
+       // hours = parseInt($("#op" + reqId + " #opt" + courseId).data("hours"));
 
         console.dir("hours: " + hours);
         //heeeeeeeeere set up ajax
@@ -897,21 +825,15 @@ function handleDropEventOnPlan(event, ui) {
             url: "index.php",
             method: 'POST',
             data: {
-                courseId: courseId, studentId: 1, fromSem: fromSemesterCode, fromYear: fromPlanYear,
-                toSem: toSemesterCode, toYear: toPlanYear, reqId: reqId
+                groupId: groupId,
+                studentId: 1,
+                fromSem: fromSemesterCode,
+                fromYear: fromYear,
+                toSem: toSemesterCode,
+                toYear: toPlanYear,
+                plan: plan
             },
             success: function (result) {
-                //alert("success");
-                //alert(result);
-                /*
-                 var req=JSON.parse(result); //reqs is array of requirement objects
-                 //each req object also has a list of course option objects and list of courses taken objects
-                 alert("after parse");
-                 //for(i=0;i<reqs.length;i++)
-                 //{
-                 processReqUpdate(req);
-                 //}
-                 */
 
             }//end success
         });//end ajax

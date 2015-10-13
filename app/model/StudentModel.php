@@ -300,10 +300,15 @@ class StudentModel
 
             foreach ($responses as $response) {
                 $c = new stdClass();
+                $c->type = "onplan";
 
                 //todo rename js to use groupid instead of id
                 $c->groupName = $response['name'];
                 $c->plan = $response['plan'];
+                $c->id = $response['groupId'];
+                $c->year = $response['year'];
+                $c->semesterCode = $response['semesterCode'];
+
 
                 //todo fix this
                 $c->coursesCounting = [];
@@ -333,12 +338,13 @@ class StudentModel
 
                         $c2 = new stdClass();
 
+                        $c2->id = $response2['id'];
                         $c2->dept = $response2['dept'];
                         $c2->num = $response2['num'];
                         $c2->title = $response2['title'];
 
 
-                        $courseOptions = $c2;
+                        $courseOptions[] = $c2;
                     }
 
                     $c->courseOptions = $courseOptions;
