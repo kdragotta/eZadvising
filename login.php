@@ -133,6 +133,7 @@ if(isset($_POST['submit'])) {
 
 if($showForm == 1){
 ?>
+    <h1>Login</h1>
 <p>Please log in to access registration.</p>
 
 <form name="loginForm" id="loginForm" method="post" action="login.php">
@@ -146,7 +147,7 @@ if($showForm == 1){
             <td><input type="password" name="password" id="password" size="20"/></td>
         </tr>
         <tr>
-            <td>Submit:</td>
+            <td></td>
             <td><input type="submit" name="submit" value="Submit"/></td>
         </tr>
     </table>
@@ -156,3 +157,34 @@ if($showForm == 1){
 <?php
 }
 ?>
+<style>
+    html, body {
+        font-family: arial;
+        background: #f3f2f2;
+    }
+    form {
+        padding: 20px 20% 20px 20%;
+        margin: 5% 20% 5% 20%;
+        border: 1px solid;
+        border-radius: 25px;
+    }
+    h1 {
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #008080;
+        font-size: 3rem;
+        position: relative;
+        z-index: 10;
+        height: 50px;;
+    }
+    p {
+        margin-left: 20%;
+    }
+
+    .textbox  {
+        width: 200px;
+    }
+
+</style>

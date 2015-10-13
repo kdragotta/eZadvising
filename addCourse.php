@@ -51,7 +51,7 @@
             echo "<tr>";
 
             echo "<td>";
-                echo "<input type='checkbox' class = 'check' name = 'addc' value = '" . $row["dept"] . " " . $row["num"] . "'/>";
+                echo "<input type='radio' class = 'check' name = 'addc' value = '" . $row["dept"] . " " . $row["num"] . "'/>";
             echo "</td>";
 
 

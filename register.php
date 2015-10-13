@@ -168,7 +168,7 @@ if($showForm == 1){
 ?>
 
 
-
+    <h1>Register</h1>
 
 <form name="register" id="register" method="post" action="register.php">
     <table>
@@ -208,5 +208,37 @@ if($showForm == 1){
 
 
 </form>
+    <style>
+        html, body {
+            font-family: arial;
+            background: #f3f2f2;
+        }
+        form {
+            padding: 20px 20% 20px 20%;
+            margin: 5% 20% 5% 20%;
+            border: 1px solid;
+            border-radius: 25px;
+        }
+        h1 {
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #008080;
+            font-size: 3rem;
+            position: relative;
+            z-index: 10;
+            height: 50px;;
+        }
+        p {
+            margin-left: 20%;
+        }
+
+        .textbox  {
+            width: 200px;
+        }
+
+    </style>
 <?php
+
 }
