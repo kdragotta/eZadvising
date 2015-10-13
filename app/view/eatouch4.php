@@ -23,11 +23,11 @@
 </div>
 
 <ul class="nav nav-pills">
-    <li class="planpill active"><a data-toggle="pill" href="#plan0">plan0</a></li>
-    <li class="planpill"><a data-toggle="pill" href="#plan1">plan1</a></li>
-    <li class="planpill"><a data-toggle="pill" href="#plan2">plan2</a></li>
-    <li class="planpill"><a data-toggle="pill" href="#plan3">plan3</a></li>
-    <li class="planpill"><a data-toggle="pill" href="#plan4">plan4</a></li>
+    <li class="planpill active"><a data-toggle="pill" href="#plan0">Main</a></li>
+    <li class="planpill"><a data-toggle="pill" href="#plan1">New Plan 1</a></li>
+    <li class="planpill"><a data-toggle="pill" href="#plan2">New Plan 2</a></li>
+    <li class="planpill"><a data-toggle="pill" href="#plan3">New Plan 3</a></li>
+    <li class="planpill"><a data-toggle="pill" href="#plan4">New Plan 4</a></li>
 
 </ul>
 
