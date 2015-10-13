@@ -40,6 +40,12 @@ body {
     height: 50px;
 }
 
+#left-top {
+    color: white;
+    display: flex;
+    align-itmes: left;
+}
+
 #wrapper {
     display: flex;
     overflow: hidden;

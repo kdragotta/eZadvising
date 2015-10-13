@@ -85,6 +85,8 @@ if(isset($_POST['submit'])) {
                 $confirmLogin->bindParam(':password', $hashPassword);
                 $confirmLogin->execute();
                 $confirm = $confirmLogin->rowCount();
+
+                $row2 = $confirmLogin->fetch();
             }
             catch(PDOException $e){
                 echo  $e->getMessage();
@@ -108,7 +110,14 @@ if(isset($_POST['submit'])) {
                 }
                 $row = $welcome->fetch();
 
+                $_SESSION['username'] = $row['username'];
+                $_SESSION['first'] = $row['first'];
+                $first = $row['first'];
+
+
                 $showForm = 0;
+
+                header("Location: eatouch4.php");
             }
 
 

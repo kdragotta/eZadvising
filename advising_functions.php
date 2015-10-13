@@ -163,7 +163,6 @@ function crypto_rand_secure($min, $max){
 
     //min = 0 & max = 61
     //range = 0 - 61 = (-61)
-
     $range = $max - $min;
     if($range < 1) return $min;
     $log = ceil(log($range, 2));
