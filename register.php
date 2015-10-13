@@ -155,10 +155,13 @@ if(isset($_POST['submit'])) {
                 exit();
             }
 
+            echo "You successfully created a new User!";
 
-            header('login.php');
+                echo "<br>";
+                echo "Redirecting to Login...";
+
             $showForm = 0;
-
+            header("refresh:5; url=login.php");
 
 
         }
