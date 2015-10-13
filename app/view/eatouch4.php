@@ -8,7 +8,7 @@
     <script src="app/view/js/lib/bootstrap.min.js"></script>
     <script src="app/view/js/lib/jquery-simulate.js"></script>
 
-    <script src="app/plan/js/planTitle.js"></script>
+    <script src="app/plan/planTitle.js"></script>
 
     <link rel="stylesheet" href="app/view/css/lib/jquery-ui.css">
     <link rel="stylesheet" href="app/view/css/lib/bootstrap.min.css">

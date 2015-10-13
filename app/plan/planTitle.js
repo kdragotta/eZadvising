@@ -22,11 +22,13 @@ function keyStroke(event)
 function processInput() {
     var title = $("#title").val();
 
+    alert (title);
+
     if(title == '')
     {
         alert("Title cannot be a null value");
     } else {
-        $.post("app/plan/php/planTitle.php", {
+        $.post("app/plan/planTitle.php", {
             newTitle: title
         });
     }
