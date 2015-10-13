@@ -775,7 +775,8 @@ function handleDropEventOnPlan(event, ui) {
                 //	alert("after parse");
                 //for(i=0;i<reqs.length;i++)
                 //{
-                processReqUpdate(req);
+                //todo parse json and doing processreq will readd box
+                //processReqUpdate(req);
                 //}
                 //parse reqs
 
@@ -784,16 +785,26 @@ function handleDropEventOnPlan(event, ui) {
             }//end success
         });//end ajax
 
+        $("#r" + reqId + plan).addClass("req_completePlanned");
+        $("#r" + reqId + plan).removeClass("req_incomplete");
+        $("#w" + reqId + plan).remove();
+
+
     }//end if original move
     else if (sourceId.substr(0, 1) == "p") //move from one semester to another
     {
         //move, don't clone
         $(ui.draggable).appendTo($(this)).css({position: 'relative', top: 0, left: 0});
 
+        //todo use .data() to manage
+        var plan = targId.substr(4, 1);  //get 4 from plan020164
+        var fromYear = targId.substr(5, 4);  //get 4 from plan020164
+        var fromSemesterCode = targId.substr(9, 1);  //get 4 from plan020164
+        /*
         var fromSemesterCode = $(ui.draggable).data('semesterCode');
         var fromYear = $(ui.draggable).data('year');
         var plan = $(ui.draggable).data('plan');
-
+        */
         var toSemesterCode = targId.substr(9, 1);
         var toPlanYear = targId.substr(5, 4);  //note:  (5, 4) to get 2015 from 'plan020153'
 
@@ -816,6 +827,13 @@ function handleDropEventOnPlan(event, ui) {
         console.dir("hours: " + hours);
         //heeeeeeeeere set up ajax
         //insert into database &&&&&&&&&&& function movePlanItem($token, $studentId, $courseId, $semester, $year, $toSemester, $toYear,$reqId=null)
+
+        groupId = parseInt(groupId);
+        fromSemesterCode = parseInt(fromSemesterCode);
+        fromYear = parseInt(fromYear);
+        toSemesterCode = parseInt(toSemesterCode);
+        toPlanYear = parseInt(toPlanYear);
+        plan = parseInt(plan);
 
         $.ajax({
             url: "index.php",
