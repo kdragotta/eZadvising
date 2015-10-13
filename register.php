@@ -155,7 +155,8 @@ if(isset($_POST['submit'])) {
                 exit();
             }
 
-            echo "You successfully created a new User!";
+
+            header('login.php');
             $showForm = 0;
 
 
