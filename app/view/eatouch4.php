@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="app/view/css/styles.css">
-    <link rel="stylesheet" type="text/css" href="app/view/css/planNamePopup.css">
+    <link rel="stylesheet" type="text/css" href="app/view/css/popup.css">
 </head>
 
 <body>
@@ -53,7 +53,7 @@ for ($i = 0; $i < $planCount; $i++) {
                 <tr>
                     <td>
                         <h4>
-                            <button data-show="on" onclick="title_show()"> Change Plan Name</button>
+                            <button data-show="on" onclick="changeTitle()"> Change Plan Name</button>
                             <button data-show="on" onclick="showHideSummers()"> Show/Hide Summers</button>
                         </h4>
                     </td>
@@ -68,9 +68,9 @@ for ($i = 0; $i < $planCount; $i++) {
 
             <!-- Popup Title Form -->
             <div id="popUp" title="Change Plan Name" style="display: none">
-                <form name='changeTitle' method='POST' action="#">
-                    <input id="titleName" name="name" placeholder="Name" type="text">
-                    <input type="button" id="changeTitle" onclick="titleSubmit();" value="Submit">
+                <form id="titleForm" method="post" action="">
+                    <input name="title" id="title" type="text">
+                    <button type="submit" id="changeTitle">Submit</button>
                 </form>
             </div>
             <!-- End of Title Form -->
