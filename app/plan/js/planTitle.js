@@ -26,7 +26,7 @@ function processInput() {
     {
         alert("Title cannot be a null value");
     } else {
-        $.post("app/model/planTitle.php", {
+        $.post("app/plan/php/planTitle.php", {
             newTitle: title
         });
     }
