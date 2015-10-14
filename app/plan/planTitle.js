@@ -2,14 +2,13 @@
  * Shows input form for changing title name
  */
 
-$(function() {
-    $("#submit").click(function(){
+$(function () {
+    $("#submit").click(function () {
         processInput();
     });
 });
 
-function keyStroke(event)
-{
+function keyStroke(event) {
     if (event.keyCode == 13) {
         processInput();
     }
@@ -22,14 +21,24 @@ function keyStroke(event)
 function processInput() {
     var title = $("#title").val();
 
-    alert (title);
+    alert(title);
 
-    if(title == '')
-    {
+    if (title == '') {
         alert("Title cannot be a null value");
     } else {
+        /* AJAX that only posts
         $.post("app/plan/planTitle.php", {
-            newTitle: title
+         newTitle: title
+         })
+         */
+
+        $.ajax({
+            async: false,
+            type: 'POST',
+            url: "app/plan/planTitle.php",
+            data: {
+                newTitle: title
+            }
         });
     }
 }
