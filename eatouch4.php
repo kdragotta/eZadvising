@@ -50,6 +50,9 @@ else
             <tr>
                 <th><button type="button" onclick="window.location.href='eligibleNow.php'">Eligible Now</button></th>
             </tr>
+            <tr>
+                <th><button type="button" onclick="window.location.href='logout.php'">Log Out</button></th>
+            </tr>
         </table>
         <div id="currentState">
 
