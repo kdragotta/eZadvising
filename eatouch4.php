@@ -10,7 +10,10 @@ else
 
 
 
-
+//$_SESSION['username'] = "crystal";
+//$_SESSION['first'] = $_REQUEST['first'];
+//$_SESSION['studentId'] = 1;
+//$_SESSION['token'] = "ABC";
 /** login, registration and enter records, import records, auto-plan, print option, email option **/
 /** scrape for course availability **/
 ?>
@@ -47,9 +50,6 @@ else
             <tr>
                 <th><button type="button" onclick="window.location.href='eligibleNow.php'">Eligible Now</button></th>
             </tr>
-            <tr>
-                <th><button type="button" onclick="window.location.href='logout.php'">Log Out</button></th>
-            </tr
         </table>
         <div id="currentState">
 
@@ -160,5 +160,3 @@ else
 <script>
 
 </script>
-<?php
-}
