@@ -1,13 +1,16 @@
 <?php
 require_once 'config.php';
 session_start();
+if(!isset($_SESSION['first']))
+{
+    header("Location: login.php");
+}
+else
+{
 
 
 
-$_SESSION['username'] = "crystal";
-//$_SESSION['first'] = $_REQUEST['first'];
-$_SESSION['studentId'] = 1;
-$_SESSION['token'] = "ABC";
+
 /** login, registration and enter records, import records, auto-plan, print option, email option **/
 /** scrape for course availability **/
 ?>
@@ -44,6 +47,9 @@ $_SESSION['token'] = "ABC";
             <tr>
                 <th><button type="button" onclick="window.location.href='eligibleNow.php'">Eligible Now</button></th>
             </tr>
+            <tr>
+                <th><button type="button" onclick="window.location.href='logout.php'">Log Out</button></th>
+            </tr
         </table>
         <div id="currentState">
 
@@ -154,3 +160,5 @@ $_SESSION['token'] = "ABC";
 <script>
 
 </script>
+<?php
+}
