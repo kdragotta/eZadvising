@@ -2,6 +2,15 @@ planMap = {};
 
 $(initState());
 
+var c = 0;
+var curTab = "#pill0";
+//var pills = ("#pills").tabs();
+
+function NewTab()
+{
+    alert("test");
+}
+
 function ClassBox(req, classStr, newEl) {
     this.req = req;
     this.classStr = classStr;
