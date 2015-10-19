@@ -4,11 +4,26 @@ class StudentModel
 {
     private $conn = NULL;
 
-    public function __construct()
+    public function __construct($studID)
     {
         $this->conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
     }
 
+    public function getCoursesTaken($stuID)
+    {
+        try{
+
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "select * from courses_taken where courses_taken.id = " . $stuID;
+            echo "Connected.<br />";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            $courses_taken = $stmt->fetchAll();
+
+        }catch (PDOException $e) {
+            echo $sql . "<br>" . $e->getMessage();
+        }
+    }
     //todo: use json
     public function getRemainingCourses()
     {
