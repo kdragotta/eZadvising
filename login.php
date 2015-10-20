@@ -152,16 +152,19 @@ if($showForm == 1){
         </tr>
         <tr>
             <td>Password:</td>
-            <td><input type="password" name="password" id="password" size="20"/></td>
-        </tr>
+            <td><input type="password" name="password" id="password" size="20"/><a href="forgotpass" class="pass"> Forgot Password?</a></td>
+        </tr><br><br>
         <tr>
             <td></td>
             <td><input type="submit" name="submit" value="Submit"/></td>
         </tr>
+        <tr>
+            <td><br></td>
+            <td><input type="checkbox" name="rememberme" value="yes"/>Remember me!</td>
+        </tr>
     </table>
-
-
 </form>
+    <p>Don't have an account? <a href="register.php">Click Here!</a></p>
 <?php
 }
 ?>
@@ -191,8 +194,14 @@ if($showForm == 1){
         margin-left: 20%;
     }
 
+    .pass {
+
+        font-size: 12px;
+    }
+
     .textbox  {
         width: 200px;
     }
+
 
 </style>
