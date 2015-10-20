@@ -59,6 +59,10 @@ for ($i = 0; $i < $planCount; $i++) {
                 <tr>
                     <td>
                         <h4>
+                            <form>
+                                Advisor Name: First <input type="text" name="fname"> Last <input type="text" name="lname">
+                                <input type="submit" value="Submit">
+                            </form>
                             <button data-toggle="modal" data-target="#modal" type="button">Change Plan Name</button>
                             <button data-show="on" onclick="showHideSummers()"> Show/Hide Summers</button>
                         </h4>
