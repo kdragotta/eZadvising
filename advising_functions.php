@@ -47,6 +47,7 @@ function addPlanItem($token, $studentId, $courseId, $hours, $semester, $planYear
 
 //echo "courseid: ".$courseId;
 
+
      	if ($proposedReqId == '') {$proposedReqId = null;}  //Fixes mysql failure when proposedReqID is an empty string
 
         $stmt->bindParam(':studentId', $studentId);
