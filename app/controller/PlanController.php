@@ -1,5 +1,5 @@
 <?php
-
+//handles request for the plan controller
 require_once(__DIR__ . '/../model/PlanModel.php');
 
 class PlanController

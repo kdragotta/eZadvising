@@ -22,15 +22,12 @@
 
 </div>
 
-<ul class="nav nav-pills">
-    <li class="planpill active"><a data-toggle="pill" href="#plan0">Main</a></li>
-    <li class="planpill"><a data-toggle="pill" href="#plan1">New Plan 1</a></li>
-    <li class="planpill"><a data-toggle="pill" href="#plan2">New Plan 2</a></li>
-    <li class="planpill"><a data-toggle="pill" href="#plan3">New Plan 3</a></li>
-    <li class="planpill"><a data-toggle="pill" href="#plan4">New Plan 4</a></li>
-
-</ul>
-
+<div id="pills">
+    <ul class="nav nav-pills">
+        <li class="planpill active" id="pill0"><a href="#plan0" data-toggle="pill">Plan 0</a></li>
+        <li class="planpill" id="pill1" onclick="NewTab()"><a href="#plan1" data-toggle="pill">+</a></li>
+    </ul>
+</div>
 
 <?php
 $planCount = 5;
@@ -59,6 +56,10 @@ for ($i = 0; $i < $planCount; $i++) {
                 <tr>
                     <td>
                         <h4>
+                            <form>
+                                Advisor Name: First <input type="text" name="fname"> Last <input type="text" name="lname">
+                                <input type="submit" value="Submit">
+                            </form>
                             <button data-toggle="modal" data-target="#modal" type="button">Change Plan Name</button>
                             <button data-show="on" onclick="showHideSummers()"> Show/Hide Summers</button>
                         </h4>
@@ -124,7 +125,7 @@ for ($i = 0; $i < $planCount; $i++) {
 <!-- end div wrapper -->
 
 </body>
+<script src="app/view/js/advising_functions.js"></script>
 <footer>
 </footer>
 <div id="temp_hidden" class="temp_hidden"></div>
-<script src="app/view/js/advising_functions.js"></script>
