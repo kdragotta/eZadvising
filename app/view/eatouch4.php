@@ -22,6 +22,34 @@
 
 </div>
 
+<!-- Bootstrap Form -->
+<div id="modal" class="modal fade" role="dialog" data-keyboard="false">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog">
+            <!-- Content -->
+            <div class="modal-content" id="form-content">
+                <div class="modal-header">
+                    <a type="button" class="close" data-dismiss="modal">x</a>
+                    <h4 class="modal-title">Change Plan Name</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" action="" method="POST" id="form" class="changeTitle"
+                          onkeydown="keyStroke(event)">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="title" value="" autofocus>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="submit">Submit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Bootstrap Form -->
+
 <div id="pills">
     <ul class="nav nav-pills">
         <li class="planpill active" id="pill0"><a href="#plan0" data-toggle="pill">Plan 0</a></li>
@@ -60,6 +88,7 @@ for ($i = 0; $i < $planCount; $i++) {
                                 Advisor Name: First <input type="text" name="fname"> Last <input type="text" name="lname">
                                 <input type="submit" value="Submit">
                             </form>
+                            <br />
                             <button data-toggle="modal" data-target="#modal" type="button">Change Plan Name</button>
                             <button data-show="on" onclick="showHideSummers()"> Show/Hide Summers</button>
                         </h4>
@@ -70,34 +99,6 @@ for ($i = 0; $i < $planCount; $i++) {
                 -->
                 <div id="thePlan<?php echo $i; ?>"></div>
             </div>
-
-            <!-- Bootstrap Form -->
-            <div id="modal" class="modal fade" role="dialog" data-keyboard="false">
-                <div class="vertical-alignment-helper">
-                    <div class="modal-dialog">
-                        <!-- Content -->
-                        <div class="modal-content" id="form-content">
-                            <div class="modal-header">
-                                <a type="button" class="close" data-dismiss="modal">x</a>
-                                <h4 class="modal-title">Change Plan Name</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form role="form" action="" method="POST" id="form" class="changeTitle"
-                                      onkeydown="keyStroke(event)">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="title" value="" autofocus>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal" id="submit">Submit
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End of Bootstrap Form -->
 
             <!-- newlayout </div> --><!-- end div col23 -->
 
