@@ -13,14 +13,57 @@ function NewTab()
     var title = $("div#pills ul li a");
     var length = $("div#pills ul li").length;
     title.eq(length - 1).text("Plan " + (length - 1));
-    pills.eq(length - 1).prop('onclick', null).off('click');
+    pills.eq(length - 1).removeAttr('onclick');
     $("div#pills ul").append( "<li class='planpill' onclick='NewTab()' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill'>+</a></li>");
     //pills.eq(length).prop('onclick', 'NewTab()').on('click');
     //alert(length);
     $(".nav-pills").tabs("refresh");
+
+    //TODO: shitty hack, need to fix later
+    $(initSemesterStart(length));
+    $(init(length));
+
+    $.ajax({
+        url: "index.php",
+        method: 'POST',
+        data: {
+            token: 'ABC',
+            studentId: 1,
+            programId: 1,
+            year: 2014
+        },
+        success: function (result) {
+            var reqs = JSON.parse(result);
+            for (var i = 0; i < reqs.length; i++) {
+
+                var req = reqs[i];
+                if (req.type != "onplan") {
+
+                    var classBox = new ClassBox(req);
+                    classBox.createBox();
+                    classBox.addCourseOptions();
+                    classBox.addCompletedCourses();
+                    classBox.addPlannedCourses();
+
+                    classBox.addToCurrentState(length);
+                    classBox.addToRequiredList(length);
+
+                    classBox.addCourseToPlan();
+                }
+            }
+        }
+    });
+
+
 }
 
-function ClassBox(req, classStr, newEl) {
+function ClassBox(req) {
+
+    //todo: fix shitty code
+    var classStr = "req_box";;
+    var newElStr = "<div draggable=true class='" + classStr + "'><header>" + req.groupName + "</header>" + "</div>";
+    var newEl = $(newElStr);
+
     this.req = req;
     this.classStr = classStr;
     this.newEl = newEl;
@@ -292,14 +335,10 @@ function processReqUpdate(req) {
 
     var count = $('.planpill').length;
 
-    var classStr = "req_box";
-    var newElStr = "<div draggable=true class='" + classStr + "'><header>" + req.groupName + "</header>" + "</div>";
-    var newEl = $(newElStr);
-
 
     if(req.type != "onplan") {
 
-        var classBox = new ClassBox(req, classStr, newEl);
+        var classBox = new ClassBox(req);
         classBox.createBox();
         classBox.addCourseOptions();
         classBox.addCompletedCourses();
@@ -327,7 +366,7 @@ function processReqUpdate(req) {
         $("#r" + req.id + req.plan).removeClass("req_incomplete");
         $("#w" + req.id + req.plan).remove();
 
-        classBox = new ClassBox(req, classStr, newEl);
+        classBox = new ClassBox(req);
         classBox.createBox();
         classBox.addCourseOptions();
         classBox.addCompletedCourses();
@@ -396,7 +435,7 @@ function showHideSummers() {
 
 function initState() {
 
-    for(var i = 0; i < 5; i++)
+    for(var i = 0; i < 2; i++)
     {
         $(initSemesterStart(i));
         $(init(i));
