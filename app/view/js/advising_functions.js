@@ -4,7 +4,7 @@ $(initState());
 
 var c = 0;
 //var curTab = "#pill0";
-
+var length = $("div#pills ul li").length;
 
 function NewTab()
 {
