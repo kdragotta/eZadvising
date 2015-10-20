@@ -97,6 +97,27 @@ $_SESSION['token'] = "ABC";
 
         </div>
 
+        <?php
+        $addCourseArray = array();
+        $arrayCount = 0;
+        $t= $_POST['addc'];
+
+        $addCourseArray[$arrayCount] = $t;
+
+        if ($addCourseArray[$arrayCount] != "")
+        {
+            echo "<div draggable='true' class = 'drag' ondragstart='event.dataTransfer.setData('text/plain', 'This text may be dragged')'>";
+            echo "<div class = underline>";
+            echo $addCourseArray[$arrayCount];
+            echo "</div>";
+            echo "</div>";
+        }
+
+        echo "<br/>";
+
+        $arrayCount++;
+        ?>
+
         <table id = "nonRequredCourse">
             <th>Add Nonrequired Course</th>
         </table>
@@ -118,19 +139,7 @@ $_SESSION['token'] = "ABC";
             <input type="submit" class = "rbsubmit" value="Search"/>
         </form>
 
-        <?php
-            $addCourseArray = array();
-            $arrayCount = 0;
-            $t= $_POST['addc'];
 
-            $addCourseArray[$arrayCount] = $t;
-
-            echo "<div draggable='true' class = 'drag' ondragstart='event.dataTransfer.setData('text/plain', 'This text may be dragged')'>";
-            echo $addCourseArray[$arrayCount];
-            echo "</div>";
-
-            $arrayCount++;
-        ?>
 
         <!-- end stillRequiredList div -->
 
