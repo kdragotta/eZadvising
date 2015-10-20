@@ -113,7 +113,7 @@ function processReqUpdate(req, update) {
 
     for (j = 0; j < coursesCounting.length; j++) {
         var theCourse = coursesCounting[j];
-        var theCourseName = theCourse.dept + " " + theCourse.num;
+        var theCourseName = theCourse.course.dept + " " + theCourse.course.num;
         var courseTowardsStr = "<span class='course_box course_counting'>" + theCourseName + "</span>";
         var courseTowardsEl = $(courseTowardsStr);
 
@@ -139,7 +139,7 @@ function processReqUpdate(req, update) {
 
     for (k = 0; k < coursesCountingPlanned.length; k++) {
         var theCourseP = coursesCountingPlanned[k];
-        var theCourseNameP = theCourseP.dept + " " + theCourseP.num;
+        var theCourseNameP = theCourseP.course.dept + " " + theCourseP.course.num;
         var courseTowardsStrP = "<span class='course_box course_counting_planned'>" + theCourseNameP + "</span>";
         var courseTowardsElP = $(courseTowardsStrP);
         $(courseTowardsElP).data('course', theCourseP);
@@ -160,7 +160,7 @@ function processReqUpdate(req, update) {
         pYear = theCourseP.year;
         pStr = "p" + pYear + pSem;
 
-        var theCoursePId = theCourseP.id;
+        var theCoursePId = theCourseP.course.id;
         //console.dir("looking for: "+pStr);
 
         var newElPlan = $(newEl).clone(true); //to put on plan
