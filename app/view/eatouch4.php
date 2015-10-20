@@ -25,8 +25,8 @@
 
 <div id="pills">
     <ul class="nav nav-pills">
-        <li class="planpill active"><a href="#plan0" data-toggle="pill">Main</a></li>
-        <li class="planpill" id="pill0" onclick="NewTab()"><a href="#plan1" data-toggle="pill">+</a></li>
+        <li class="planpill active" id="pill0"><a href="#plan0" data-toggle="pill">Main</a></li>
+        <li class="planpill" id="pill1" onclick="NewTab()"><a href="#plan1" data-toggle="pill">+</a></li>
     </ul>
 </div>
 
