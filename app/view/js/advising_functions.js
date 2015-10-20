@@ -4,11 +4,12 @@ $(initState());
 
 var c = 0;
 //var curTab = "#pill0";
-var length = $("div#pills ul li").length;
 
 function NewTab()
 {
+
     $(".nav-pills").tabs();
+    var length = $("div#pills ul li").length;
     var pills = $("div#pills ul li");
     var title = $("div#pills ul li a");
     var length = $("div#pills ul li").length;
