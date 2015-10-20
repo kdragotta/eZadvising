@@ -24,18 +24,20 @@ CREATE TABLE `accounts` (
   `id` int(11) NOT NULL,
   `username` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
+  `type` varchar(100) NOT NULL,
   `first` varchar(100) NOT NULL,
   `middle` varchar(100) DEFAULT NULL,
-  `last` varchar(100) DEFAULT NULL
+  `last` varchar(100) DEFAULT NULL,
+  `email` varchar(100) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `accounts`
 --
 
-INSERT INTO `accounts` (`id`, `username`, `password`, `first`, `middle`, `last`) VALUES
-(1, 'crystal', 'crystal', 'Crystal', 'Kay', 'Cox'),
-(2, 'tori', 'tori', 'Tori', 'Brooke', 'Jordan');
+INSERT INTO `accounts` (`id`, `username`, `password`, `type`, `first`, `middle`, `last`, `email`) VALUES
+(1, 'crystal', 'crystal', 'faculty', 'Crystal', 'Kay', 'Cox', 'crystal@coastal.edu'),
+(2, 'tori', 'tori', 'student', 'Tori', 'Brooke', 'Jordan', 'tbjordan@g.coastal.edu');
 
 -- --------------------------------------------------------
 
