@@ -14,7 +14,7 @@ function NewTab()
     var length = $("div#pills ul li").length;
     title.eq(length - 1).text("Plan " + (length - 1));
     pills.eq(length - 1).prop('onclick', null).off('click');
-    $("div#pills ul").append( "<li class='planpill' onclick='NewTab()' id='pill" + (length - 1) + "'><a href='#plan" + (length - 1) + "'data-toggle='pill'>+</a></li>");
+    $("div#pills ul").append( "<li class='planpill' onclick='NewTab()' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill'>+</a></li>");
     //pills.eq(length).prop('onclick', 'NewTab()').on('click');
     //alert(length);
     $(".nav-pills").tabs("refresh");
