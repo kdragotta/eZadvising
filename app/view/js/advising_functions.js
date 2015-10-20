@@ -331,13 +331,10 @@ ClassBox.prototype.addCourseToPlan = function () {
         $("#" + boxId).append(newElPlan);
 };
 
-
 function processReqUpdate(req) {
 
-    var count = $('.planpill').length;
-
-
     if(req.type != "onplan") {
+        var count = $('.planpill').length;
 
         var classBox = new ClassBox(req);
         classBox.createBox();
