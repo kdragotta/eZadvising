@@ -8,6 +8,7 @@
     <script src="app/view/js/lib/bootstrap.min.js"></script>
     <script src="app/view/js/lib/jquery-simulate.js"></script>
 
+    <script src="app/view/js/advising_functions.js"></script>
     <script src="app/plan/planTitle.js"></script>
 
     <link rel="stylesheet" href="app/view/css/lib/jquery-ui.css">
@@ -22,15 +23,12 @@
 
 </div>
 
-<ul class="nav nav-pills">
-    <li class="planpill active"><a data-toggle="pill" href="#plan0">Main</a></li>
-    <li class="planpill"><a data-toggle="pill" href="#plan1">New Plan 1</a></li>
-    <li class="planpill"><a data-toggle="pill" href="#plan2">New Plan 2</a></li>
-    <li class="planpill"><a data-toggle="pill" href="#plan3">New Plan 3</a></li>
-    <li class="planpill"><a data-toggle="pill" href="#plan4">New Plan 4</a></li>
-
-</ul>
-
+<div id="pills">
+    <ul class="nav nav-pills">
+        <li class="planpill active"><a data-toggle="pill" href="#plan0">Main</a></li>
+        <li class="planpill" id="pill0" onclick="NewTab()"><a data-toggle="pill" href="#plan1">+</a></li>
+    </ul>
+</div>
 
 <?php
 $planCount = 5;
@@ -131,4 +129,3 @@ for ($i = 0; $i < $planCount; $i++) {
 <footer>
 </footer>
 <div id="temp_hidden" class="temp_hidden"></div>
-<script src="app/view/js/advising_functions.js"></script>

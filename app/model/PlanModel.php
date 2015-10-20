@@ -9,6 +9,11 @@ class PlanModel
         $this->conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
     }
 
+    public function getTakenCourses()
+    {
+
+    }
+
     public function getPlans()
     {
         try {

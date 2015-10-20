@@ -2,6 +2,24 @@ planMap = {};
 
 $(initState());
 
+var c = 0;
+//var curTab = "#pill0";
+
+
+function NewTab()
+{
+    $(".nav-pills").tabs();
+    var pills = $("div#pills ul li");
+    var title = $("div#pills ul li a");
+    var length = $("div#pills ul li").length;
+    title.eq(length - 1).text("Plan " + (length - 1));
+    pills.eq(length - 1).prop('onclick', null).off('click');
+    $("div#pills ul").append( "<li class='planpill' onclick='NewTab()' id='" + length + "'><a data-toggle='pill' href='#plan'" + length + ">+</a></li>");
+    //pills.eq(length).prop('onclick', 'NewTab()').on('click');
+    //alert(length);
+    $(".nav-pills").tabs("refresh");
+}
+
 function ClassBox(req, classStr, newEl) {
     this.req = req;
     this.classStr = classStr;
@@ -10,7 +28,7 @@ function ClassBox(req, classStr, newEl) {
     this.reqSideId;
     this.planId;
     this.workingSideId;
-};
+}
 
 ClassBox.prototype.createBox = function () {
     //prepare the ids
@@ -116,7 +134,7 @@ ClassBox.prototype.addCompletedCourses = function () {
     }
 
     $(this.newEl).append(takenBoxEl);
-}
+};
 
 ClassBox.prototype.addPlannedCourses = function () {
     //repeat loop for courses counting (and place courses counting in middle)
@@ -155,7 +173,7 @@ ClassBox.prototype.addPlannedCourses = function () {
         var targetElSel = "#fstats" + this.boxId;
         $(targetElSel).text(currentHours);
     }
-}
+};
 
 ClassBox.prototype.addToCurrentState = function (index) {
     var newEl = $(this.newEl).clone(true); //for the right side
@@ -184,7 +202,7 @@ ClassBox.prototype.addToCurrentState = function (index) {
 
 
     $("#currentState" + index).append(newEl);
-}
+};
 
 ClassBox.prototype.addToRequiredList = function (index) {
     var newEl = $(this.newEl).clone(true); //for the right side
@@ -242,7 +260,7 @@ ClassBox.prototype.addToRequiredList = function (index) {
     });//end draggable
 
     $("#stillRequiredList" + index).append(newEl);
-}
+};
 
 ClassBox.prototype.addCourseToPlan = function () {
         var newElPlan = $(this.newEl).clone(true); //to put on plan
@@ -267,7 +285,7 @@ ClassBox.prototype.addCourseToPlan = function () {
         //boxId is a workaround should use this.boxId instead of making it
         var boxId = "plan" + this.req.plan + this.req.year + this.req.semesterCode;
         $("#" + boxId).append(newElPlan);
-}
+};
 
 
 function processReqUpdate(req) {
@@ -309,7 +327,7 @@ function processReqUpdate(req) {
         $("#r" + req.id + req.plan).removeClass("req_incomplete");
         $("#w" + req.id + req.plan).remove();
 
-        var classBox = new ClassBox(req, classStr, newEl);
+        classBox = new ClassBox(req, classStr, newEl);
         classBox.createBox();
         classBox.addCourseOptions();
         classBox.addCompletedCourses();
@@ -366,8 +384,8 @@ function incrementSemester(sem, year, scale) {
             nextYear = year;
 
     }
-    var next = [nextYear, nextSemester];
-    return next;
+
+    return [nextYear, nextSemester];
 
 }
 
@@ -601,8 +619,7 @@ function handleDropEventOnWorking(event, ui) {
         //TODO don't hardcode program id, pull from student session data
         var programId = 1;
 
-        var hours = 0;
-        hours = parseInt($("#op" + reqId + " #opt" + courseId).data("hours"));
+        var hours = parseInt($("#op" + reqId + " #opt" + courseId).data("hours"));
         var hoursRequired = parseInt($("#r" + reqId).data("hours"));
         var hoursCounting = parseInt($("#r" + reqId).data("hoursCounting"));
         var hoursPlanned = parseInt($("#r" + reqId).data("hoursCountingPlanned"));
@@ -729,8 +746,7 @@ function handleDropEventOnPlan(event, ui) {
         //TODO don't hardcode program id, pull from student session data
         var programId = 1;
 
-        var hours = 0;
-        hours = parseInt($("#op" + reqId + " #opt" + courseId).data("hours"));
+        var hours = parseInt($("#op" + reqId + " #opt" + courseId).data("hours"));
         var hoursRequired = parseInt($("#r" + reqId).data("hours"));
         var hoursCounting = parseInt($("#r" + reqId).data("hoursCounting"));
         var hoursPlanned = parseInt($("#r" + reqId).data("hoursCountingPlanned"));
