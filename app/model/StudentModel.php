@@ -4,7 +4,7 @@ class StudentModel
 {
     private $conn = NULL;
 
-    public function __construct($studID)
+    public function __construct()
     {
         $this->conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
     }
