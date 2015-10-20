@@ -8,7 +8,7 @@
     <script src="app/view/js/lib/bootstrap.min.js"></script>
     <script src="app/view/js/lib/jquery-simulate.js"></script>
 
-    <script src="app/plan/planTitle.js"></script>
+    <!-- Need to fix <script src="app/plan/planTitle.js"></script> -->
 
     <link rel="stylesheet" href="app/view/css/lib/jquery-ui.css">
     <link rel="stylesheet" href="app/view/css/lib/bootstrap.min.css">
@@ -30,7 +30,7 @@
             <div class="modal-content" id="form-content">
                 <div class="modal-header">
                     <a type="button" class="close" data-dismiss="modal">x</a>
-                    <h4 class="modal-title">Change Plan Name</h4>
+                    <h4 class="modal-title">Add New Plan</h4>
                 </div>
                 <div class="modal-body">
                     <form role="form" action="" method="POST" id="form" class="changeTitle"
@@ -50,12 +50,14 @@
 </div>
 <!-- End of Bootstrap Form -->
 
+<!-- Nav Bar Tabs -->
 <div id="pills">
     <ul class="nav nav-pills">
         <li class="planpill active" id="pill0"><a href="#plan0" data-toggle="pill">Plan 0</a></li>
         <li class="planpill" id="pill1" onclick="NewTab()"><a href="#plan1" data-toggle="pill">+</a></li>
     </ul>
 </div>
+<!-- End of Nav Bar Tabs -->
 
 <?php
 $planCount = 5;

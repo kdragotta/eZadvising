@@ -2,7 +2,6 @@
 
 require_once(__DIR__ . "/../config/config.php");
 
-//$title = $_POST['title'];
 $errorMessage;
 
 if (isset($_POST['newTitle'])) {
@@ -18,6 +17,10 @@ if (isset($_POST['newTitle'])) {
         echo 'Error inserting plan title <br />ERROR MESSAGE:<br />' . $e->getMessage();
         exit();
     }
+}
+
+if (isset($_GET['title'])) {
+
 }
 
 /*

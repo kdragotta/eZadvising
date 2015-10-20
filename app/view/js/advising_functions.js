@@ -2,18 +2,60 @@ planMap = {};
 
 $(initState());
 
-var c = 0;
-//var curTab = "#pill0";
+var complete;
+var currentTab = 1;
 
-function NewTab()
-{
+
+/**
+ * Shows input form for changing title name
+ */
+
+$(function () {
+    $('#addPill').click(function (e) {
+
+    });
+});
+
+function keyStroke(e) {
+    if (e.keyCode == 13) {
+        e.preventDefault();
+        processInput();
+    }
+
+    if (e.keyCode == 26) {
+        return false;
+    }
+}
+
+function NewTab() {
+    var tabTitle = $('#title').val();
+
+    if (complete) {
+        if (tabTitle == '') {
+            alert("Title cannot be a null value");
+        } else {
+            $.ajax({
+                async: false,
+                method: 'POST',
+                url: "app/plan/planTitle.php",
+                data: {
+                    newTitle: tabTitle
+                },
+                success: function() {
+                    $("#modal").modal('hide');
+                    complete = true;
+                }
+            });
+        }
+    } else {
+        $("#modal").modal('show');
+    }
 
     $(".nav-pills").tabs();
-    var length = $("div#pills ul li").length;
     var pills = $("div#pills ul li");
     var title = $("div#pills ul li a");
     var length = $("div#pills ul li").length;
-    title.eq(length - 1).text("Plan " + (length - 1));
+    title.eq(length - 1).text(tabTitle);
     pills.eq(length - 1).removeAttr('onclick');
     $("div#pills ul").append( "<li class='planpill' onclick='NewTab()' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill'>+</a></li>");
     //pills.eq(length).prop('onclick', 'NewTab()').on('click');
@@ -55,7 +97,8 @@ function NewTab()
         }
     });
 
-
+    currentTab++;
+    complete = false;
 }
 
 function ClassBox(req) {

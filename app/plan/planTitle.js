@@ -3,41 +3,38 @@
  */
 
 $(function () {
-    $("#submit").click(function () {
+    $('#submit').click(function (e) {
+        e.preventDefault();
         processInput();
     });
 });
 
-function keyStroke(event) {
-    if (event.keyCode == 13) {
+function keyStroke(e) {
+    if (e.keyCode == 13) {
+        e.preventDefault();
         processInput();
     }
 
-    if (event.keyCode == 26) {
+    if (e.keyCode == 26) {
         return false;
     }
 }
 
 function processInput() {
-    var title = $("#title").val();
-
-    alert(title);
+    var title = $('#title').val();
 
     if (title == '') {
         alert("Title cannot be a null value");
     } else {
-        /* AJAX that only posts
-        $.post("app/plan/planTitle.php", {
-         newTitle: title
-         })
-         */
-
         $.ajax({
             async: false,
-            type: 'POST',
+            method: 'POST',
             url: "app/plan/planTitle.php",
             data: {
                 newTitle: title
+            },
+            success: function() {
+                $('.nav-pills .planpill .active').text(title);
             }
         });
     }
