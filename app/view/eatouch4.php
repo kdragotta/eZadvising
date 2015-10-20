@@ -50,6 +50,33 @@
 </div>
 <!-- End of Bootstrap Form -->
 
+<!-- Bootstrap Form -->
+<div id="emailModal" class="modal fade" role="dialog">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog">
+            <!-- Modal Content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Enter Advisor Name</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" action="" method="POST" id="form2" class="emailAdvisor" onkeydown="keyStroke1(event)">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="fname" placeholder="First Name" autofocus>
+                            <input type="text" class="form-control" id="lname" placeholder="Last Name" autofocus>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="sendName">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Bootstrap Form -->
+
 <div id="pills">
     <ul class="nav nav-pills">
         <li class="planpill active" id="pill0"><a href="#plan0" data-toggle="pill">Plan 0</a></li>
@@ -84,11 +111,7 @@ for ($i = 0; $i < $planCount; $i++) {
                 <tr>
                     <td>
                         <h4>
-                            <form>
-                                Advisor Name: First <input type="text" name="fname"> Last <input type="text" name="lname">
-                                <input type="submit" value="Submit">
-                            </form>
-                            <br />
+                            <button type="button" data-toggle="modal" data-target="#emailModal">Email Plan to Advisor</button>
                             <button data-toggle="modal" data-target="#modal" type="button">Change Plan Name</button>
                             <button data-show="on" onclick="showHideSummers()"> Show/Hide Summers</button>
                         </h4>
