@@ -8,7 +8,6 @@
     <script src="app/view/js/lib/bootstrap.min.js"></script>
     <script src="app/view/js/lib/jquery-simulate.js"></script>
 
-    <script src="app/view/js/advising_functions.js"></script>
     <script src="app/plan/planTitle.js"></script>
 
     <link rel="stylesheet" href="app/view/css/lib/jquery-ui.css">
@@ -25,7 +24,7 @@
 
 <div id="pills">
     <ul class="nav nav-pills">
-        <li class="planpill active" id="pill0"><a href="#plan0" data-toggle="pill">Main</a></li>
+        <li class="planpill active" id="pill0"><a href="#plan0" data-toggle="pill">Plan 0</a></li>
         <li class="planpill" id="pill1" onclick="NewTab()"><a href="#plan1" data-toggle="pill">+</a></li>
     </ul>
 </div>
@@ -126,6 +125,7 @@ for ($i = 0; $i < $planCount; $i++) {
 <!-- end div wrapper -->
 
 </body>
+<script src="app/view/js/advising_functions.js"></script>
 <footer>
 </footer>
 <div id="temp_hidden" class="temp_hidden"></div>
