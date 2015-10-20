@@ -948,44 +948,6 @@ function trigger_drop() {
     });
 }
 
-$(function () {
-    $("#sendName").click(function () {
-        emailAdvisor();
-    });
-});
-
-function keyStroke1(event) {
-    if (event.keyCode == 13) {
-        emailAdvisor();
-    }
-
-    if (event.keyCode == 26) {
-        return false;
-    }
-}
-
-function emailAdvisor() {
-    var fname = $('#fname').val();
-    var lname = $('#lname').val();
-
-    alert("Advisor: " + fname + " " + lname);
-
-    if(fname == '' || lname == '') {
-        alert("You must enter both names");
-    } else {
-        $.ajax({
-            async: false,
-            type: 'POST',
-            url: "app/controller/NetworkController.php",
-            data: {
-                fname: fname,
-                lname: lname
-            }
-        });
-    }
-}
-
-
 function unplan() {
     console.log("clicked unplan");
     trigger_drop();
