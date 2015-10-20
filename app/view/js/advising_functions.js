@@ -5,10 +5,11 @@ $(initState());
 var c = 0;
 //var curTab = "#pill0";
 
-
 function NewTab()
 {
+
     $(".nav-pills").tabs();
+    var length = $("div#pills ul li").length;
     var pills = $("div#pills ul li");
     var title = $("div#pills ul li a");
     var length = $("div#pills ul li").length;
@@ -16,7 +17,7 @@ function NewTab()
     pills.eq(length - 1).removeAttr('onclick');
     $("div#pills ul").append( "<li class='planpill' onclick='NewTab()' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill'>+</a></li>");
     //pills.eq(length).prop('onclick', 'NewTab()').on('click');
-    //alert(length);
+    //alert(lengtoh);
     $(".nav-pills").tabs("refresh");
 
     //TODO: shitty hack, need to fix later
