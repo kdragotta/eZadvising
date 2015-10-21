@@ -36,12 +36,12 @@
                     <form role="form" action="" method="POST" id="form" class="changeTitle"
                           onkeydown="keyStroke(event)">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="title" value="" autofocus>
+                            <input type="text" class="form-control" id="title" value=" " autofocus>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" id="submit">Submit
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="addPill">Submit
                     </button>
                 </div>
             </div>
@@ -53,8 +53,8 @@
 <!-- Nav Bar Tabs -->
 <div id="pills">
     <ul class="nav nav-pills">
-        <li class="planpill active" id="pill0"><a href="#plan0" data-toggle="pill">Plan 0</a></li>
-        <li class="planpill" id="pill1" onclick="NewTab()"><a href="#plan1" data-toggle="pill">+</a></li>
+        <li class="planpill active" id="pill0" href="plan0"><a href="#plan0" data-toggle="pill">Default</a></li>
+        <li class="planpill" id="pill1" onclick="ShowBox()"><a href="#plan1" data-toggle="pill">+</a></li>
     </ul>
 </div>
 <!-- End of Nav Bar Tabs -->
@@ -66,7 +66,7 @@ if ($planCount > 1) {
     echo('<div class="tab-content">');
 }
 
-for ($i = 0; $i < $planCount; $i++) {
+for ($i = 0; $i <= $planCount; $i++) {
     ?>
     <div id="plan<?php echo $i; ?>" class="tab-pane fade<?php if ($i == 0) echo ' in active'; ?>">
 
