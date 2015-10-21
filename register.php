@@ -244,9 +244,7 @@ if($showForm == 1){
             margin-left: 20%;
         }
 
-        .textbox  {
-            width: 200px;
-        }
+
 
     </style>
 <?php
