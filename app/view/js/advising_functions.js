@@ -2,24 +2,43 @@ planMap = {};
 
 $(initState());
 
-var complete;
-var currentTab = 1;
+// Initializations
+var tabTitle = '';
 
+//TODO: Have rowcount pulled from the database
+var rowCount = 1;
+
+// Maximum Number of Plans
+var maxNumOfPlans = 5;
 
 /**
- * Shows input form for changing title name
+ * Handle passing of new tabs
+ *  - Sets tabTitle to value from input
  */
 
 $(function () {
     $('#addPill').click(function (e) {
+        tabTitle = $('#title').val();
 
+        if (tabTitle == '') {
+            ShowBox()
+        } else {
+            NewTab();
+        }
     });
 });
+
+/**
+ * Restrictions for certain key strokes
+ * Key Codes:
+ *  13 = 'enter'
+ *  26 = 'esc'
+ */
 
 function keyStroke(e) {
     if (e.keyCode == 13) {
         e.preventDefault();
-        processInput();
+        NewTab();
     }
 
     if (e.keyCode == 26) {
@@ -27,12 +46,27 @@ function keyStroke(e) {
     }
 }
 
-function NewTab() {
-    var tabTitle = $('#title').val();
+/**
+ * Opens form & clears input box on load
+ */
 
-    if (complete) {
-        if (tabTitle == '') {
-            alert("Title cannot be a null value");
+function ShowBox() {
+    $("#modal").modal('show');
+    $('#title').val('');
+}
+
+/**
+ * Generation of tabs
+ *  - Adds plan name to database
+ *  -
+ */
+
+function NewTab() {
+    if (tabTitle == '') {
+        ShowBox();
+    } else {
+        if (rowCount == maxNumOfPlans) {
+            alert('Maximum number of plans reached!');
         } else {
             $.ajax({
                 async: false,
@@ -41,70 +75,69 @@ function NewTab() {
                 data: {
                     newTitle: tabTitle
                 },
-                success: function() {
+                success: function () {
                     $("#modal").modal('hide');
-                    complete = true;
+
+                    $(".nav-pills").tabs();
+                    var pills = $("div#pills ul li");
+                    var title = $("div#pills ul li a");
+                    var length = $("div#pills ul li").length;
+
+                    title.eq(length - 1).text(tabTitle);
+                    pills.eq(length - 1).removeAttr('onclick');
+                    pills.eq(length - 1).removeAttr('href');
+
+                    if (rowCount < maxNumOfPlans - 1) {
+                        $("div#pills ul").append("<li class='planpill' onclick='NewTab()' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill'>+</a></li>");
+                    }
+
+                    //TODO: shitty hack, need to fix later
+                    $(initSemesterStart(length));
+                    $(init(length));
+
+                    $.ajax({
+                        url: "index.php",
+                        method: 'POST',
+                        data: {
+                            token: 'ABC',
+                            studentId: 1,
+                            programId: 1,
+                            year: 2014
+                        },
+                        success: function (result) {
+                            var reqs = JSON.parse(result);
+                            for (var i = 0; i < reqs.length; i++) {
+
+                                var req = reqs[i];
+                                if (req.type != "onplan") {
+
+                                    var classBox = new ClassBox(req);
+                                    classBox.createBox();
+                                    classBox.addCourseOptions();
+                                    classBox.addCompletedCourses();
+                                    classBox.addPlannedCourses();
+
+                                    classBox.addToCurrentState(length);
+                                    classBox.addToRequiredList(length);
+
+                                    classBox.addCourseToPlan();
+                                }
+                            }
+                        }
+                    });
                 }
             });
+            rowCount++;
+            tabTitle = '';
         }
-    } else {
-        $("#modal").modal('show');
     }
-
-    $(".nav-pills").tabs();
-    var pills = $("div#pills ul li");
-    var title = $("div#pills ul li a");
-    var length = $("div#pills ul li").length;
-    title.eq(length - 1).text(tabTitle);
-    pills.eq(length - 1).removeAttr('onclick');
-    $("div#pills ul").append( "<li class='planpill' onclick='NewTab()' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill'>+</a></li>");
-    //pills.eq(length).prop('onclick', 'NewTab()').on('click');
-    //alert(lengtoh);
-    $(".nav-pills").tabs("refresh");
-
-    //TODO: shitty hack, need to fix later
-    $(initSemesterStart(length));
-    $(init(length));
-
-    $.ajax({
-        url: "index.php",
-        method: 'POST',
-        data: {
-            token: 'ABC',
-            studentId: 1,
-            programId: 1,
-            year: 2014
-        },
-        success: function (result) {
-            var reqs = JSON.parse(result);
-            for (var i = 0; i < reqs.length; i++) {
-
-                var req = reqs[i];
-                if (req.type != "onplan") {
-
-                    var classBox = new ClassBox(req);
-                    classBox.createBox();
-                    classBox.addCourseOptions();
-                    classBox.addCompletedCourses();
-                    classBox.addPlannedCourses();
-
-                    classBox.addToCurrentState(length);
-                    classBox.addToRequiredList(length);
-
-                    classBox.addCourseToPlan();
-                }
-            }
-        }
-    });
-
-    currentTab++;
-    complete = false;
 }
 
 function ClassBox(req) {
 
     //todo: fix shitty code
-    var classStr = "req_box";;
+    var classStr = "req_box";
+    ;
     var newElStr = "<div draggable=true class='" + classStr + "'><header>" + req.groupName + "</header>" + "</div>";
     var newEl = $(newElStr);
 
@@ -350,33 +383,33 @@ ClassBox.prototype.addToRequiredList = function (index) {
 };
 
 ClassBox.prototype.addCourseToPlan = function () {
-        var newElPlan = $(this.newEl).clone(true); //to put on plan
+    var newElPlan = $(this.newEl).clone(true); //to put on plan
 
-        $(newElPlan).data("semesterCode", this.req.semesterCode);
-        $(newElPlan).data("year", this.req.year);
-        $(newElPlan).data("plan", this.req.plan);
-        $(newElPlan).data("whereami", "plan");
-        $(newElPlan).addClass("req_on_plan");
-        $(newElPlan).attr('id', 'p' + this.req.plan);
-        $(newElPlan).val(this.req.id);
+    $(newElPlan).data("semesterCode", this.req.semesterCode);
+    $(newElPlan).data("year", this.req.year);
+    $(newElPlan).data("plan", this.req.plan);
+    $(newElPlan).data("whereami", "plan");
+    $(newElPlan).addClass("req_on_plan");
+    $(newElPlan).attr('id', 'p' + this.req.plan);
+    $(newElPlan).val(this.req.id);
 
 
     $(newElPlan).draggable({
-            containment: 'document',
-            cursor: 'move',
-            snap: '.target',
-            helper: 'clone',
-            revert: 'true'
-        });//end draggable
+        containment: 'document',
+        cursor: 'move',
+        snap: '.target',
+        helper: 'clone',
+        revert: 'true'
+    });//end draggable
 
-        //boxId is a workaround should use this.boxId instead of making it
-        var boxId = "plan" + this.req.plan + this.req.year + this.req.semesterCode;
-        $("#" + boxId).append(newElPlan);
+    //boxId is a workaround should use this.boxId instead of making it
+    var boxId = "plan" + this.req.plan + this.req.year + this.req.semesterCode;
+    $("#" + boxId).append(newElPlan);
 };
 
 function processReqUpdate(req) {
 
-    if(req.type != "onplan") {
+    if (req.type != "onplan") {
         var count = $('.planpill').length;
 
         var classBox = new ClassBox(req);
@@ -393,15 +426,15 @@ function processReqUpdate(req) {
         classBox.addCourseToPlan();
     }
 
-    if(req.type == "onplan") {
+    if (req.type == "onplan") {
         /*
-        //todo dynamically make it with tabbing
-        if(planMap[req.plan] != true) {
-            planMap[req.plan] = true;
-            $(initSemesterStart(req.plan));
-            $(init(req.plan));
-        }
-        */
+         //todo dynamically make it with tabbing
+         if(planMap[req.plan] != true) {
+         planMap[req.plan] = true;
+         $(initSemesterStart(req.plan));
+         $(init(req.plan));
+         }
+         */
 
         $("#r" + req.id + req.plan).addClass("req_completePlanned");
         $("#r" + req.id + req.plan).removeClass("req_incomplete");
@@ -476,8 +509,7 @@ function showHideSummers() {
 
 function initState() {
 
-    for(var i = 0; i < 2; i++)
-    {
+    for (var i = 0; i < 2; i++) {
         $(initSemesterStart(i));
         $(init(i));
     }
@@ -897,10 +929,10 @@ function handleDropEventOnPlan(event, ui) {
         var fromYear = targId.substr(5, 4);  //get 4 from plan020164
         var fromSemesterCode = targId.substr(9, 1);  //get 4 from plan020164
         /*
-        var fromSemesterCode = $(ui.draggable).data('semesterCode');
-        var fromYear = $(ui.draggable).data('year');
-        var plan = $(ui.draggable).data('plan');
-        */
+         var fromSemesterCode = $(ui.draggable).data('semesterCode');
+         var fromYear = $(ui.draggable).data('year');
+         var plan = $(ui.draggable).data('plan');
+         */
         var toSemesterCode = targId.substr(9, 1);
         var toPlanYear = targId.substr(5, 4);  //note:  (5, 4) to get 2015 from 'plan020153'
 
@@ -917,8 +949,8 @@ function handleDropEventOnPlan(event, ui) {
         //TODO don't hardcode program id, pull from student session data
         var programId = 1;
 
-       // var hours = 0;
-       // hours = parseInt($("#op" + reqId + " #opt" + courseId).data("hours"));
+        // var hours = 0;
+        // hours = parseInt($("#op" + reqId + " #opt" + courseId).data("hours"));
 
         console.dir("hours: " + hours);
         //heeeeeeeeere set up ajax
