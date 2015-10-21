@@ -47,12 +47,16 @@ function keyStroke(e) {
 }
 
 /**
- * Opens form & clears input box on load
+ * Opens form
+ *  - Focus on load
+ *  - Clear input field on load
  */
 
 function ShowBox() {
-    $("#modal").modal('show');
-    $('#title').val('');
+    $("#modal").modal('show').on('shown.bs.modal', function () {
+        $('#title').val('');
+        $('#title').focus();
+    });
 }
 
 /**
@@ -88,7 +92,7 @@ function NewTab() {
                     pills.eq(length - 1).removeAttr('href');
 
                     if (rowCount < maxNumOfPlans - 1) {
-                        $("div#pills ul").append("<li class='planpill' onclick='NewTab()' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill'>+</a></li>");
+                        $("div#pills ul").append("<li class='planpill' onclick='ShowBox()' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill'>+</a></li>");
                     }
 
                     //TODO: shitty hack, need to fix later
