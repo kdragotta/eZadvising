@@ -18,7 +18,7 @@ $errorMessage = '';
 if(isset($_POST['submit'])) {
     //cleanse the data entered
     $FORMFIELD['username'] = trim($_POST['username']);
-    $FORMFIELD['email'] = trim($_POST['email']);
+    $FORMFIELD['email'] = trim($_POST['username']);
     $FORMFIELD['password'] = trim($_POST['password']);
     $FORMFIELD['confirmPassword'] = trim($_POST['confirmPassword']);
     $FORMFIELD['firstName'] = trim($_POST['firstName']);
@@ -33,8 +33,9 @@ if(isset($_POST['submit'])) {
     {
         $errorMessage .= 'Please enter your Username' . '<br>';
     }
+    //check if the email is entered
     if(empty($FORMFIELD['email'])){
-        $errorMessage .= 'Please enter your email' . '<br>';
+        $errorMessage .= 'Please enter your Email' . '<br>';
     }
     //Checks if the password is entered
     if(empty($FORMFIELD['password']))
@@ -128,7 +129,7 @@ if(isset($_POST['submit'])) {
         {
             $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
             $sql = "INSERT INTO accounts (`username`, `email`, `password`, `first`, `middle`, `last`, `salt`, `admin`)
-                      values (:username, :email, :password, :firstName, :middleName, :lastName, :salt, :admin)";
+                      values (:username, :password, :email, :firstName, :middleName, :lastName, :salt, :admin)";
             $create = $conn->prepare($sql);
             $create->bindValue(':username', $FORMFIELD['username']);
             $create->bindValue(':email', $FORMFIELD['email']);
@@ -166,7 +167,7 @@ if(isset($_POST['submit'])) {
                 echo "Redirecting to Login...";
 
             $showForm = 0;
-            header("refresh:5; url=login.php");
+            header("refresh:3; url=login.php");
 
 
         }
@@ -193,7 +194,7 @@ if($showForm == 1){
         </tr>
         <tr>
             <td>Email:</td>
-            <td><input type="email" name="email" id="email" size="20"/></td>
+            <td><input type="text" name="email" id="email" size="40"/></td>
         </tr>
         <tr>
             <td>Password:</td>
@@ -227,6 +228,7 @@ if($showForm == 1){
 
 
 </form>
+
     <style>
         html, body {
             font-family: arial;
@@ -253,7 +255,9 @@ if($showForm == 1){
             margin-left: 20%;
         }
 
-
+        .textbox  {
+            width: 200px;
+        }
 
     </style>
 <?php
