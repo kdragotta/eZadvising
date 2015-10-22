@@ -21,16 +21,6 @@ class PlanController
         if (isset($_POST['submit'])) {
             $this->planModel->createPlan();
         }
-
-        if(empty($_GET) && empty($_POST))
-        {
-            session_start();
-            $_SESSION['username'] = "crystal";
-            $_SESSION['studentId'] = 1;
-            $_SESSION['token'] = "ABC";
-
-            include __DIR__."/../view/eatouch4.php";
-        }
     }
 
 }

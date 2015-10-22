@@ -115,6 +115,7 @@
 <!-- end div wrapper -->
 
 </body>
+<script src="app/view/js/ClassBox.js"></script>
 <script src="app/view/js/advising_functions.js"></script>
 <footer>
 </footer>
