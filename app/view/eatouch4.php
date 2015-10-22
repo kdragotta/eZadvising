@@ -59,16 +59,9 @@
 </div>
 <!-- End of Nav Bar Tabs -->
 
-<?php
-$planCount = 5;
+<div class="tab-content">
 
-if ($planCount > 1) {
-    echo('<div class="tab-content">');
-}
-
-for ($i = 0; $i <= $planCount; $i++) {
-    ?>
-    <div id="plan<?php echo $i; ?>" class="tab-pane fade<?php if ($i == 0) echo ' in active'; ?>">
+    <div id="plan0" class="tab-pane fade in active">
 
         <div id="wrapper">
             <div id="left">
@@ -77,7 +70,7 @@ for ($i = 0; $i <= $planCount; $i++) {
                         <th>Classes Selected</th>
                     </tr>
                 </table>
-                <div id="currentState<?php echo $i; ?>"></div>
+                <div id="currentState0"></div>
             </div>
 
             <!-- newlayout <div id="col23"> -->
@@ -94,7 +87,7 @@ for ($i = 0; $i <= $planCount; $i++) {
                 <!-- <tr> <td><button onclick="unplan()" > Save Plan </button> </td> </tr>
                 <tr> <td><button onclick="unplan()" > Revert to Saved Plan </button></td></tr>
                 -->
-                <div id="thePlan<?php echo $i; ?>"></div>
+                <div id="thePlan0"></div>
             </div>
 
             <!-- newlayout </div> --><!-- end div col23 -->
@@ -113,12 +106,11 @@ for ($i = 0; $i <= $planCount; $i++) {
                     <select id="semList"></select>
                 </div>
 
-                <div id="stillRequiredList<?php echo $i; ?>"></div>
+                <div id="stillRequiredList0"></div>
             </div>
             <!-- end div right -->
         </div>
     </div>
-<?php } ?>
 </div>
 <!-- end div wrapper -->
 

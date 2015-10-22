@@ -1,6 +1,6 @@
 planMap = {};
 
-$(initState());
+$(initState(0));
 
 // Initializations
 var tabTitle = '';
@@ -94,43 +94,94 @@ function NewTab() {
                     if (rowCount < maxNumOfPlans - 1) {
                         $("div#pills ul").append("<li class='planpill' onclick='ShowBox()' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill'>+</a></li>");
                     }
-
-                    //TODO: shitty hack, need to fix later
-                    $(initSemesterStart(length));
-                    $(init(length));
-
-                    $.ajax({
-                        url: "index.php",
-                        method: 'POST',
-                        data: {
-                            token: 'ABC',
-                            studentId: 1,
-                            programId: 1,
-                            year: 2014
-                        },
-                        success: function (result) {
-                            var reqs = JSON.parse(result);
-                            for (var i = 0; i < reqs.length; i++) {
-
-                                var req = reqs[i];
-                                if (req.type != "onplan") {
-
-                                    var classBox = new ClassBox(req);
-                                    classBox.createBox();
-                                    classBox.addCourseOptions();
-                                    classBox.addCompletedCourses();
-                                    classBox.addPlannedCourses();
-
-                                    classBox.addToCurrentState(length);
-                                    classBox.addToRequiredList(length);
-
-                                    classBox.addCourseToPlan();
-                                }
-                            }
-                        }
-                    });
                 }
             });
+
+            //TODO: shitty hack, need to fix later
+
+            var length = $("div#pills ul li").length - 2;
+
+            //rename DOM elements
+            //todo use last time to copy instead of 0
+            var plan = $('#plan0').clone(true);
+            plan.attr('id', 'plan' + length);
+
+            var currentState = $(plan.children().children().children()[1]);
+            currentState.attr('id', 'currentState' + length);
+            currentState.children().remove();
+
+            var stillRequiredList = $(plan.children().children().children()[6]);
+            stillRequiredList.attr('id', 'stillRequiredList' + length);
+            stillRequiredList.children().remove();
+
+            var thePlan = $(plan.children().children().children()[3]);
+            thePlan.attr('id', 'thePlan' + length);
+            thePlan.children().remove();
+
+            //remove in active tabbing from active tab
+            //todo fix later, from all tabs instead of one
+            $('.in.active').removeClass('in active');
+
+            //add dom
+            plan.addClass(('in active'));
+
+            $('.tab-content').append(plan);
+
+
+            $(initSemesterStart(length));
+            $(init(length));
+
+            $.ajax({
+                url: "index.php",
+                method: 'POST',
+                data: {
+                    token: 'ABC',
+                    studentId: 1,
+                    programId: 1,
+                    year: 2014
+                },
+                success: function (result) {
+
+                    //Build DOM
+                    var reqs = JSON.parse(result);
+
+                    for (var i = 0; i < reqs.length; i++) {
+
+                        var req = reqs[i];
+                        if (req.type != "onplan") {
+                            var count = length;
+
+                            var classBox = new ClassBox(req);
+                            classBox.createBox();
+                            classBox.addCourseOptions();
+                            classBox.addCompletedCourses();
+                            classBox.addPlannedCourses();
+
+                            classBox.addToCurrentState(length);
+                            classBox.addToRequiredList(length);
+
+                            classBox.addCourseToPlan();
+                        }
+
+                        if (req.type == "onplan") {
+                            if(req.plan == length) {
+                                $("#r" + req.id + req.plan).addClass("req_completePlanned");
+                                $("#r" + req.id + req.plan).removeClass("req_incomplete");
+                                $("#w" + req.id + req.plan).remove();
+
+                                classBox = new ClassBox(req);
+                                classBox.createBox();
+                                classBox.addCourseOptions();
+                                classBox.addCompletedCourses();
+                                classBox.addPlannedCourses();
+                                classBox.addCourseToPlan();
+                            }
+                        }
+                    }
+                    //return result;
+                }//end success
+            });//end ajax
+
             rowCount++;
             tabTitle = '';
         }
@@ -511,12 +562,10 @@ function showHideSummers() {
 }
 
 
-function initState() {
+function initState(index) {
 
-    for (var i = 0; i < 2; i++) {
-        $(initSemesterStart(i));
-        $(init(i));
-    }
+    $(initSemesterStart(index));
+    $(init(index));
 
     $.ajax({
         url: "index.php",
