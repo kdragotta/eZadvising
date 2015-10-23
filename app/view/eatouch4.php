@@ -8,8 +8,6 @@
     <script src="app/view/js/lib/bootstrap.min.js"></script>
     <script src="app/view/js/lib/jquery-simulate.js"></script>
 
-    <!-- Need to fix <script src="app/plan/planTitle.js"></script> -->
-
     <link rel="stylesheet" href="app/view/css/lib/jquery-ui.css">
     <link rel="stylesheet" href="app/view/css/lib/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="app/view/css/styles.css">
@@ -29,7 +27,6 @@
             <!-- Content -->
             <div class="modal-content" id="form-content">
                 <div class="modal-header">
-                    <a type="button" class="close" data-dismiss="modal">x</a>
                     <h4 class="modal-title">Add New Plan</h4>
                 </div>
                 <div class="modal-body">
@@ -41,7 +38,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" id="addPill">Submit
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="addPill">Submit
                     </button>
                 </div>
             </div>
@@ -54,7 +52,7 @@
 <div id="pills">
     <ul class="nav nav-pills">
         <li class="planpill active" id="pill0" href="plan0"><a href="#plan0" data-toggle="pill">Default</a></li>
-        <li class="planpill" id="pill1" onclick="ShowBox()"><a href="#plan1" data-toggle="pill">+</a></li>
+        <li class="planpill" id="pill1" onclick="ShowBox()"><a href="#plan1" data-toggle="pill"><span class="glyphicon glyphicon-plus"></span></a></li>
     </ul>
 </div>
 <!-- End of Nav Bar Tabs -->
