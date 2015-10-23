@@ -1,5 +1,4 @@
 <?php
-//handles request for the plan controller
 require_once(__DIR__ . '/../model/PlanModel.php');
 
 class PlanController
@@ -8,7 +7,7 @@ class PlanController
 
     public function __construct()
     {
-        $planModel = new PlanModel();
+        $this->planModel = new PlanModel();
     }
 
     public function handleRequest()
@@ -16,12 +15,17 @@ class PlanController
         $this->handleCreatePlan();
     }
 
-    private function handleCreatePlan()
-    {
-        if (isset($_POST['submit'])) {
-            $this->planModel->createPlan();
-        }
-    }
+    private function handleCreatePlan() {
+        if(isset($_POST ['title']))
+            $title = $_POST['title'];
+        else
+            $title = NULL;
 
+        if(!$title) {
+            return;
+        }
+
+        echo $this->planModel->createPlan($title);
+    }
 }
 ?>
