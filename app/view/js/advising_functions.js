@@ -671,6 +671,7 @@ function handleDropEventOnPlan(event, ui) {
             url: "index.php",
             method: 'POST',
             data: {
+                op: 'planitem',
                 plan: plan,
                 programId: programId,
                 courseId: courseId,
