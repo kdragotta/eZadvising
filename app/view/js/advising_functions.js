@@ -6,7 +6,7 @@ $(initState(0));
 var title = '';
 
 //TODO: Have rowcount pulled from the database
-var rowCount = 1;
+var rowCount = 0;
 
 // Maximum Number of Plans
 var maxNumOfPlans = 5;
@@ -90,7 +90,7 @@ function NewTab() {
 
                     tab.eq(length - 1).text(title);
                     pills.eq(length - 1).removeAttr('onclick');
-                    pills.eq(length - 1).removeAttr('href');
+
 
                     if (rowCount < maxNumOfPlans - 1) {
                         $("div#pills ul").append("<li class='planpill' onclick='ShowBox()' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill'>" +
@@ -104,7 +104,7 @@ function NewTab() {
 
             //TODO: shitty hack, need to fix later
 
-            var length = $("div#pills ul li").length - 2;
+            var length = $("div#pills ul li").length - 1;
 
             //rename DOM elements
             //todo use last time to copy instead of 0
