@@ -3,7 +3,7 @@ planMap = {};
 $(initState(0));
 
 // Initializations
-var tabTitle = '';
+var title = '';
 
 //TODO: Have rowcount pulled from the database
 var rowCount = 1;
@@ -13,14 +13,14 @@ var maxNumOfPlans = 5;
 
 /**
  * Handle passing of new tabs
- *  - Sets tabTitle to value from input
+ *  - Sets title to value from input
  */
 
 $(function () {
     $('#addPill').click(function (e) {
-        tabTitle = $('#title').val();
+        title = $('#title').val();
 
-        if (tabTitle == '') {
+        if (title == '') {
             ShowBox()
         } else {
             NewTab();
@@ -66,33 +66,38 @@ function ShowBox() {
  */
 
 function NewTab() {
-    if (tabTitle == '') {
+    if (title == '') {
         ShowBox();
     } else {
         if (rowCount == maxNumOfPlans) {
             alert('Maximum number of plans reached!');
         } else {
             $.ajax({
-                async: false,
+                url: "index.php",
                 method: 'POST',
-                url: "app/plan/planTitle.php",
                 data: {
-                    newTitle: tabTitle
+                    op: 'plan',
+                    title: title
                 },
                 success: function () {
+                    alert(title);
                     $("#modal").modal('hide');
 
                     $(".nav-pills").tabs();
                     var pills = $("div#pills ul li");
-                    var title = $("div#pills ul li a");
+                    var tab = $("div#pills ul li a");
                     var length = $("div#pills ul li").length;
 
-                    title.eq(length - 1).text(tabTitle);
+                    tab.eq(length - 1).text(title);
                     pills.eq(length - 1).removeAttr('onclick');
                     pills.eq(length - 1).removeAttr('href');
 
                     if (rowCount < maxNumOfPlans - 1) {
-                        $("div#pills ul").append("<li class='planpill' onclick='ShowBox()' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill'>+</a></li>");
+                        $("div#pills ul").append("<li class='planpill' onclick='ShowBox()' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill'>" +
+                            "<span class='glyphicon glyphicon-plus'></span></a></li>");
+                    } else {
+                        $("div#pills ul").append("<li class='planpill' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill'>" +
+                            "</li>");
                     }
                 }
             });
@@ -184,7 +189,6 @@ function NewTab() {
             });//end ajax
 
             rowCount++;
-            tabTitle = '';
         }
     }
 }
@@ -663,6 +667,7 @@ function handleDropEventOnPlan(event, ui) {
 
         //insert into database
         $.ajax({
+            op: 'planitem',
             url: "index.php",
             method: 'POST',
             data: {
