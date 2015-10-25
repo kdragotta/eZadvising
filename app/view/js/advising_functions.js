@@ -80,7 +80,6 @@ function NewTab() {
                     title: title
                 },
                 success: function () {
-                    alert(title);
                     $("#modal").modal('hide');
 
                     $(".nav-pills").tabs();
