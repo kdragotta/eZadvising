@@ -1,0 +1,60 @@
+/*
+    Stylesheet for Title Name Popup
+
+    Old JQuery UI Dialog CSS
+
+.ui-dialog .ui-dialog-title {
+    text-align: center;
+    width: 100%;
+}
+
+.ui-dialog-titlebar-close {
+    display: none;
+}
+
+.ui-dialog {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 100%;
+}
+
+#changeTitle {
+    margin-top: 10px;
+}
+*/
+
+#title {
+    text-align: center;
+}
+
+.modal {
+    height: 100%;
+    text-align: center;
+}
+
+.modal-content {
+    width: inherit;
+    height: inherit;
+    margin: 0 auto;
+}
+
+.modal-dialog {
+    margin: auto;
+    vertical-align: middle;
+    display: table-cell;
+    width: 30%;
+}
+
+.modal-header {
+    text-align: center;
+    background-color: teal;
+    color: white;
+    font-weight: bold;
+}
+
+.vertical-alignment-helper {
+    display: table;
+    height: 100%;
+    width: 100%;
+}
