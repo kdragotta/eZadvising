@@ -9,6 +9,8 @@ $connectionString = "mysql:host=" . DBSERVER . ";dbname=" . DBNAME;
 define("DBCONNECTSTRING", $connectionString);
 
 //show errors
+
+//brodoswaggins
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
