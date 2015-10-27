@@ -60,6 +60,44 @@ function ShowBox() {
 }
 
 /**
+ * Reload existing tabs
+ */
+
+function ReloadTab() {
+    $.ajax ({
+        url: "index.php",
+        method: 'GET',
+        data: {
+            title: title,
+            plan: rowCount
+        },
+        success: function() {
+            $("#modal").modal('hide');
+
+            $(".nav-pills").tabs();
+            var pills = $("div#pills ul li");
+            var tab = $("div#pills ul li a");
+            var length = $("div#pills ul li").length;
+
+            tab.eq(length - 1).text(title);
+            pills.eq(length - 1).removeAttr('onclick');
+
+
+            if (rowCount < maxNumOfPlans - 1) {
+                $("div#pills ul").append("<li class='planpill' onclick='ShowBox()' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill'>" +
+                    "<span class='glyphicon glyphicon-plus'></span></a></li>");
+            } else {
+                $("div#pills ul").append("<li class='planpill' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill'>" +
+                    "</li>");
+            }
+
+            rowCount++;
+        }
+
+    })
+}
+
+/**
  * Generation of tabs
  *  - Adds plan name to database
  *  -
@@ -77,7 +115,8 @@ function NewTab() {
                 method: 'POST',
                 data: {
                     op: 'plan',
-                    title: title
+                    title: title,
+                    plan: rowCount + 1
                 },
                 success: function () {
                     $("#modal").modal('hide');
