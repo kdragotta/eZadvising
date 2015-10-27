@@ -302,6 +302,7 @@ INSERT INTO `semester_codes` (`id`, `name`, `level`, `duration`, `order`) VALUES
 CREATE TABLE plan_title (
   id int NOT NULL AUTO_INCREMENT,
   title varchar(25) NOT NULL,
+  plan int NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
