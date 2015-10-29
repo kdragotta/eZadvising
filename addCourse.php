@@ -2,6 +2,7 @@
 
     <head>
         <link rel="stylesheet" type="text/css" href="addCourse.css">
+        <title>Add Course</title>
     </head>
 
     <header>
@@ -24,7 +25,7 @@
 
     $dept = $_POST['nondept'];
 
-    $sql = "SELECT * FROM `courses` WHERE `dept` LIKE '";
+    $sql = "SELECT * FROM `courses` WHERE `dept` LIKE '" AND `num`  ;
     $sql .= $dept . "'";
 
     /*$sql = "SELECT * FROM `courses`";*/
@@ -43,6 +44,14 @@
     echo "<th>Title</th>";
 
     echo "<form action = eatouch4.php method='post'>";
+
+    echo "<form >";
+    echo "<select id=narrowSearch>";
+    echo "<option value = '1%'>100</option>";
+    echo "<option value = '2%'>200</option>";
+    echo "<option value = '3%'>300</option>";
+    echo "<option value = '4%'>400</option>";
+    echo "</form>";
 
     if($result->num_rows > 0)
     {

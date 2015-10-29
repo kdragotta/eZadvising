@@ -21,7 +21,7 @@ else
 <html>
 <head>
     <title> eZAdvising </title>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 
@@ -39,6 +39,7 @@ else
     <?php
         echo 'Welcome back, ' . $_SESSION['first'];
     ?>
+    <button type="button" onclick="window.location.href='logout.php'">Log Out</button>
 </div>
 <div id="wrapper">
 
@@ -47,12 +48,12 @@ else
             <tr>
                 <th>Requirements</th>
             </tr>
-            <tr>
-                <th><button type="button" onclick="window.location.href='eligibleNow.php'">Eligible Now</button></th>
-            </tr>
-            <tr>
-                <th><button type="button" onclick="window.location.href='logout.php'">Log Out</button></th>
-            </tr>
+<!--            <tr>-->
+<!--                <th><button type="button" onclick="window.location.href='eligibleNow.php'">Eligible Now</button></th>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <th><button type="button" onclick="window.location.href='logout.php'">Log Out</button></th>-->
+<!--            </tr>-->
         </table>
         <div id="currentState">
 
@@ -106,27 +107,6 @@ else
 
         </div>
 
-        <?php
-        $addCourseArray = array();
-        $arrayCount = 0;
-        $t= $_POST['addc'];
-
-        $addCourseArray[$arrayCount] = $t;
-
-        if ($addCourseArray[$arrayCount] != "")
-        {
-            echo "<div draggable='true' class = 'drag' ondragstart='event.dataTransfer.setData('text/plain', 'This text may be dragged')'>";
-            echo "<div class = underline>";
-            echo $addCourseArray[$arrayCount];
-            echo "</div>";
-            echo "</div>";
-        }
-
-        echo "<br/>";
-
-        $arrayCount++;
-        ?>
-
         <table id = "nonRequredCourse">
             <th>Add Nonrequired Course</th>
         </table>
@@ -136,11 +116,11 @@ else
                 <option selected = "Select Dept." value = "0">Select Dept</option>
                 <option value = "CSCI">Computer Science</option>
                 <option value = "ENGL">English</option>
-                <option value="JOUR">Journalism</option>
-                <option value="RSM">RSM</option>
-                <option value="POLI">Politics</option>
-                <option value="THEA">Theatre</option>
-                <option value="MUS">Music</option>
+                <option value = "JOUR">Journalism</option>
+                <option value = "RSM">RSM</option>
+                <option value = "POLI">Politics</option>
+                <option value = "THEA">Theatre</option>
+                <option value = "MUS">Music</option>
                 </option>
             </select>
 
@@ -149,6 +129,21 @@ else
         </form>
 
 
+        <?php
+            $addCourseArray = array();
+            $arrayCount = 0;
+            $t= $_POST['addc'];
+
+            $addCourseArray[$arrayCount] = $t;
+
+            echo "<div draggable='true' class = 'req_box req_partialPlanned req_working ui-draggable ui-draggable-handle' ondragstart='event.dataTransfer.setData('text/plain', 'This text may be dragged')'>";
+            echo "<header>";
+            echo $addCourseArray[$arrayCount];
+            echo "</header>";
+            echo "</div>";
+
+            $arrayCount++;
+        ?>
 
         <!-- end stillRequiredList div -->
 
