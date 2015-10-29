@@ -5,7 +5,7 @@
  * Date: 9/10/2015
  * Time: 1:36 PM
  */
-
+session_start();
 $pagetitle = "Login";
 require_once 'config.php';
 require_once 'advising_functions.php';
