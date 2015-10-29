@@ -41,6 +41,7 @@
     echo "<th>Department</th>";
     echo "<th>Course</th>";
     echo "<th>Title</th>";
+    echo "<th>Description</th>";
 
     echo "<form action = eatouch4.php method='post'>";
 
@@ -59,6 +60,8 @@
             echo "<td class='center'>" . $row["dept"] . "</tc>";
             echo "<td>" . $row["num"] . "</td>";
             echo "<td>" . $row["title"] . "</td>";
+            echo "<td class='pad'>" . $row["description"] . "</td>";
+
 
             echo "</tr>";
 
