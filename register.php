@@ -18,6 +18,7 @@ $errorMessage = '';
 if(isset($_POST['submit'])) {
     //cleanse the data entered
     $FORMFIELD['username'] = trim($_POST['username']);
+    $FORMFIELD['email'] = trim($_POST['email']);
     $FORMFIELD['password'] = trim($_POST['password']);
     $FORMFIELD['confirmPassword'] = trim($_POST['confirmPassword']);
     $FORMFIELD['firstName'] = trim($_POST['firstName']);
@@ -31,6 +32,10 @@ if(isset($_POST['submit'])) {
     if(empty($FORMFIELD['username']))
     {
         $errorMessage .= 'Please enter your Username' . '<br>';
+    }
+    //check if the email is entered
+    if(empty($FORMFIELD['email'])){
+        $errorMessage .= 'Please enter your Email' . '<br>';
     }
     //Checks if the password is entered
     if(empty($FORMFIELD['password']))
@@ -59,7 +64,7 @@ if(isset($_POST['submit'])) {
         $errorMessage .= 'Please enter your last name' . '<br>';
     }
     //Checks if the type is entered
-    if(empty($FORMFIELD['type']) && $FORMFIELD != 0)
+    if(empty($FORMFIELD['type']) && $FORMFIELD <= 0)
     {
         $errorMessage .= 'Please enter the user type' . '<br>';
     }
@@ -123,10 +128,11 @@ if(isset($_POST['submit'])) {
         try
         {
             $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
-            $sql = "INSERT INTO accounts (`username`, `password`, `first`, `middle`, `last`, `salt`, `admin`)
-                      values (:username, :password, :firstName, :middleName, :lastName, :salt, :admin)";
+            $sql = "INSERT INTO accounts (`username`, `email`, `password`, `first`, `middle`, `last`, `salt`, `admin`)
+                      values (:username, :email, :password, :firstName, :middleName, :lastName, :salt, :admin)";
             $create = $conn->prepare($sql);
             $create->bindValue(':username', $FORMFIELD['username']);
+            $create->bindValue(':email', $FORMFIELD['email']);
             $create->bindValue(':password', $hashedPassword);
             $create->bindValue(':firstName', $FORMFIELD['firstName']);
             $create->bindValue(':middleName', $FORMFIELD['middleName']);
@@ -141,30 +147,30 @@ if(isset($_POST['submit'])) {
             exit();
         }
 
-            try{
-                $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
-                $sql='SELECT username FROM accounts WHERE username = :userName AND password = :password';
-                $confirmLogin = $conn->prepare($sql);
-                $confirmLogin->bindParam(':userName', $FORMFIELD['username']);
-                $confirmLogin->bindParam(':password', $FORMFIELD['password']);
-                $confirmLogin->execute();
-                $confirm = $confirmLogin->rowCount();
-            }
-            catch(PDOException $e){
-                echo  $e->getMessage();
-                exit();
-            }
-
-            echo "You successfully created a new User!";
-
-                echo "<br>";
-                echo "Redirecting to Login...";
-
-            $showForm = 0;
-            header("refresh:5; url=login.php");
-
-
+        try{
+            $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
+            $sql='SELECT username FROM accounts WHERE username = :userName AND password = :password';
+            $confirmLogin = $conn->prepare($sql);
+            $confirmLogin->bindParam(':userName', $FORMFIELD['username']);
+            $confirmLogin->bindParam(':password', $FORMFIELD['password']);
+            $confirmLogin->execute();
+            $confirm = $confirmLogin->rowCount();
         }
+        catch(PDOException $e){
+            echo  $e->getMessage();
+            exit();
+        }
+
+        echo "You successfully created a new User!";
+
+        echo "<br>";
+        echo "Redirecting to Login...";
+
+        $showForm = 0;
+        header("refresh:3; url=login.php");
+
+
+    }
 
 
 
@@ -175,49 +181,53 @@ if(isset($_POST['submit'])) {
 
 
 if($showForm == 1){
-?>
+    ?>
 
 
     <h1>Register</h1>
 
-<form name="register" id="register" method="post" action="register.php">
-    <table>
-        <tr>
-            <td>Username:</td>
-            <td><input type="text" name="username" id="username" size="20"/></td>
-        </tr>
-        <tr>
-            <td>Password:</td>
-            <td><input type="password" name="password" id="password" size="20"/></td>
-        </tr>
-        <tr>
-            <td>Confirm Password:</td>
-            <td><input type="password" name="confirmPassword" id="confirmPassword" size="20"/></td>
-        </tr>
-        <tr>
-            <td>First Name:</td>
-            <td><input type="text" name="firstName" id="firstName" size="20"/></td>
-        </tr>
-        <tr>
-            <td>Middle Name:</td>
-            <td><input type="text" name="middleName" id="middleName" size="20"/></td>
-        </tr>
-        <tr>
-            <td>Last Name:</td>
-            <td><input type="text" name="lastName" id="lastName" size="20"/></td>
-        </tr>
-        <tr>
-            <td>Type</td>
-            <td><input type="number" name="type" id="type" size="1" min="0" max="1"/></td>
-        </tr>
-        <tr>
-            <td>Submit:</td>
-            <td><input type="submit" name="submit" value="Submit"/></td>
-        </tr>
-    </table>
+    <form name="register" id="register" method="post" action="register.php">
+        <table>
+            <tr>
+                <td>Username:</td>
+                <td><input type="text" name="username" id="username" size="20"/></td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td><input type="email" name="email" id="email" size="20"/></td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><input type="password" name="password" id="password" size="20"/></td>
+            </tr>
+            <tr>
+                <td>Confirm Password:</td>
+                <td><input type="password" name="confirmPassword" id="confirmPassword" size="20"/></td>
+            </tr>
+            <tr>
+                <td>First Name:</td>
+                <td><input type="text" name="firstName" id="firstName" size="20"/></td>
+            </tr>
+            <tr>
+                <td>Middle Name:</td>
+                <td><input type="text" name="middleName" id="middleName" size="20"/></td>
+            </tr>
+            <tr>
+                <td>Last Name:</td>
+                <td><input type="text" name="lastName" id="lastName" size="20"/></td>
+            </tr>
+            <tr>
+                <td>Type</td>
+                <td><input type="number" name="type" id="type" size="1" min="0" max="1"/></td>
+            </tr>
+            <tr>
+                <td>Submit:</td>
+                <td><input type="submit" name="submit" value="Submit"/></td>
+            </tr>
+        </table>
 
 
-</form>
+    </form>
     <style>
         html, body {
             font-family: arial;

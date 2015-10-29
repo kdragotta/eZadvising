@@ -1,3 +1,5 @@
+
+
 <?php
 /**
  * Created by PhpStorm.
@@ -38,7 +40,7 @@ if(isset($_POST['submit'])) {
     if($errorMessage != '')
     {
 
-       // echo 'Error: ' . $errorMessage;
+        // echo 'Error: ' . $errorMessage;
         echo 'An error has occurred: ' . '<br>' .  $errorMessage;
         echo '<br />';
     }
@@ -112,9 +114,14 @@ if(isset($_POST['submit'])) {
 
                 $_SESSION['username'] = $row['username'];
                 $_SESSION['first'] = $row['first'];
+                $_SESSION['token'] = getToken(10);
+                //echo $_SESSION['token'];
 
                 //echo $_SESSION['first'];
                 $showForm = 0;
+               // header("Location: test.php");
+                //echo $_SESSION['first'];
+                //$showForm = 0;
 
                 header("Location: eatouch4.php");
             }
@@ -140,28 +147,31 @@ if(isset($_POST['submit'])) {
 
 
 if($showForm == 1){
-?>
+    ?>
     <h1>Login</h1>
-<p>Please log in to access registration.</p>
+    <p>Please log in to access registration.</p>
 
-<form name="loginForm" id="loginForm" method="post" action="login.php">
-    <table>
-        <tr>
-            <td>Username:</td>
-            <td><input type="text" name="username" id="username" size="20"/></td>
-        </tr>
-        <tr>
-            <td>Password:</td>
-            <td><input type="password" name="password" id="password" size="20"/></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><input type="submit" name="submit" value="Submit"/></td>
-        </tr>
-    </table>
-
-
-</form>
+    <form name="loginForm" id="loginForm" method="post" action="login.php">
+        <table>
+            <tr>
+                <td>Username:</td>
+                <td><input type="text" name="username" id="username" size="20"/></td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><input type="password" name="password" id="password" size="20"/><a href="forgotpass.php" class="pass"> Forgot Password?</a></td>
+            </tr><br><br>
+            <tr>
+                <td></td>
+                <td><input type="submit" name="submit" value="Submit"/></td>
+            </tr>
+            <tr>
+                <td><br></td>
+                <td><input type="checkbox" name="rememberme" value="yes"/>Remember me!</td>
+            </tr>
+        </table>
+    </form>
+    <p>Don't have an account? <a href="register.php">Click Here!</a></p>
 <?php
 }
 ?>
@@ -191,8 +201,16 @@ if($showForm == 1){
         margin-left: 20%;
     }
 
+    .pass {
+
+        font-size: 12px;
+    }
+
     .textbox  {
         width: 200px;
     }
 
+
 </style>
+
+

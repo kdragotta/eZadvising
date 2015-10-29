@@ -5,9 +5,14 @@ if(!isset($_SESSION['first']))
 {
     header("Location: login.php");
 }
+if(!isset($_COOKIE[time()]))
+{
+    header("Location: logout.php");
+}
 else
 {
-
+echo $_COOKIE[time()]. "<br>";
+    echo time();
 
 
 //$_SESSION['username'] = "crystal";
