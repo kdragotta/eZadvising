@@ -11,6 +11,7 @@ define("DBCONNECTSTRING", $connectionString);
 //show errors
 
 //brodoswaggins
+//yomom
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 

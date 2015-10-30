@@ -49,31 +49,39 @@ CREATE TABLE `courses` (
   `id` int(11) NOT NULL,
   `dept` varchar(10) NOT NULL,
   `num` varchar(10) NOT NULL,
+  `dif` int(11) NOT NULL,   -- difficulty rating (1-10)
+  `dr` FLOAT NOT NULL,     -- drop rate %
+  `fr` FLOAT NOT NULL,     -- fail rate %
   `prereqs` text,
   `defaultCreditHours` int(11) NOT NULL,
   `title` text,
   `description` text,
   `semestersOffered` varchar(30) NOT NULL COMMENT 'bitmask -positions match semester code, Y for offered, N for no, M for maybe'
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+--
+--  Difficulty determining algorithm
+--
+
+
 
 --
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`id`, `dept`, `num`, `prereqs`, `defaultCreditHours`, `title`, `description`, `semestersOffered`) VALUES
-(1, 'CSCI', '140', '', 3, 'Introduction to Algorithm Design I', 'description for CSCI 140', 'YYNNNM'),
-(2, 'CSCI', '140L', '', 1, 'Introduction to Algorithm Design I Lab', 'description for lab', 'YYNNNM'),
-(3, 'CSCI', '150', '1 and 2', 3, 'Introduction to Algorithm Design II', 'description for CSCI 150', 'YYNNNM'),
-(4, 'CSCI', '150L', '1 and 2', 1, 'Introduction to Algorithm Design II Lab', 'descriptino for CSCI 150L', 'YYNNNM'),
-(5, 'CSCI', '225', '', 3, 'Introduction to Relational Database and SQL', 'description for CSCI 225', 'YYNNNM'),
-(6, 'CSCI', '203', '6 and 7', 3, 'Introduction to Web Application Development', 'description for CSCI 203', 'YYNNNM'),
-(7, 'ENGL', '211', NULL, 3, 'Technical Writing', 'description for technical writing', 'YYNNNM'),
-(8, 'ENGL', '290', NULL, 3, 'Business Communication', 'description for Engl 290', 'YYNNNM'),
-(9, 'CSCI', '330', NULL, 3, 'Software Engineering I', 'description for SE I', 'YYNNNM'),
-(10, 'CSCI', '490', '8', 3, 'Software Engineering II', 'SE II description', 'YNNNNN'),
-(11, 'CSCI', '434', NULL, 3, 'Forensics', 'Description of forensics', 'YYNNNM'),
-(12, 'CSCI', '211', NULL, 3, 'Computer Infrastructure', 'description of 211', 'NYNNNM'),
-(13, 'CSCI', '350', '', 3, 'Programming Languages', 'description of programming languages', 'YNNNNN');
+INSERT INTO `courses` (`id`, `dept`, `num`,`dif`,`dr`, `fr`, `prereqs`, `defaultCreditHours`, `title`, `description`, `semestersOffered`) VALUES
+(1, 'CSCI', '140',x , 0.05, 0.05,'', 3, 'Introduction to Algorithm Design I', 'description for CSCI 140', 'YYNNNM');
+-- (2, 'CSCI', '140L', '', 1, 'Introduction to Algorithm Design I Lab', 'description for lab', 'YYNNNM'),
+-- (3, 'CSCI', '150', '1 and 2', 3, 'Introduction to Algorithm Design II', 'description for CSCI 150', 'YYNNNM'),
+-- (4, 'CSCI', '150L', '1 and 2', 1, 'Introduction to Algorithm Design II Lab', 'descriptino for CSCI 150L', 'YYNNNM'),
+-- (5, 'CSCI', '225', '', 3, 'Introduction to Relational Database and SQL', 'description for CSCI 225', 'YYNNNM'),
+-- (6, 'CSCI', '203', '6 and 7', 3, 'Introduction to Web Application Development', 'description for CSCI 203', 'YYNNNM'),
+-- (7, 'ENGL', '211', NULL, 3, 'Technical Writing', 'description for technical writing', 'YYNNNM'),
+-- (8, 'ENGL', '290', NULL, 3, 'Business Communication', 'description for Engl 290', 'YYNNNM'),
+-- (9, 'CSCI', '330', NULL, 3, 'Software Engineering I', 'description for SE I', 'YYNNNM'),
+-- (10, 'CSCI', '490', '8', 3, 'Software Engineering II', 'SE II description', 'YNNNNN'),
+-- (11, 'CSCI', '434', NULL, 3, 'Forensics', 'Description of forensics', 'YYNNNM'),
+-- (12, 'CSCI', '211', NULL, 3, 'Computer Infrastructure', 'description of 211', 'NYNNNM'),
+-- (13, 'CSCI', '350', '', 3, 'Programming Languages', 'description of programming languages', 'YNNNNN');
 
 -- --------------------------------------------------------
 
