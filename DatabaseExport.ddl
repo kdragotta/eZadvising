@@ -299,12 +299,19 @@ INSERT INTO `semester_codes` (`id`, `name`, `level`, `duration`, `order`) VALUES
 -- Table structure for table `plan_title`
 --
 
-CREATE TABLE plan_title (
-  id int NOT NULL AUTO_INCREMENT,
-  title varchar(25) NOT NULL,
-  plan int NOT NULL,
+CREATE TABLE `plan_title` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(25) NOT NULL,
+  `plan` int NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `semester_codes`
+--
+
+INSERT INTO `plan_title`(`title`, `plan`) VALUES
+('Default', 0);
 
 -- --------------------------------------------------------
 
