@@ -48,14 +48,17 @@
 </div>
 <!-- End of Bootstrap Form -->
 
-<!-- Nav Bar Tabs -->
-<div id="pills">
-    <ul class="nav nav-pills">
-        <li class="planpill active" id="pill0" href="plan0"><a href="#plan0" data-toggle="pill">Default</a></li>
-        <li class="planpill" id="pill1" onclick="ShowBox()"><a href="#plan1" data-toggle="pill"><span class="glyphicon glyphicon-plus"></span></a></li>
-    </ul>
-</div>
-<!-- End of Nav Bar Tabs -->
+<nav>
+    <!-- Nav Bar Tabs -->
+    <div id="pills">
+        <ul class="nav nav-pills">
+            <li class="planpill active" id="pill0" href="plan0"><a href="#plan0" data-toggle="pill">Default</a></li>
+            <li class="planpill" id="pill1" onclick="ShowBox()"><a href="#plan1" data-toggle="pill"><span
+                        class="glyphicon glyphicon-plus"></span></a></li>
+        </ul>
+    </div>
+    <!-- End of Nav Bar Tabs -->
+</nav>
 
 <div class="tab-content">
 
