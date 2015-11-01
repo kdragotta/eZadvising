@@ -19,13 +19,12 @@ if (isset($_POST['op']) == true) {
     }
 }
 
-
 if (empty($_GET) && empty($_POST)) {
     session_start();
     $_SESSION['username'] = "crystal";
     $_SESSION['studentId'] = 1;
     $_SESSION['token'] = "ABC";
 
-    include __DIR__ . "/app/view/eatouch4.php";
+    include __DIR__ . "/app/view/view.php";
 }
 ?>
