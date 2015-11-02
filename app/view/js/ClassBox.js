@@ -2,7 +2,6 @@ function ClassBox(req) {
 
     //todo: fix shitty code
     var classStr = "req_box";
-    ;
     var newElStr = "<div draggable=true class='" + classStr + "'><header>" + req.groupName + "</header>" + "</div>";
     var newEl = $(newElStr);
 

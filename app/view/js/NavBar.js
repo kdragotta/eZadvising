@@ -1,12 +1,27 @@
+/**
+ * Functionality of Navigation Bar
+ *  - Renaming of tabs
+ *  - Adding new tabs
+ *  - Reloads old tabs if exists
+ *
+ * TODO LIST:
+ * - rowCount will get count from table instead of hardcoded
+ * - fix error on first plan when load
+ * - save real plan # in NewTab()
+ */
+
+// Load on start
+$(window).load(function () {
+    ReloadTab();
+});
+
 // Initializations
 var title = '';
-var currentTitle = '';
-
-//TODO: Have rowcount pulled from the database
+var currentIndex = 0;
 var rowCount = 0;
 
 // Maximum Number of Plans
-var maxNumOfPlans = 5;
+var maxNumOfPlans = 8;
 
 /**
  * Handle passing of new tabs
@@ -63,13 +78,17 @@ function AddTitle() {
  */
 
 function ChangeTitle() {
-    // Grabs index of active tab to change name
-    currentTitle = $('.nav-pills .active').index() + 1;
+    if ($('.nav-pills .active').index() == 0) {
+        window.alert("You are not allowed to rename the default plan.");
+    } else {
+        // Grabs index of active tab to change name
+        currentIndex = $('.nav-pills .active').index() + 1;
 
-    $("#modal").modal('show').on('shown.bs.modal', function () {
-        $('.modal-title').text("Change Plan Name");
-        ClearFormField();
-    });
+        $("#modal").modal('show').on('shown.bs.modal', function () {
+            $('.modal-title').text("Change Plan Name");
+            ClearFormField();
+        });
+    }
 }
 
 /**
@@ -105,6 +124,8 @@ function GenerateTab() {
         $("div#pills ul").append("<li class='planpill' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill'>" +
             "</li>");
     }
+
+    title = '';
 }
 
 /**
@@ -120,7 +141,7 @@ function RenameTab() {
             method: 'POST',
             data: {
                 op: 'plan',
-                id: currentTitle,
+                id: currentIndex - 1,
                 newTitle: title
             },
             success: function () {
@@ -141,12 +162,20 @@ function ReloadTab() {
         url: "index.php",
         method: 'POST',
         data: {
-            title: title,
-            plan: rowCount
+            op: 'plan',
+            id: 1
         },
-        success: function () {
-            while (rowCount <= 5 && title != '') {
-                GenerateTab();
+        success: function (result) {
+            var titleHolder = JSON.parse(result);
+
+            if (!result) {
+                exit(-1);
+            } else {
+                for (var count = 0; count < titleHolder.length; count++) {
+                    title = titleHolder[count].title;
+                    GenerateTab();
+                    GeneratePlan(count + 1);
+                }
             }
         }
     });
@@ -169,14 +198,14 @@ function NewTab() {
                 data: {
                     op: 'plan',
                     title: title,
-                    plan: rowCount + 1
+                    plan: 1
                 },
                 success: function () {
                     GenerateTab();
                     title = '';
                 }
             });
-            GeneratePlan();
+            GeneratePlan(-1);
         }
     }
 }
@@ -185,11 +214,15 @@ function NewTab() {
  * Generates plans
  */
 
-function GeneratePlan() {
+function GeneratePlan(value) {
+    var length;
+
     //TODO: shitty hack, need to fix later
-
-    var length = $("div#pills ul li").length - 1;
-
+    if (value == -1) {
+        length = $("div#pills ul li").length - 1;
+    } else {
+        length = value;
+    }
     //rename DOM elements
     //todo use last time to copy instead of 0
     var plan = $('#plan0').clone(true);
@@ -230,15 +263,12 @@ function GeneratePlan() {
             year: 2014
         },
         success: function (result) {
-
-            //Build DOM
             var reqs = JSON.parse(result);
 
             for (var i = 0; i < reqs.length; i++) {
 
                 var req = reqs[i];
                 if (req.type != "onplan") {
-                    var count = length;
 
                     var classBox = new ClassBox(req);
                     classBox.createBox();
@@ -267,7 +297,6 @@ function GeneratePlan() {
                     }
                 }
             }
-            //return result;
-        }//end success
-    });//end ajax
+        }
+    });
 }

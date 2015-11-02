@@ -101,7 +101,6 @@ function showHideSummers() {
     $(".semester_block.minor").toggle();
 }
 
-
 function initState(index) {
 
     $(initSemesterStart(index));
@@ -131,7 +130,6 @@ function initState(index) {
                 var req = reqs[i];
                 console.log(req);
                 processReqUpdate(req);
-
             }
             //return result;
         }//end success

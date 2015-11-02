@@ -14,7 +14,7 @@ class PlanController
     {
         $this->handleCreatePlan();
         $this->handleChangePlanTitle();
-        //$this->handleReloadPlan();
+        $this->handleReloadPlan();
     }
 
     private function handleCreatePlan()
@@ -39,17 +39,10 @@ class PlanController
 
     public function handleReloadPlan()
     {
-        if (isset($_GET ['title']))
-            $title = $_GET['title'];
-        else
-            $title = NULL;
+        if(isset($_POST['id']))
+            $id = $_POST['id'];
 
-        if (isset($_GET ['plan']))
-            $plan = $_GET('plan');
-        else
-            $plan = NULL;
-
-        echo $this->planModel->reloadPlans($title, $plan);
+        echo $this->planModel->reloadPlans($id);
     }
 
     private function handleChangePlanTitle()
