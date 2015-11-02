@@ -53,7 +53,7 @@
     <div id="pills">
         <ul class="nav nav-pills">
             <li class="planpill active" id="pill0" href="plan0"><a href="#plan0" data-toggle="pill">Default</a></li>
-            <li class="planpill" id="pill1" onclick="ShowBox()"><a href="#plan1" data-toggle="pill"><span
+            <li class="planpill" id="pill1" onclick="AddTitle()"><a href="#plan1" data-toggle="pill"><span
                         class="glyphicon glyphicon-plus"></span></a></li>
         </ul>
     </div>
@@ -80,7 +80,7 @@
                 <tr>
                     <td>
                         <h4>
-                            <button data-toggle="modal" data-target="#modal" type="button">Change Plan Name</button>
+                            <button onclick="RenameTab()">Change Plan Name</button>
                             <button data-show="on" onclick="showHideSummers()"> Show/Hide Summers</button>
                         </h4>
                     </td>
