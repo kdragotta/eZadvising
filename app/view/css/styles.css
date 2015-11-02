@@ -1,4 +1,4 @@
-html,body{
+html, body {
     font-size: 100%; /*set base rem unit to 10*/
     font-family: 'arial';
     /*height: 100%;*/
@@ -7,14 +7,17 @@ html,body{
 .temp_hidden {
     /* display: none;*/
 }
+
 /****** Page Layout *******/
 * {
     box-sizing: border-box;
 }
+
 /*This just stops me getting horizontal scrolling if anything overflows the width*/
 body {
     overflow-x: hidden;
 }
+
 /*Just removing default browser padding/margin*/
 html,
 body {
@@ -22,10 +25,11 @@ body {
     margin: 0;
 
 }
+
 /*Flexbox gives us the flexiness we need. The top just stays put as there is no scrolling on the body due to the page never exceeding viewport height*/
 
 #top {
-    color:white;
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -40,13 +44,12 @@ body {
     display: flex;
     overflow: hidden;
     height: 100vh;
-    margin-top: -50px;
-    padding-top: -50px;
     position: relative;
     width: 100%;
     backface-visibility: hidden;
     will-change: overflow;
 }
+
 #left,
 #main,
 #right {
@@ -57,19 +60,16 @@ body {
     -ms-overflow-style: none;
 }
 
-
 #left {
     width: 12.5rem;
 }
 
 #main {
     flex: 1;
-
 }
 
 #right {
     width: 12.5rem;
-
 }
 
 /* newlayout
@@ -89,8 +89,6 @@ body {
     */
 
 }
-
-
 
 /* column wrapping middle and right columns */
 /* newlayout
@@ -128,24 +126,23 @@ height: 100%;
 
 }
 
-
-
-
 /* not currently used */
 .center {
     margin-left: auto;
     margin-right: auto;
 }
+
 /* use a media query later to stop at a minimum size */
 
 tr.space_under > td {
     padding-bottom: 10px;
 }
+
 th {
     padding-bottom: 10px;
 }
-/************ ***********/
 
+/************ ***********/
 
 /********* Requirement Box Styling ***********/
 
@@ -170,58 +167,60 @@ th {
 /* Note: left and middle are complementary, overlap when
     req is partially planned */
 
-
 /** course counting or course planned sub boxes **/
-.req_box > select  {
+.req_box > select {
     font-size: .8rem;
 }
+
 span.course_box {
     background-color: #D8D8D8;
     color: black;
-    font-size:0.8rem;
+    font-size: 0.8rem;
 }
+
 span.course_counting {
     /*background-color:#e0e0eb;*/
     border-style: solid;
-    border-width:1px;
+    border-width: 1px;
     border-radius: 5px;
     padding: 2px;
     z-index: 999;
     /* for showing span only as long as contents but not wrapping */
-    display:inline-block;
-    margin-bottom:4px;
+    display: inline-block;
+    margin-bottom: 4px;
 }
+
 span.course_counting_planned {
     /* background-color:orange;*/
     background-color: #FFE0CC;
     border-style: solid;
-    border-width:1px;
+    border-width: 1px;
     border-radius: 5px;
     padding: 2px;
     z-index: 999;
     /* for showing span only as long as contents but not wrapping */
-    display:inline-block;
-    margin-bottom:4px;
+    display: inline-block;
+    margin-bottom: 4px;
 }
-
 
 /* Requirements boxes are in divs */
 /********* General styling for all requirements boxes ***********/
-div.req_box
-{
-    background-color:#F8F8F8; /* lightest gray */
+div.req_box {
+    background-color: #F8F8F8; /* lightest gray */
     border-style: solid;
-    border-width:1px;
+    border-width: 1px;
     border-radius: 5px;
     padding: 6px;
     z-index: 999;
     /* for showing span only as long as contents but not wrapping */
-    display:block;
-    margin-bottom:4px;
+    display: block;
+    margin-bottom: 4px;
 }
+
 select {
     margin-left: 5px;
 }
+
 /*
 span.foundation {
 color: green;
@@ -236,10 +235,9 @@ color: orange;
 */
 
 span.eligible_now {
-    background-color:#b3b3bc;
+    background-color: #b3b3bc;
     /* add more to make it stand out and add more gray out to the non eligible */
 }
-
 
 /******** on left ******/
 div.req_box header {
@@ -247,9 +245,10 @@ div.req_box header {
     padding-bottom: 1px;
     border-bottom: 1px solid black;
     margin-bottom: 2px;
-    font-weight:bold;
-    font-size:.9rem;
+    font-weight: bold;
+    font-size: .9rem;
 }
+
 div.req_complete {
     color: white;
     /*  background-color: #E6F5EB;  light green */
@@ -263,7 +262,6 @@ div.req_completePlanned {
     /* background-color: #FFE0CC; light orange */
     background-color: #FF6600; /* dark orange */
 }
-
 
 /* some courses planned toward requirement but still not complete */
 div.req_partialPlanned {
@@ -291,26 +289,28 @@ div.req_been_planned {
     /*display: none;*/
 
 }
+
 div.req_working {
     color: white;
     background-color: #008080; /* teal */
 }
+
 /*******************/
 
 /*********  Styling for  requirements boxes ON PLAN **********/
 
 div.req_on_plan {
-    background-color:#ecbd16;
+    background-color: #ecbd16;
     margin: 2px;
 
     /* to fill up row-1 course per row */
-    display:block;
+    display: block;
 
 }
+
 /*******************/
 
 /*********  Styling for  semester PLAN boxes **********/
-
 
 div.semester_block header.semester_name {
     background-color: lightgray;
@@ -320,12 +320,12 @@ div.semester_block header.semester_name {
 
 div.semester_block {
     background-color: white;
-    height:16rem;
+    height: 16rem;
     width: 10.25rem;
     border-style: dotted;
     border-width: 1px;
     border-radius: 5px;
-    float:left;
+    float: left;
     margin-right: 5px;
     margin-bottom: 5px;
 
@@ -335,13 +335,13 @@ div.semester_block footer {
     text-align: right;
     border-top: 1px solid black;
 }
+
 /* actual droppable part */
 div.semester_plan {
-    height:13rem;
+    height: 13rem;
     width: 10rem;
 
 }
-
 
 /* when hovering over droppable */
 /*
@@ -355,7 +355,6 @@ div.semester_plan.over {
     border-color: red;
 }
 
-
 /* during drag */
 
 /********** Styling for Requirements Boxes IN MOTION ********/
@@ -363,11 +362,11 @@ div.semester_plan.over {
 span.drag_helper {
     background-color: yellow;
 }
+
 span.ui-draggable-dragging {
     background-color: yellow;
     box-shadow: 5px 5px 2px #888888;
 }
-
 
 /********* *********/
 
@@ -380,24 +379,27 @@ select.single {
     padding-right: 3px;
     padding-top: 1px;
     padding-bottom: 1px;
+    color: black;
 }
-
-
 
 span.stats {
     font-size: .7rem;
-    display:block;
-    text-align:right;
+    display: block;
+    text-align: right;
 }
+
 .req_complete span.stats {
     color: green;
 }
+
 .req_completePlanned span.stats {
     color: orange;
 }
+
 .req_partialPlanned span.stats {
     color: red;
 }
+
 .req_incomplete span.stats {
     color: red;
 }
@@ -405,34 +407,43 @@ span.stats {
 div.taken, div.planned, div.options {
     font-size: .75rem;
 }
+
 .req_on_plan div.options {
 
 }
+
 .req_on_plan div.taken {
-    display:none;
+    display: none;
 }
+
 .req_on_plan div.planned {
-    display:none;
+    display: none;
 }
+
 .req_on_plan span.stats {
-    display:none;
+    display: none;
 }
+
 .req_working div.options {
 
 }
+
 .req_working div.taken {
-    display:none;
+    display: none;
 }
+
 .req_working div.planned {
-    display:none;
+    display: none;
 }
 
 #main {
     overflow: auto;
 }
+
 #eligibleSwitch {
     font-size: .8rem;
 }
+
 #eligibleSwitch select {
     width: 100%;
     margin-bottom: 5px;

@@ -13,19 +13,56 @@ class PlanController
     public function handleRequest()
     {
         $this->handleCreatePlan();
+        $this->handleChangePlanTitle();
+        $this->handleReloadPlan();
     }
 
-    private function handleCreatePlan() {
-        if(isset($_POST ['title']))
+    private function handleCreatePlan()
+    {
+        if (isset($_POST ['title']))
             $title = $_POST['title'];
         else
             $title = NULL;
 
-        if(!$title) {
+        if (isset($_POST ['plan']))
+            $plan = $_POST['plan'];
+        else
+            $plan = NULL;
+
+        if ((!$title) || (!$plan)) {
             return;
         }
 
-        echo $this->planModel->createPlan($title);
+        echo $this->planModel->createPlan($title, $plan);
+    }
+
+
+    public function handleReloadPlan()
+    {
+        if(isset($_POST['id']))
+            $id = $_POST['id'];
+
+        echo $this->planModel->reloadPlans($id);
+    }
+
+    private function handleChangePlanTitle()
+    {
+        if (isset($_POST['id']))
+            $id = $_POST['id'];
+        else
+            return;
+
+        if (isset($_POST['newTitle']))
+            $newTitle = $_POST['newTitle'];
+        else
+            $newTitle = NULL;
+
+        if (!$newTitle) {
+            return;
+        }
+
+        echo $this->planModel->updatePlanTitle($id, $newTitle);
     }
 }
+
 ?>
