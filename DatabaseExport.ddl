@@ -306,13 +306,6 @@ CREATE TABLE `plan_title` (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `semester_codes`
---
-
-INSERT INTO `plan_title`(`title`, `plan`) VALUES
-('Default', 0);
-
 -- --------------------------------------------------------
 
 --
