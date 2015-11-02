@@ -69,9 +69,9 @@ CREATE TABLE `courses` (
 --
 
 INSERT INTO `courses` (`id`, `dept`, `num`,`dif`,`dr`, `fr`, `prereqs`, `defaultCreditHours`, `title`, `description`, `semestersOffered`) VALUES
-(1, 'CSCI', '140',0.0 , 0.05, 0.05, '' , 3, 'Introduction to Algorithm Design I', 'description for CSCI 140', 'YYNNNM');
--- (2, 'CSCI', '140L', , 0.05, 0.05, '' , 1, 'Introduction to Algorithm Design I Lab', 'description for lab', 'YYNNNM'),
--- (3, 'CSCI', '150', '1 and 2', 3, 'Introduction to Algorithm Design II', 'description for CSCI 150', 'YYNNNM'),
+(1, 'CSCI', '140',0.0 , 0.05, 0.05, '' , 3, 'Introduction to Algorithm Design I', 'description for CSCI 140', 'YYNNNM'),
+(2, 'CSCI', '140L', 0.0, 0.05, 0.05, '' , 1, 'Introduction to Algorithm Design I Lab', 'description for lab', 'YYNNNM');
+-- (3, 'CSCI', '150',0.0, 0.10, 0.10, '1 and 2', 3, 'Introduction to Algorithm Design II', 'description for CSCI 150', 'YYNNNM'),
 -- (4, 'CSCI', '150L', '1 and 2', 1, 'Introduction to Algorithm Design II Lab', 'descriptino for CSCI 150L', 'YYNNNM'),
 -- (5, 'CSCI', '225', '', 3, 'Introduction to Relational Database and SQL', 'description for CSCI 225', 'YYNNNM'),
 -- (6, 'CSCI', '203', '6 and 7', 3, 'Introduction to Web Application Development', 'description for CSCI 203', 'YYNNNM'),
