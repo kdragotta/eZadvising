@@ -131,6 +131,12 @@ class PlanItemModel {
         }
     }
 
+
+    private function difficultyGeneration($courseId, $hours)
+    {
+
+    }
+
     private function getUpdatedRequirementForStudent($token, $studentId, $reqId, $programId, $year)
     {
 
