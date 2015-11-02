@@ -49,7 +49,7 @@ CREATE TABLE `courses` (
   `id` int(11) NOT NULL,
   `dept` varchar(10) NOT NULL,
   `num` varchar(10) NOT NULL,
-  `dif` int(11) NOT NULL,   -- difficulty rating (1-10)
+  `dif` DOUBLE NOT NULL,   -- difficulty rating (1-10)
   `dr` FLOAT NOT NULL,     -- drop rate %
   `fr` FLOAT NOT NULL,     -- fail rate %
   `prereqs` text,
@@ -69,8 +69,8 @@ CREATE TABLE `courses` (
 --
 
 INSERT INTO `courses` (`id`, `dept`, `num`,`dif`,`dr`, `fr`, `prereqs`, `defaultCreditHours`, `title`, `description`, `semestersOffered`) VALUES
-(1, 'CSCI', '140',x , 0.05, 0.05,'', 3, 'Introduction to Algorithm Design I', 'description for CSCI 140', 'YYNNNM');
--- (2, 'CSCI', '140L', '', 1, 'Introduction to Algorithm Design I Lab', 'description for lab', 'YYNNNM'),
+(1, 'CSCI', '140',0.0 , 0.05, 0.05, '' , 3, 'Introduction to Algorithm Design I', 'description for CSCI 140', 'YYNNNM');
+-- (2, 'CSCI', '140L', , 0.05, 0.05, '' , 1, 'Introduction to Algorithm Design I Lab', 'description for lab', 'YYNNNM'),
 -- (3, 'CSCI', '150', '1 and 2', 3, 'Introduction to Algorithm Design II', 'description for CSCI 150', 'YYNNNM'),
 -- (4, 'CSCI', '150L', '1 and 2', 1, 'Introduction to Algorithm Design II Lab', 'descriptino for CSCI 150L', 'YYNNNM'),
 -- (5, 'CSCI', '225', '', 3, 'Introduction to Relational Database and SQL', 'description for CSCI 225', 'YYNNNM'),
