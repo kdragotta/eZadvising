@@ -9,6 +9,7 @@
  */
 session_start();
 $pagetitle = "Login";
+
 require_once 'config.php';
 require_once 'advising_functions.php';
 

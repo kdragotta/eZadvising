@@ -5,13 +5,14 @@ session_start();
 setcookie($_SESSION['token'], time() + 20);
 if(isset($_COOKIE[$_SESSION['token']]))
 {
+
     header("Location: eatouch4.php");
 }
 else
 {
     echo "error <br>";
     echo $_SESSION['token']. "<br>";
-    echo $_COOKIE[$_SESSION['token']];
+    echo $_COOKIE[time() + 20];
 }
 
 
