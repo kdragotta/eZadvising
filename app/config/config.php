@@ -2,7 +2,7 @@
 define("DBUSER", "advising");
 define("DBPASSWORD", "adv123");
 define("DBSERVER", "localhost");
-define("DBNAME", "ezadvising");
+define("DBNAME", "To");
 
 $connectionString = "mysql:host=" . DBSERVER . ";dbname=" . DBNAME;
 

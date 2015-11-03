@@ -14,19 +14,19 @@ class PlanItemModel {
                                  $year, $toSemester, $toYear, $plan)
     {
         try {
-           // if (!validateToken($token, $studentId)) {
-           //     return 403;
-           // }
+            // if (!validateToken($token, $studentId)) {
+            //     return 403;
+            // }
 
             //  if(empty($studentId)) return 404;
 
             $sql = 'UPDATE course_records '.
-                   'SET semesterCode = :toSemester, year = :toYear '.
-                   'WHERE studentId = :studentId '.
-                   'AND groupId = :groupId '.
-                   'AND semesterCode = :semester '.
-                   'AND year = :year '.
-                   'AND plan = :plan';
+                'SET semesterCode = :toSemester, year = :toYear '.
+                'WHERE studentId = :studentId '.
+                'AND groupId = :groupId '.
+                'AND semesterCode = :semester '.
+                'AND year = :year '.
+                'AND plan = :plan';
 
             //$sql = $sql. ' VALUES (null, :studentId, :courseId, null, :semester,
             // :year, :reqId, 2, :proposedReqId)';
@@ -56,47 +56,47 @@ class PlanItemModel {
                                 $semester, $planYear, $progYear, $programId,
                                 $reqId = null, $proposedReqId = null, $plan)
     {
-    try {
-        //if (!validateToken($token, $studentId)) {
-        //    return 403;
-        //}
+        try {
+            //if (!validateToken($token, $studentId)) {
+            //    return 403;
+            //}
 
-        //  if(empty($studentId)) return 404;
+            //  if(empty($studentId)) return 404;
 
-        $sql = 'INSERT INTO course_records '.
-               '(id, plan, studentId, courseId, grade, hours, semesterCode, '.
-               'year, groupId, type, proposedReqId) '.
-               ' VALUES (null, :plan, :studentId, :courseId, null, :hours, '.
-               ':semester, :year, :groupId, 2, :proposedReqId)';
-        $stmt = $this->conn->prepare($sql);
-
-
-        if ($proposedReqId == '') {$proposedReqId = null;}  //Fixes mysql failure when proposedReqID is an empty string
-
-        $stmt->bindParam(':studentId', $studentId);
-        $stmt->bindParam(':plan', $plan);
-        $stmt->bindParam(':semester', $semester);
-        $stmt->bindParam(':year', $planYear);
-        $stmt->bindParam(':courseId', $courseId);
-        $stmt->bindParam(':groupId', $reqId);
-        $stmt->bindParam(':proposedReqId', $proposedReqId);
-        $stmt->bindParam(':hours', $hours);
-        $success = $stmt->execute();
-        $inserted = $success ? "yes" : "no";
-        //echo "<h4>success:".$inserted."</h4>";
-        $result = $this->getUpdatedRequirementForStudent($token, $studentId, $reqId, $programId, $progYear);
-        //echo $result;
+            $sql = 'INSERT INTO course_records '.
+                '(id, plan, studentId, courseId, grade, hours, semesterCode, '.
+                'year, groupId, type, proposedReqId) '.
+                ' VALUES (null, :plan, :studentId, :courseId, null, :hours, '.
+                ':semester, :year, :groupId, 2, :proposedReqId)';
+            $stmt = $this->conn->prepare($sql);
 
 
-    }//end try
-    catch (PDOException $e) {
-        //echo $sql . "<br>" . $e->getMessage();
-        return 500;
+            if ($proposedReqId == '') {$proposedReqId = null;}  //Fixes mysql failure when proposedReqID is an empty string
+
+            $stmt->bindParam(':studentId', $studentId);
+            $stmt->bindParam(':plan', $plan);
+            $stmt->bindParam(':semester', $semester);
+            $stmt->bindParam(':year', $planYear);
+            $stmt->bindParam(':courseId', $courseId);
+            $stmt->bindParam(':groupId', $reqId);
+            $stmt->bindParam(':proposedReqId', $proposedReqId);
+            $stmt->bindParam(':hours', $hours);
+            $success = $stmt->execute();
+            $inserted = $success ? "yes" : "no";
+            //echo "<h4>success:".$inserted."</h4>";
+            $result = $this->getUpdatedRequirementForStudent($token, $studentId, $reqId, $programId, $progYear);
+            //echo $result;
+
+
+        }//end try
+        catch (PDOException $e) {
+            //echo $sql . "<br>" . $e->getMessage();
+            return 500;
+        }
+
+        return $result;
+
     }
-
-    return $result;
-
-}
     //NOT UPDATED DONE USED
     public function removePlanItem($token, $studentId, $courseId, $semester, $year, $reqId = null)
     {
@@ -108,8 +108,8 @@ class PlanItemModel {
             //  if(empty($studentId)) return 404;
 
             $sql = 'DELETE FROM course_records WHERE studentId=:studentId '.
-                   'AND courseId= :courseId AND semester=:semester '.
-                   'AND year=:year AND type=2';
+                'AND courseId= :courseId AND semester=:semester '.
+                'AND year=:year AND type=2';
             //$sql = $sql. ' VALUES (null, :studentId, :courseId, null, :semester,
             // :year, :reqId, 2, :proposedReqId)';
             $stmt = $this->conn->prepare($sql);
@@ -132,10 +132,7 @@ class PlanItemModel {
     }
 
 
-    private function difficultyGeneration($courseId, $hours)
-    {
 
-    }
 
     private function getUpdatedRequirementForStudent($token, $studentId, $reqId, $programId, $year)
     {
@@ -254,14 +251,14 @@ class PlanItemModel {
 
             //now get whether the requirement is met for the student
             $sqlCoursesTaken = 'SELECT courses.id, courses.dept, courses.num, '.
-                               'courses.title, courses.description, '.
-                               'course_records.hours, course_records.type,'.
-                               'course_records.semesterCode, '.
-                               'course_records.year, course_records.plan '.
-                               'FROM courses, course_records '.
-                               'WHERE course_records.studentId=:stuId '.
-                               'AND course_records.courseId=courses.id '.
-                               'AND course_records.reqId=:reqId';
+                'courses.title, courses.description, '.
+                'course_records.hours, course_records.type,'.
+                'course_records.semesterCode, '.
+                'course_records.year, course_records.plan '.
+                'FROM courses, course_records '.
+                'WHERE course_records.studentId=:stuId '.
+                'AND course_records.courseId=courses.id '.
+                'AND course_records.reqId=:reqId';
 
             $stmtCoursesTaken = $this->conn->prepare($sqlCoursesTaken);
             $stmtCoursesTaken->bindParam(':stuId', $studentId);
@@ -350,5 +347,12 @@ class PlanItemModel {
         //echo $jsonResult;
         return $jsonResult;
     }
+
+    private function difficultyGeneration($courseId, $hours)
+    {
+
+
+    }
 }
+
 ?>
