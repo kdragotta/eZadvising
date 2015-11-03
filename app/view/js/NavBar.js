@@ -3,6 +3,14 @@
  *  - Renaming of tabs
  *  - Adding new tabs
  *  - Reloads old tabs if exists
+ *  - Clear form fields on load
+ *
+ *  ERROR CHECKING:
+ *  - Disables user from renaming default tab
+ *  - Disables user from renaming the '+' tab
+ *  - If user closes the modal, returns to last active tab
+ *  - Disabled key input of ESC and Enter
+ *  - Checks if title is null & if json result is null, exit(-1)
  *
  * TODO LIST:
  * - rowCount will get count from table instead of hardcoded
@@ -18,9 +26,17 @@ $(window).load(function () {
 var title = '';
 var currentIndex = 0;
 var rowCount = 0;
+var lastTab = 0;
 
 // Maximum Number of Plans
 var maxNumOfPlans = 7;
+
+$(function() {
+    $('#closeModal').click(function () {
+        $('.nav-pills .active').removeClass('active');
+        $('#pill' + lastTab).addClass('active');
+    });
+});
 
 /**
  * Handle passing of new tabs
@@ -28,9 +44,8 @@ var maxNumOfPlans = 7;
  */
 
 $(function () {
-    $('#addPill').click(function (e) {
+    $('#addPill').click(function () {
         title = $('#title').val();
-
         if ($('.modal-title').text() == "Add New Plan") {
             NewTab();
         } else {
@@ -64,6 +79,8 @@ function keyStroke(e) {
  */
 
 function AddTitle() {
+    lastTab = $('.nav-pills .active').index();
+
     $("#modal").modal('show').on('shown.bs.modal', function () {
         $('.modal-title').text("Add New Plan");
         ClearFormField();
@@ -77,6 +94,8 @@ function AddTitle() {
  */
 
 function ChangeTitle() {
+    lastTab = $('.nav-pills .active').index();
+
     if ($('.nav-pills .active').index() == 0) {
         window.alert("You are not allowed to rename the default plan.");
     } else {

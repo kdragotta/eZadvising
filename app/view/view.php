@@ -25,7 +25,7 @@
     <!-- Nav Bar Tabs -->
     <div id="pills">
         <ul class="nav nav-pills">
-            <li class="planpill active" id="pill0" href="plan0"><a href="#plan0" data-toggle="pill">Default</a></li>
+            <li class="planpill active" id="pill0"><a href="#plan0" data-toggle="pill">Default</a></li>
             <li class="planpill" id="pill1" onclick="AddTitle()"><a href="#plan1" data-toggle="pill"><span
                         class="glyphicon glyphicon-plus"></span></a></li>
         </ul>
@@ -51,7 +51,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="closeModal">Close</button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal" id="addPill">Submit
                     </button>
                 </div>
