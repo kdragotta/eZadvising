@@ -3,10 +3,17 @@
  *  - Renaming of tabs
  *  - Adding new tabs
  *  - Reloads old tabs if exists
+ *  - Clear form fields on load
+ *
+ *  ERROR CHECKING:
+ *  - Disables user from renaming default tab
+ *  - Disables user from renaming the '+' tab
+ *  - If user closes the modal, returns to last active tab
+ *  - Disabled key input of ESC and Enter
+ *  - Checks if title is null & if json result is null, exit(-1)
  *
  * TODO LIST:
  * - rowCount will get count from table instead of hardcoded
- * - fix error on first plan when load
  * - save real plan # in NewTab()
  */
 
@@ -19,9 +26,17 @@ $(window).load(function () {
 var title = '';
 var currentIndex = 0;
 var rowCount = 0;
+var lastTab = 0;
 
 // Maximum Number of Plans
-var maxNumOfPlans = 8;
+var maxNumOfPlans = 7;
+
+$(function() {
+    $('#closeModal').click(function () {
+        $('.nav-pills .active').removeClass('active');
+        $('#pill' + lastTab).addClass('active');
+    });
+});
 
 /**
  * Handle passing of new tabs
@@ -29,9 +44,8 @@ var maxNumOfPlans = 8;
  */
 
 $(function () {
-    $('#addPill').click(function (e) {
+    $('#addPill').click(function () {
         title = $('#title').val();
-
         if ($('.modal-title').text() == "Add New Plan") {
             NewTab();
         } else {
@@ -65,6 +79,8 @@ function keyStroke(e) {
  */
 
 function AddTitle() {
+    lastTab = $('.nav-pills .active').index();
+
     $("#modal").modal('show').on('shown.bs.modal', function () {
         $('.modal-title').text("Add New Plan");
         ClearFormField();
@@ -78,6 +94,8 @@ function AddTitle() {
  */
 
 function ChangeTitle() {
+    lastTab = $('.nav-pills .active').index();
+
     if ($('.nav-pills .active').index() == 0) {
         window.alert("You are not allowed to rename the default plan.");
     } else {
@@ -120,9 +138,6 @@ function GenerateTab() {
     if (rowCount < maxNumOfPlans - 1) {
         $("div#pills ul").append("<li class='planpill' onclick='AddTitle()' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill'>" +
             "<span class='glyphicon glyphicon-plus'></span></a></li>");
-    } else {
-        $("div#pills ul").append("<li class='planpill' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill'>" +
-            "</li>");
     }
 
     title = '';
@@ -173,6 +188,7 @@ function ReloadTab() {
             } else {
                 for (var count = 0; count < titleHolder.length; count++) {
                     title = titleHolder[count].title;
+
                     GenerateTab();
                     GeneratePlan(count + 1);
                 }
@@ -223,6 +239,7 @@ function GeneratePlan(value) {
     } else {
         length = value;
     }
+
     //rename DOM elements
     //todo use last time to copy instead of 0
     var plan = $('#plan0').clone(true);
@@ -244,7 +261,6 @@ function GeneratePlan(value) {
     //todo fix later, from all tabs instead of one
     $('.in.active').removeClass('in active');
 
-    //add dom
     plan.addClass(('in active'));
 
     $('.tab-content').append(plan);
@@ -268,9 +284,10 @@ function GeneratePlan(value) {
             for (var i = 0; i < reqs.length; i++) {
 
                 var req = reqs[i];
-                if (req.type != "onplan") {
+                var classBox;
 
-                    var classBox = new ClassBox(req);
+                if (req.type != "onplan") {
+                    classBox = new ClassBox(req);
                     classBox.createBox();
                     classBox.addCourseOptions();
                     classBox.addCompletedCourses();
@@ -296,6 +313,14 @@ function GeneratePlan(value) {
                         classBox.addCourseToPlan();
                     }
                 }
+            }
+
+            // Removes 'in active' after each iteration
+            $('#plan' + value).removeClass('in active');
+
+            // On final iteration add active back to plan0 for refreshes
+            if (value == $('.nav-pills').length) {
+                $('#plan0').addClass('in active');
             }
         }
     });

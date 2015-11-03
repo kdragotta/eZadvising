@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title> eZAdvising </title>
-
+<header>
+    <!-- General Imports-->
     <script src="app/view/js/lib/jquery.min.js"></script>
     <script src="app/view/js/lib/jquery-ui.min.js"></script>
     <script src="app/view/js/lib/bootstrap.min.js"></script>
@@ -10,15 +9,29 @@
 
     <link rel="stylesheet" href="app/view/css/lib/jquery-ui.css">
     <link rel="stylesheet" href="app/view/css/lib/bootstrap.min.css">
+    <!-- End General Imports -->
+
+    <!-- Custom Styling -->
     <link rel="stylesheet" type="text/css" href="app/view/css/styles.css">
     <link rel="stylesheet" type="text/css" href="app/view/css/popup.css">
-</head>
+    <!-- End Custom Styling -->
 
-<body>
-<div id="top" class="top">
-    <h3> eZAdvising </h3>
+    <div id="top" class="top">
+        <h3> eZAdvising </h3>
+    </div>
+</header>
 
-</div>
+<nav>
+    <!-- Nav Bar Tabs -->
+    <div id="pills">
+        <ul class="nav nav-pills">
+            <li class="planpill active" id="pill0"><a href="#plan0" data-toggle="pill">Default</a></li>
+            <li class="planpill" id="pill1" onclick="AddTitle()"><a href="#plan1" data-toggle="pill"><span
+                        class="glyphicon glyphicon-plus"></span></a></li>
+        </ul>
+    </div>
+    <!-- End Nav Bar Tabs -->
+</nav>
 
 <!-- Bootstrap Form -->
 <div id="modal" class="modal fade" role="dialog" data-keyboard="false">
@@ -38,7 +51,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="closeModal">Close</button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal" id="addPill">Submit
                     </button>
                 </div>
@@ -46,25 +59,14 @@
         </div>
     </div>
 </div>
-<!-- End of Bootstrap Form -->
+<!-- End Bootstrap Form -->
 
-<nav>
-    <!-- Nav Bar Tabs -->
-    <div id="pills">
-        <ul class="nav nav-pills">
-            <li class="planpill active" id="pill0" href="plan0"><a href="#plan0" data-toggle="pill">Default</a></li>
-            <li class="planpill" id="pill1" onclick="AddTitle()"><a href="#plan1" data-toggle="pill"><span
-                        class="glyphicon glyphicon-plus"></span></a></li>
-        </ul>
-    </div>
-    <!-- End of Nav Bar Tabs -->
-</nav>
-
+<body>
+<!-- Div Wrapper -->
 <div class="tab-content">
-
     <div id="plan0" class="tab-pane fade in active">
-
         <div id="wrapper">
+            <!-- Div Left -->
             <div id="left">
                 <table>
                     <tr>
@@ -73,9 +75,9 @@
                 </table>
                 <div id="currentState0"></div>
             </div>
+            <!-- End Div Left -->
 
-            <!-- newlayout <div id="col23"> -->
-
+            <!-- Div Main -->
             <div id="main">
                 <tr>
                     <td>
@@ -85,14 +87,11 @@
                         </h4>
                     </td>
                 </tr>
-                <!-- <tr> <td><button onclick="unplan()" > Save Plan </button> </td> </tr>
-                <tr> <td><button onclick="unplan()" > Revert to Saved Plan </button></td></tr>
-                -->
                 <div id="thePlan0"></div>
             </div>
+            <!-- End Div Main -->
 
-            <!-- newlayout </div> --><!-- end div col23 -->
-
+            <!-- Div Right -->
             <div class="target" id="right">
 
                 <table id="required_table">
@@ -109,16 +108,20 @@
 
                 <div id="stillRequiredList0"></div>
             </div>
-            <!-- end div right -->
+            <!-- End Div Right -->
         </div>
     </div>
 </div>
-<!-- end div wrapper -->
-
+<!-- End Div Wrapper -->
 </body>
-<script src="app/view/js/advising_functions.js"></script>
+
+<!-- Custom Scripts -->
+<script src="app/view/js/AdvisingFunctions.js"></script>
 <script src="app/view/js/ClassBox.js"></script>
 <script src="app/view/js/NavBar.js"></script>
+<!-- End Custom Scripts -->
+
 <footer>
 </footer>
 <div id="temp_hidden" class="temp_hidden"></div>
+</html>
