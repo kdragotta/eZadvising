@@ -6,7 +6,6 @@
  *
  * TODO LIST:
  * - rowCount will get count from table instead of hardcoded
- * - fix error on first plan when load
  * - save real plan # in NewTab()
  */
 
@@ -21,7 +20,7 @@ var currentIndex = 0;
 var rowCount = 0;
 
 // Maximum Number of Plans
-var maxNumOfPlans = 8;
+var maxNumOfPlans = 7;
 
 /**
  * Handle passing of new tabs
@@ -120,9 +119,6 @@ function GenerateTab() {
     if (rowCount < maxNumOfPlans - 1) {
         $("div#pills ul").append("<li class='planpill' onclick='AddTitle()' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill'>" +
             "<span class='glyphicon glyphicon-plus'></span></a></li>");
-    } else {
-        $("div#pills ul").append("<li class='planpill' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill'>" +
-            "</li>");
     }
 
     title = '';
@@ -173,6 +169,7 @@ function ReloadTab() {
             } else {
                 for (var count = 0; count < titleHolder.length; count++) {
                     title = titleHolder[count].title;
+
                     GenerateTab();
                     GeneratePlan(count + 1);
                 }
@@ -223,6 +220,7 @@ function GeneratePlan(value) {
     } else {
         length = value;
     }
+
     //rename DOM elements
     //todo use last time to copy instead of 0
     var plan = $('#plan0').clone(true);
@@ -244,7 +242,6 @@ function GeneratePlan(value) {
     //todo fix later, from all tabs instead of one
     $('.in.active').removeClass('in active');
 
-    //add dom
     plan.addClass(('in active'));
 
     $('.tab-content').append(plan);
@@ -268,9 +265,10 @@ function GeneratePlan(value) {
             for (var i = 0; i < reqs.length; i++) {
 
                 var req = reqs[i];
-                if (req.type != "onplan") {
+                var classBox;
 
-                    var classBox = new ClassBox(req);
+                if (req.type != "onplan") {
+                    classBox = new ClassBox(req);
                     classBox.createBox();
                     classBox.addCourseOptions();
                     classBox.addCompletedCourses();
@@ -296,6 +294,14 @@ function GeneratePlan(value) {
                         classBox.addCourseToPlan();
                     }
                 }
+            }
+
+            // Removes 'in active' after each iteration
+            $('#plan' + value).removeClass('in active');
+
+            // On final iteration add active back to plan0 for refreshes
+            if (value == $('.nav-pills').length) {
+                $('#plan0').addClass('in active');
             }
         }
     });
