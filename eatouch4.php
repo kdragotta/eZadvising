@@ -13,7 +13,10 @@ else
 {
 //echo $_COOKIE[time()]. "<br>";
 //    echo time();
-
+/*
+ *
+ * delete this later
+ * */
 
 //$_SESSION['username'] = "crystal";
 //$_SESSION['first'] = $_REQUEST['first'];
