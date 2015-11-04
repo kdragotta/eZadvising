@@ -130,13 +130,13 @@ CREATE TABLE `course_records` (
 -- Dumping data for table `course_records`
 --
 
-INSERT INTO `course_records` (`id`, `plan`, `studentId`, `courseId`, `grade`, `year`, `groupId`, `type`, `proposedReqId`, `hours`, `semesterCode`) VALUES
-(283, '020151', 1, 7, NULL, 2015, 1, 2, NULL, 3, 1),
-(284, '020162', 1, 5, NULL, 2016, 2, 2, NULL, 3, 2),
-(285, '020164', 1, 10, NULL, 2016, 3, 2, NULL, 3, 4),
-(286, '120166', 1, 4, NULL, 2016, 8, 2, NULL, 1, 6),
-(287, '120162', 1, 7, NULL, 2016, 1, 2, NULL, 3, 2),
-(288, '120162', 1, 9, NULL, 2016, 4, 2, NULL, 3, 2);
+-- INSERT INTO `course_records` (`id`, `plan`, `studentId`, `courseId`, `grade`, `year`, `groupId`, `type`, `proposedReqId`, `hours`, `semesterCode`) VALUES
+-- (283, '020151', 1, 7, NULL, 2015, 1, 2, NULL, 3, 1),
+-- (284, '020162', 1, 5, NULL, 2016, 2, 2, NULL, 3, 2),
+-- (285, '020164', 1, 10, NULL, 2016, 3, 2, NULL, 3, 4),
+-- (286, '120166', 1, 4, NULL, 2016, 8, 2, NULL, 1, 6),
+-- (287, '120162', 1, 7, NULL, 2016, 1, 2, NULL, 3, 2),
+-- (288, '120162', 1, 9, NULL, 2016, 4, 2, NULL, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -296,21 +296,22 @@ INSERT INTO `semester_codes` (`id`, `name`, `level`, `duration`, `order`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `plan_title`
+-- Table structure for table `saved_plans`
 --
 
-CREATE TABLE `plan_title` (
+CREATE TABLE `saved_plans` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(25) NOT NULL,
   `plan` int NOT NULL,
+  `color` varchar(10) NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `semester_codes`
+-- Dumping data for table `saved_plans`
 --
 
--- INSERT INTO `plan_title`(`title`, `plan`) VALUES
+-- INSERT INTO `saved_plans`(`title`, `plan`) VALUES
 -- ('Default', 0);
 
 -- --------------------------------------------------------

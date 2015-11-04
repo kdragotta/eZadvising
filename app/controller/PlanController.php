@@ -29,11 +29,16 @@ class PlanController
         else
             $plan = NULL;
 
-        if ((!$title) || (!$plan)) {
+        if (isset($_POST ['color']))
+            $color = $_POST['color'];
+        else
+            $color = NULL;
+
+        if ((!$title) || (!$plan) || (!$color)) {
             return;
         }
 
-        echo $this->planModel->createPlan($title, $plan);
+        echo $this->planModel->createPlan($title, $plan, $color);
     }
 
 

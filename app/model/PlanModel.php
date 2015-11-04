@@ -11,17 +11,18 @@ class PlanModel
         $this->conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
     }
 
-    public function createPlan($title, $plan)
+    public function createPlan($title, $plan, $color)
     {
         try {
-            $sql = 'INSERT INTO plan_title' .
-                '(title, plan)' .
-                'VALUES (:title, :plan)';
+            $sql = 'INSERT INTO saved_plans' .
+                '(title, plan, color)' .
+                'VALUES (:title, :plan, :color)';
 
             $stmt = $this->conn->prepare($sql);
 
             $stmt->bindParam(':title', $title);
             $stmt->bindParam(':plan', $plan);
+            $stmt->bindParam(':color', $color);
 
             $stmt->execute();
         } catch (PDOException $e) {
@@ -32,7 +33,7 @@ class PlanModel
     public function reloadPlans($id)
     {
         try {
-            $sql = 'SELECT title FROM plan_title';
+            $sql = 'SELECT title, color FROM saved_plans';
 
             $stmt = $this->conn->prepare($sql);
 
@@ -53,7 +54,7 @@ class PlanModel
     public function deletePlans($plan)
     {
         try {
-            $sql = 'DELETE * FROM plan_title WHERE plan = :plan';
+            $sql = 'DELETE * FROM saved_plans WHERE plan = :plan';
 
             $stmt = $this->conn->prepare($sql);
 
@@ -68,7 +69,7 @@ class PlanModel
     public function updatePlanTitle($id, $newTitle)
     {
         try {
-            $sql = 'UPDATE plan_title SET title = :newTitle WHERE id = :id';
+            $sql = 'UPDATE saved_plans SET title = :newTitle WHERE id = :id';
 
             $stmt = $this->conn->prepare($sql);
 

@@ -23,7 +23,7 @@ $(window).load(function () {
 });
 
 // Initializations
-var color = '';
+var colors = [];
 var title = '';
 var currentIndex = 0;
 var rowCount = 0;
@@ -31,6 +31,15 @@ var lastTab = 0;
 
 // Maximum Number of Plans
 var maxNumOfPlans = 7;
+
+/**
+ * Handles changing of tab colors
+ */
+$(function () {
+    $("div#pills ul li a").click(function (e) {
+        $(e.target).css('background-color', colors[0]);
+    });
+});
 
 /**
  * If user decides to close modal, return to last active tab
@@ -139,7 +148,7 @@ function GenerateTab() {
 
     tab.eq(length - 1).text(title);
 
-    //tab.eq(length - 1).css('background-color', color);
+    //tab.eq(length - 1).css('background-color', 'red');
 
     pills.eq(length - 1).removeAttr('onclick');
 
@@ -195,7 +204,7 @@ function ReloadTab() {
             } else {
                 for (var count = 0; count < titleHolder.length; count++) {
                     title = titleHolder[count].title;
-                    color = titleHolder[count].color;
+                    colors[count] = titleHolder[count].color;
 
                     GenerateTab();
                     GeneratePlan(count + 1);
