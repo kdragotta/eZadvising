@@ -7,31 +7,32 @@
     <script src="app/view/js/lib/bootstrap.min.js"></script>
     <script src="app/view/js/lib/jquery-simulate.js"></script>
 
-    <link rel="stylesheet" href="app/view/css/lib/jquery-ui.css">
+    <!-- <link rel="stylesheet" href="app/view/css/lib/jquery-ui.css"> -->
     <link rel="stylesheet" href="app/view/css/lib/bootstrap.min.css">
     <!-- End General Imports -->
 
     <!-- Custom Styling -->
-    <link rel="stylesheet" type="text/css" href="app/view/css/styles.css">
-    <link rel="stylesheet" type="text/css" href="app/view/css/popup.css">
+    <link rel="stylesheet" href="app/view/css/popup.css">
+    <link rel="stylesheet" href="app/view/css/styles.css">
     <!-- End Custom Styling -->
 
     <div id="top" class="top">
         <h3> eZAdvising </h3>
     </div>
+
+
 </header>
 
+<!-- Nav Bar Tabs -->
 <nav>
-    <!-- Nav Bar Tabs -->
     <div id="pills">
         <ul class="nav nav-pills">
             <li class="planpill active" id="pill0"><a href="#plan0" data-toggle="pill">Default</a></li>
-            <li class="planpill" id="pill1" onclick="AddTitle()"><a href="#plan1" data-toggle="pill"><span
-                        class="glyphicon glyphicon-plus"></span></a></li>
+            <li class="planpill" id="pill1" onclick="AddTitle()"><a href="#plan1" data-toggle="pill">+</a></li>
         </ul>
     </div>
-    <!-- End Nav Bar Tabs -->
 </nav>
+<!-- End Nav Bar Tabs -->
 
 <!-- Bootstrap Form -->
 <div id="modal" class="modal fade" role="dialog" data-keyboard="false">
@@ -46,7 +47,7 @@
                     <form role="form" action="" method="POST" id="form" class="changeTitle"
                           onkeydown="keyStroke(event)">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="title" value=" " autofocus>
+                            <input type="text" class="form-control" id="title" value=" ">
                         </div>
                     </form>
                 </div>

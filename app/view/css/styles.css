@@ -1,9 +1,3 @@
-html, body {
-    font-size: 100%; /*set base rem unit to 10*/
-    font-family: 'arial';
-    /*height: 100%;*/
-}
-
 .temp_hidden {
     /* display: none;*/
 }
@@ -19,10 +13,12 @@ body {
 }
 
 /*Just removing default browser padding/margin*/
-html,
-body {
+html, body {
+    font-size: 100%; /*set base rem unit to 10*/
+    font-family: 'arial';
     padding: 0;
     margin: 0;
+    /*height: 100%;*/
 }
 
 /*Flexbox gives us the flexiness we need. The top just stays put as there is no scrolling on the body due to the page never exceeding viewport height*/
@@ -448,15 +444,29 @@ div.taken, div.planned, div.options {
     margin-bottom: 5px;
 }
 
-/* Navigation Pills */
+/* Navigation Bar */
 .nav {
-    padding: 5px;
-    border-top: solid 2px black;
-    border-bottom: solid 2px black;
+    padding: 7px;
     margin: auto;
     text-align: center;
     background-color: #f3f2f2;
-    color: #ffffff !important;
     font-family: sans-serif;
-    font-size: 1.0em;
+    font-size: 1.0em !important;
+}
+
+.nav-pills {
+    border: solid 1px black;
+    margin: 5px;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.nav-pills > li {
+    padding: 2px;
+}
+
+.nav-pills > li > a {
+    color: #FFFFFF;
+    background-color: #000000;
 }
