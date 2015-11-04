@@ -23,6 +23,7 @@ $(window).load(function () {
 });
 
 // Initializations
+var color = '';
 var title = '';
 var currentIndex = 0;
 var rowCount = 0;
@@ -31,7 +32,11 @@ var lastTab = 0;
 // Maximum Number of Plans
 var maxNumOfPlans = 7;
 
-$(function() {
+/**
+ * If user decides to close modal, return to last active tab
+ */
+
+$(function () {
     $('#closeModal').click(function () {
         $('.nav-pills .active').removeClass('active');
         $('#pill' + lastTab).addClass('active');
@@ -133,11 +138,13 @@ function GenerateTab() {
     var length = $("div#pills ul li").length;
 
     tab.eq(length - 1).text(title);
+
+    //tab.eq(length - 1).css('background-color', color);
+
     pills.eq(length - 1).removeAttr('onclick');
 
     if (rowCount < maxNumOfPlans - 1) {
-        $("div#pills ul").append("<li class='planpill' onclick='AddTitle()' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill'>" +
-            "<span class='glyphicon glyphicon-plus'></span></a></li>");
+        $("div#pills ul").append("<li class='planpill' onclick='AddTitle()' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill'>+</a></li>");
     }
 
     title = '';
@@ -188,6 +195,7 @@ function ReloadTab() {
             } else {
                 for (var count = 0; count < titleHolder.length; count++) {
                     title = titleHolder[count].title;
+                    color = titleHolder[count].color;
 
                     GenerateTab();
                     GeneratePlan(count + 1);
@@ -214,7 +222,8 @@ function NewTab() {
                 data: {
                     op: 'plan',
                     title: title,
-                    plan: 1
+                    plan: 1,
+                    color: '#FF0000',
                 },
                 success: function () {
                     GenerateTab();
@@ -235,12 +244,12 @@ function GeneratePlan(value) {
 
     //TODO: shitty hack, need to fix later
     if (value == -1) {
-        length = $("div#pills ul li").length - 1;
+        length = $("#pills ul li").length - 1;
     } else {
         length = value;
     }
 
-    //rename DOM elements
+    // Rename DOM elements
     //todo use last time to copy instead of 0
     var plan = $('#plan0').clone(true);
     plan.attr('id', 'plan' + length);
@@ -257,7 +266,7 @@ function GeneratePlan(value) {
     thePlan.attr('id', 'thePlan' + length);
     thePlan.children().remove();
 
-    //remove in active tabbing from active tab
+    // Remove in active tabbing from active tab
     //todo fix later, from all tabs instead of one
     $('.in.active').removeClass('in active');
 
