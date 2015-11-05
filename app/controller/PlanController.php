@@ -14,6 +14,7 @@ class PlanController
     {
         $this->handleCreatePlan();
         $this->handleChangePlanTitle();
+        $this->handleUpdateActiveTab();
         $this->handleReloadPlan();
     }
 
@@ -34,17 +35,22 @@ class PlanController
         else
             $color = NULL;
 
-        if ((!$title) || (!$plan) || (!$color)) {
+        if (isset($_POST ['active']))
+            $active = $_POST['active'];
+        else
+            $active = NULL;
+
+        if ((!$title) || (!$plan) || (!$color) || (!$active)) {
             return;
         }
 
-        echo $this->planModel->createPlan($title, $plan, $color);
+        echo $this->planModel->createPlan($title, $plan, $color, $active);
     }
 
 
     public function handleReloadPlan()
     {
-        if(isset($_POST['id']))
+        if (isset($_POST['id']))
             $id = $_POST['id'];
 
         echo $this->planModel->reloadPlans($id);
@@ -67,6 +73,24 @@ class PlanController
         }
 
         echo $this->planModel->updatePlanTitle($id, $newTitle);
+    }
+
+    private function handleUpdateActiveTab()
+    {
+        if (isset($_POST['id']))
+            $id = $_POST['id'];
+
+        if (isset($_POST ['currentActive']))
+            $currentActive = $_POST['currentActive'];
+        else
+            $currentActive = NULL;
+
+        if ((!$currentActive)) {
+            return;
+        }
+
+        echo $this->planModel->updateActiveTab($id, $currentActive);
+
     }
 }
 

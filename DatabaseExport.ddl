@@ -304,6 +304,7 @@ CREATE TABLE `saved_plans` (
   `title` varchar(25) NOT NULL,
   `plan` int NOT NULL,
   `color` varchar(10) NOT NULL,
+  `active` varchar(4) NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
@@ -311,8 +312,8 @@ CREATE TABLE `saved_plans` (
 -- Dumping data for table `saved_plans`
 --
 
-INSERT INTO `saved_plans`(`title`, `plan`, `color`) VALUES
-('Default', 0, '#428BCA');
+INSERT INTO `saved_plans`(`title`, `plan`, `color`, `active`) VALUES
+('Default', 0, '#428BCA', 'TRUE');
 
 -- --------------------------------------------------------
 

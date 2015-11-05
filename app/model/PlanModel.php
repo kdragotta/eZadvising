@@ -11,18 +11,19 @@ class PlanModel
         $this->conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
     }
 
-    public function createPlan($title, $plan, $color)
+    public function createPlan($title, $plan, $color, $active)
     {
         try {
             $sql = 'INSERT INTO saved_plans' .
-                '(title, plan, color)' .
-                'VALUES (:title, :plan, :color)';
+                '(title, plan, color, active)' .
+                'VALUES (:title, :plan, :color, :active)';
 
             $stmt = $this->conn->prepare($sql);
 
             $stmt->bindParam(':title', $title);
             $stmt->bindParam(':plan', $plan);
             $stmt->bindParam(':color', $color);
+            $stmt->bindParam(':active', $active);
 
             $stmt->execute();
         } catch (PDOException $e) {
@@ -33,7 +34,7 @@ class PlanModel
     public function reloadPlans($id)
     {
         try {
-            $sql = 'SELECT title, color FROM saved_plans';
+            $sql = 'SELECT title, color, active FROM saved_plans';
 
             $stmt = $this->conn->prepare($sql);
 
@@ -47,7 +48,7 @@ class PlanModel
 
             return $jsonResult;
         } catch (PDOException $e) {
-            return 200;
+            return 500;
         }
     }
 
@@ -75,6 +76,22 @@ class PlanModel
 
             $stmt->bindParam(':id', $id);
             $stmt->bindParam(':newTitle', $newTitle);
+
+            $stmt->execute();
+        } catch (PDOException $e) {
+            return 500;
+        }
+    }
+
+    public function updateActiveTab($id, $currentActive)
+    {
+        try {
+            $sql = 'UPDATE saved_plans SET active =: currentActive WHERE id = :id';
+
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':currentActive', $currentActive);
 
             $stmt->execute();
         } catch (PDOException $e) {

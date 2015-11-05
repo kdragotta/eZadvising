@@ -17,6 +17,7 @@
  *  - Color coded background
  *  - Color coded hovers
  *  - Delete plan
+ *  - Return to last active tab on reload
  *  - Finalize error checking
  */
 
@@ -44,8 +45,6 @@ var lastTab = 0;
  */
 
 $('.nav-pills').click(function (e) {
-    RefreshData();
-
     lastTab = $('.nav-pills .active').index();
 
     ReloadActiveColor(($(e.target).attr("id").substring(5)));
@@ -56,10 +55,14 @@ $('.nav-pills').click(function (e) {
  */
 
 $(function () {
-    $('#closeModal').click(function () {
+    $('#closeModal').click(function (e) {
         title = '';
-        $('.nav-pills .active').removeClass('active');
-        $('#pill' + lastTab).addClass('active');
+
+        if($('.modal-title').text() == "Add New Plan") {
+            $('.nav-pills .active').removeClass('active');
+            $('#pill' + lastTab).addClass('active');
+            ResetActiveTabColor(lastTab);
+        }
     });
 });
 
@@ -73,6 +76,7 @@ $(function () {
         title = $('#title').val();
         if ($('.modal-title').text() == "Add New Plan") {
             NewTab();
+            RefreshData();
         } else {
             RenameTab();
         }
@@ -175,7 +179,7 @@ function RenameTab() {
             method: 'POST',
             data: {
                 op: 'plan',
-                id: index - 1,
+                id: index,
                 newTitle: title
             },
             success: function () {
@@ -219,7 +223,7 @@ function ReloadTab() {
 }
 
 /**
- * Refreshes data on navigation click
+ * Refreshes data on submit
  */
 
 function RefreshData() {
@@ -264,6 +268,7 @@ function NewTab() {
                     title: title,
                     plan: plan + 1,
                     color: GetRandomColor(),
+                    active: 'TRUE',
                 },
                 success: function () {
                     plan++;
@@ -314,6 +319,11 @@ function ReloadActiveColor(value) {
     var bodyColor = document.getElementsByClassName('tab-content');
     bodyColor.style.backgroundColor = colors[value];
 
+}
+
+function ResetActiveTabColor(value) {
+    var lastActiveColor = document.getElementById('hover' + value);
+    lastActiveColor.style.backgroundColor = colors[value];
 }
 
 /**
