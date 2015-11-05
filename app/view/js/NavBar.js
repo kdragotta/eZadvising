@@ -294,9 +294,15 @@ function GetRandomColor() {
 
 /**
  * Reload styling for tabs
+ *  - Returns if value is null on click
+ *      (Means user clicked somewhere between or around the pills)
  */
 
 function ReloadActiveColor(value) {
+    if (value == '') {
+        return;
+    }
+
     alert(lastTab + ' | ' + value);
 
     var defaultColor = document.getElementById('hover' + lastTab);
