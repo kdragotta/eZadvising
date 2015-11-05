@@ -12,6 +12,7 @@
     <!-- End General Imports -->
 
     <!-- Custom Styling -->
+    <link rel="stylesheet" href="app/view/css/navigation.css">
     <link rel="stylesheet" href="app/view/css/popup.css">
     <link rel="stylesheet" href="app/view/css/styles.css">
     <!-- End Custom Styling -->
@@ -27,8 +28,7 @@
 <nav>
     <div id="pills">
         <ul class="nav nav-pills">
-            <li class="planpill active" id="pill0"><a href="#plan0" data-toggle="pill">Default</a></li>
-            <li class="planpill" id="pill1" onclick="AddTitle()"><a href="#plan1" data-toggle="pill">+</a></li>
+            <li class="planpill active" id="pill0"><a href="#plan0" data-toggle="pill" id="hover0"></a></li>
         </ul>
     </div>
 </nav>
@@ -65,7 +65,7 @@
 <body>
 <!-- Div Wrapper -->
 <div class="tab-content">
-    <div id="plan0" class="tab-pane fade in active">
+    <div id="plan0" class="tab-pane in active">
         <div id="wrapper">
             <!-- Div Left -->
             <div id="left">

@@ -4,41 +4,51 @@
  *  - Adding new tabs
  *  - Reloads old tabs if exists
  *  - Clear form fields on load
+ *  - Color coded tabs
  *
  *  ERROR CHECKING:
  *  - Disables user from renaming default tab
  *  - Disables user from renaming the '+' tab
- *  - If user closes the modal, returns to last active tab
- *  - Disabled key input of ESC and Enter
+ *  - Disables key input of ESC and Enter
+ *  - Always keeps track of user's last active tab
  *  - Checks if title is null & if json result is null, exit(-1)
  *
  * TODO LIST:
- * - rowCount will get count from table instead of hardcoded
- * - save real plan # in NewTab()
+ *  - Color coded background
+ *  - Color coded hovers
+ *  - Delete plan
+ *  - Finalize error checking
  */
+
+// Maximum number of plans
+var maxNumOfPlans = 7;
 
 // Load on start
 $(window).load(function () {
+    var defaultColor = document.getElementById('hover0');
+    defaultColor.style.backgroundColor = colors[0];
+
     ReloadTab();
 });
 
 // Initializations
+var color = '#';
 var colors = [];
 var title = '';
-var currentIndex = 0;
-var rowCount = 0;
+var plan = '';
+var index = -1;
 var lastTab = 0;
 
-// Maximum Number of Plans
-var maxNumOfPlans = 7;
-
 /**
- * Handles changing of tab colors
+ * On click event handler for nav bar
  */
-$(function () {
-    $("div#pills ul li a").click(function (e) {
-        $(e.target).css('background-color', colors[0]);
-    });
+
+$('.nav-pills').click(function (e) {
+    RefreshData();
+
+    lastTab = $('.nav-pills .active').index();
+
+    ReloadActiveColor(($(e.target).attr("id").substring(5)));
 });
 
 /**
@@ -47,6 +57,7 @@ $(function () {
 
 $(function () {
     $('#closeModal').click(function () {
+        title = '';
         $('.nav-pills .active').removeClass('active');
         $('#pill' + lastTab).addClass('active');
     });
@@ -93,8 +104,6 @@ function keyStroke(e) {
  */
 
 function AddTitle() {
-    lastTab = $('.nav-pills .active').index();
-
     $("#modal").modal('show').on('shown.bs.modal', function () {
         $('.modal-title').text("Add New Plan");
         ClearFormField();
@@ -108,13 +117,11 @@ function AddTitle() {
  */
 
 function ChangeTitle() {
-    lastTab = $('.nav-pills .active').index();
-
     if ($('.nav-pills .active').index() == 0) {
         window.alert("You are not allowed to rename the default plan.");
     } else {
         // Grabs index of active tab to change name
-        currentIndex = $('.nav-pills .active').index() + 1;
+        index = $('.nav-pills .active').index() + 1;
 
         $("#modal").modal('show').on('shown.bs.modal', function () {
             $('.modal-title').text("Change Plan Name");
@@ -139,21 +146,17 @@ function ClearFormField() {
 function GenerateTab() {
     $("#modal").modal('hide');
 
-    rowCount++;
-
     $(".nav-pills").tabs();
     var pills = $("div#pills ul li");
     var tab = $("div#pills ul li a");
     var length = $("div#pills ul li").length;
 
-    tab.eq(length - 1).text(title);
+    tab.eq(length-1).text(title);
 
-    //tab.eq(length - 1).css('background-color', 'red');
+    pills.eq(length-1).removeAttr('onclick');
 
-    pills.eq(length - 1).removeAttr('onclick');
-
-    if (rowCount < maxNumOfPlans - 1) {
-        $("div#pills ul").append("<li class='planpill' onclick='AddTitle()' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill'>+</a></li>");
+    if (plan < maxNumOfPlans - 1) {
+        $("div#pills ul").append("<li class='planpill' onclick='AddTitle()' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill' id='hover" + length + "'>+</a></li>");
     }
 
     title = '';
@@ -172,7 +175,7 @@ function RenameTab() {
             method: 'POST',
             data: {
                 op: 'plan',
-                id: currentIndex - 1,
+                id: index - 1,
                 newTitle: title
             },
             success: function () {
@@ -204,10 +207,38 @@ function ReloadTab() {
             } else {
                 for (var count = 0; count < titleHolder.length; count++) {
                     title = titleHolder[count].title;
+                    plan = count;
                     colors[count] = titleHolder[count].color;
-
                     GenerateTab();
                     GeneratePlan(count + 1);
+
+                }
+            }
+        }
+    });
+}
+
+/**
+ * Refreshes data on navigation click
+ */
+
+function RefreshData() {
+    $.ajax({
+        url: "index.php",
+        method: 'POST',
+        data: {
+            op: 'plan',
+            id: 1
+        },
+        success: function (result) {
+            var titleHolder = JSON.parse(result);
+
+            if (!result) {
+                exit(-1);
+            } else {
+                for (var count = 0; count < titleHolder.length; count++) {
+                    title = titleHolder[count].title;
+                    colors[count] = titleHolder[count].color;
                 }
             }
         }
@@ -222,7 +253,7 @@ function NewTab() {
     if (title == '') {
         AddTitle();
     } else {
-        if (rowCount == maxNumOfPlans) {
+        if (plan == maxNumOfPlans) {
             alert('Maximum number of plans reached!');
         } else {
             $.ajax({
@@ -231,17 +262,61 @@ function NewTab() {
                 data: {
                     op: 'plan',
                     title: title,
-                    plan: 1,
-                    color: '#FF0000',
+                    plan: plan + 1,
+                    color: GetRandomColor(),
                 },
                 success: function () {
+                    plan++;
                     GenerateTab();
+                    NewTabColor();
                     title = '';
                 }
             });
             GeneratePlan(-1);
         }
     }
+}
+
+/**
+ * Random color generator
+ */
+
+function GetRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    color = '#';
+
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+
+    return color;
+}
+
+/**
+ * Reload styling for tabs
+ */
+
+function ReloadActiveColor(value) {
+    alert(lastTab + ' | ' + value);
+
+    var defaultColor = document.getElementById('hover' + lastTab);
+    defaultColor.style.backgroundColor = 'black';
+
+    var activeColor = document.getElementById('hover' + value);
+    activeColor.style.backgroundColor = colors[value];
+
+    var bodyColor = document.getElementsByClassName('tab-content');
+    bodyColor.style.backgroundColor = colors[value];
+
+}
+
+/**
+ * New tab styling
+ */
+
+function NewTabColor() {
+    var newColor = document.getElementById('hover' + plan);
+    newColor.style.backgroundColor = color;
 }
 
 /**
@@ -253,7 +328,7 @@ function GeneratePlan(value) {
 
     //TODO: shitty hack, need to fix later
     if (value == -1) {
-        length = $("#pills ul li").length - 1;
+        length = $("#pills ul li").length;
     } else {
         length = value;
     }
