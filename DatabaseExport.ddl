@@ -311,8 +311,8 @@ CREATE TABLE `saved_plans` (
 -- Dumping data for table `saved_plans`
 --
 
--- INSERT INTO `saved_plans`(`title`, `plan`) VALUES
--- ('Default', 0);
+INSERT INTO `saved_plans`(`title`, `plan`, `color`) VALUES
+('Default', 0, '#428BCA');
 
 -- --------------------------------------------------------
 
