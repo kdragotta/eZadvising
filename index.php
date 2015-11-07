@@ -10,10 +10,12 @@ if (isset($_POST['op']) == true) {
     if (strcmp($op, 'plan') == 0) {
         $planController = new PlanController();
         $planController->handleRequest();
-    } else if (strcmp($op, 'planitem') == 0) {
+    }
+    else if (strcmp($op, 'planitem') == 0) {
         $planItemController = new PlanItemController();
         $planItemController->handleRequest();
-    } else if (strcmp($op, 'student') == 0) {
+    }
+    else if (strcmp($op, 'student') == 0) {
         $studentController = new StudentController();
         $studentController->handleRequest();
     }

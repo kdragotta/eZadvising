@@ -489,18 +489,23 @@ function handleDropEventOnPlan(event, ui) {
     //move from one semester to another
     else if (sourceId.substr(0, 1) == "p")
     {
+        //get source plan before moving
+        var sourceParentId = ui.draggable[0].parentNode.id;
         //move, don't clone
         $(ui.draggable).appendTo($(this)).css({position: 'relative', top: 0, left: 0});
 
-        /*
+
+        var fromYear = sourceParentId.substr(5, 4);  //get 4 from plan020164
+        var fromSemesterCode = sourceParentId.substr(9, 1);  //get 4 from plan020164
+
         //todo use .data() to manage
         var plan = targId.substr(4, 1);  //get 4 from plan020164
-        var fromYear = targId.substr(5, 4);  //get 4 from plan020164
-        var fromSemesterCode = targId.substr(9, 1);  //get 4 from plan020164
+
         /*
          var fromSemesterCode = $(ui.draggable).data('semesterCode');
          var fromYear = $(ui.draggable).data('year');
          var plan = $(ui.draggable).data('plan');
+        */
 
         var toSemesterCode = targId.substr(9, 1);
         var toPlanYear = targId.substr(5, 4);  //note:  (5, 4) to get 2015 from 'plan020153'
@@ -535,7 +540,6 @@ function handleDropEventOnPlan(event, ui) {
 
             }
         });
-        */
     }
 }
 
