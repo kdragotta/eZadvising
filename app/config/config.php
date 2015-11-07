@@ -2,13 +2,16 @@
 define("DBUSER", "advising");
 define("DBPASSWORD", "adv123");
 define("DBSERVER", "localhost");
-define("DBNAME", "ezadvising");
+define("DBNAME", "To");
 
 $connectionString = "mysql:host=" . DBSERVER . ";dbname=" . DBNAME;
 
 define("DBCONNECTSTRING", $connectionString);
 
 //show errors
+
+//brodoswaggins
+//yomom
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
