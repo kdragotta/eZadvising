@@ -3,6 +3,9 @@ session_start();
 $_SESSION['username'] = "crystal";
 $_SESSION['studentId'] = 1;
 $_SESSION['token'] = "ABC";
+
+// some random text for testing purposes.
+
 /** login, registration and enter records, import records, auto-plan, print option, email option **/
 /** scrape for course availability **/
 ?>
