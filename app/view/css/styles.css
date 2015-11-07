@@ -311,6 +311,8 @@ div.semester_block header.semester_name {
     background-color: lightgray;
     padding: 4px;
     font-size: .85rem;
+    text-align: center;
+    font-weight: bold;
 }
 
 div.semester_block {

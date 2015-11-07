@@ -71,7 +71,7 @@
             <div id="left">
                 <table>
                     <tr>
-                        <th>Classes Selected</th>
+                        <th class="planHeader">Classes Selected</th>
                     </tr>
                 </table>
                 <div id="currentState0"></div>
@@ -97,7 +97,7 @@
 
                 <table id="required_table">
                     <tr>
-                        <th>Need to Take</th>
+                        <th class="planHeader">Need to Take</th>
                     </tr>
                 </table>
 

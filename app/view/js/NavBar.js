@@ -22,23 +22,34 @@
  */
 
 // Maximum number of plans
-var maxNumOfPlans = 7;
+var maxNumOfPlans = 6;
 
-// Load on start
-$(window).load(function () {
-    var defaultColor = document.getElementById('hover0');
-    defaultColor.style.backgroundColor = colors[0];
-
-    ReloadTab();
-});
+// LGBT Color Array
+var lgbt = ['#ff3e18', '#fc9a00', '#ffd800', '#39ea7c', '#0bb2ff', ' #985aff'];
 
 // Initializations
 var color = '#';
 var colors = [];
 var title = '';
-var plan = '';
+var plan = 0;
 var index = -1;
 var lastTab = 0;
+
+// Load on start
+$(window).load(function () {
+    ReloadTab();
+
+    var defaultColor = document.getElementById('hover' + plan);
+    defaultColor.style.backgroundColor = lgbt[plan];
+    defaultColor.style.color = 'black';
+
+    var currentPlan = document.getElementsByClassName('semester_name');
+
+    for (var i = 0; i < currentPlan.length; i++) {
+        currentPlan[i].style.backgroundColor = lgbt[plan];
+        currentPlan[i].style.color = 'black';
+    }
+});
 
 /**
  * On click event handler for nav bar
@@ -267,7 +278,10 @@ function NewTab() {
                     op: 'plan',
                     title: title,
                     plan: plan + 1,
-                    color: GetRandomColor(),
+                    // LBGT Color
+                    color: GetLBGTColor(),
+                    // Random Color
+                    // color: GetRandomColor(),
                     active: 'TRUE',
                 },
                 success: function () {
@@ -298,6 +312,15 @@ function GetRandomColor() {
 }
 
 /**
+ * Get lbgt color
+ */
+
+function GetLBGTColor() {
+
+    return lgbt[plan + 1];
+}
+
+/**
  * Reload styling for tabs
  *  - Returns if value is null on click
  *      (Means user clicked somewhere between or around the pills)
@@ -308,22 +331,31 @@ function ReloadActiveColor(value) {
         return;
     }
 
-    alert(lastTab + ' | ' + value);
-
     var defaultColor = document.getElementById('hover' + lastTab);
-    defaultColor.style.backgroundColor = 'black';
+    defaultColor.style.backgroundColor = '';
 
     var activeColor = document.getElementById('hover' + value);
     activeColor.style.backgroundColor = colors[value];
+    activeColor.style.color = 'black';
 
-    var bodyColor = document.getElementsByClassName('tab-content');
-    bodyColor.style.backgroundColor = colors[value];
+    var currentPlan = document.getElementsByClassName('semester_name');
 
+    for (var i = 0; i < currentPlan.length; i++) {
+        currentPlan[i].style.backgroundColor = lgbt[value];
+        currentPlan[i].style.color = 'black';
+    }
 }
 
 function ResetActiveTabColor(value) {
     var lastActiveColor = document.getElementById('hover' + value);
     lastActiveColor.style.backgroundColor = colors[value];
+
+    var lastPlan = document.getElementsByClassName('semester_name');
+
+    for (var i = 0; i < lastPlan.length; i++) {
+        lastPlan[i].style.backgroundColor = lgbt[value];
+        lastPlan[i].style.color = 'black';
+    }
 }
 
 /**
@@ -331,8 +363,17 @@ function ResetActiveTabColor(value) {
  */
 
 function NewTabColor() {
-    var newColor = document.getElementById('hover' + plan);
-    newColor.style.backgroundColor = color;
+    lastTab = $('.nav-pills .active').index();
+
+    var newColor = document.getElementById('hover' + (lastTab));
+    newColor.style.backgroundColor = lgbt[lastTab];
+
+    var currentPlan = document.getElementsByClassName('semester_name');
+
+    for (var i = 0; i < currentPlan.length; i++) {
+        currentPlan[i].style.backgroundColor = lgbt[lastTab];
+        currentPlan[i].style.color = 'black';
+    }
 }
 
 /**
