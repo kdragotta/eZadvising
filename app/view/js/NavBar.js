@@ -1,10 +1,10 @@
 /**
- * Functionality of Navigation Bar
+ *  Functionality of Navigation Bar
  *  - Renaming of tabs
  *  - Adding new tabs
  *  - Reloads old tabs if exists
  *  - Clear form fields on load
- *  - Color coded tabs
+ *  - Color coded
  *
  *  ERROR CHECKING:
  *  - Disables user from renaming default tab
@@ -13,8 +13,7 @@
  *  - Always keeps track of user's last active tab
  *  - Checks if title is null & if json result is null, exit(-1)
  *
- * TODO LIST:
- *  - Color coded background
+ *  TODO LIST:
  *  - Color coded hovers
  *  - Delete plan
  *  - Return to last active tab on reload
@@ -26,6 +25,9 @@ var maxNumOfPlans = 6;
 
 // LGBT Color Array
 var lgbt = ['#ff3e18', '#fc9a00', '#ffd800', '#39ea7c', '#0bb2ff', ' #985aff'];
+
+// Change color of last active tab
+// $('.nav-pills .active a').css('background-color', 'blue');
 
 // Initializations
 var color = '#';
@@ -59,6 +61,7 @@ $('.nav-pills').click(function (e) {
     lastTab = $('.nav-pills .active').index();
 
     ReloadActiveColor(($(e.target).attr("id").substring(5)));
+
 });
 
 /**
@@ -334,16 +337,27 @@ function ReloadActiveColor(value) {
     var defaultColor = document.getElementById('hover' + lastTab);
     defaultColor.style.backgroundColor = '';
 
+    if(value == plan + 1) {
+        var plusButton = document.getElementById('hover');
+
+        var currentPlan = document.getElementsByClassName('semester_name');
+
+        for (var i = 0; i < currentPlan.length; i++) {
+            currentPlan[i].style.backgroundColor = 'lightgrey';
+            currentPlan[i].style.color = 'black';
+        }
+    } else {
+        var currentPlan = document.getElementsByClassName('semester_name');
+
+        for (var i = 0; i < currentPlan.length; i++) {
+            currentPlan[i].style.backgroundColor = lgbt[value];
+            currentPlan[i].style.color = 'black';
+        }
+    }
+
     var activeColor = document.getElementById('hover' + value);
     activeColor.style.backgroundColor = colors[value];
     activeColor.style.color = 'black';
-
-    var currentPlan = document.getElementsByClassName('semester_name');
-
-    for (var i = 0; i < currentPlan.length; i++) {
-        currentPlan[i].style.backgroundColor = lgbt[value];
-        currentPlan[i].style.color = 'black';
-    }
 }
 
 function ResetActiveTabColor(value) {
