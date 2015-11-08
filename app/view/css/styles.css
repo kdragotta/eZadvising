@@ -9,6 +9,7 @@
 
 /*This just stops me getting horizontal scrolling if anything overflows the width*/
 body {
+    background-color: #f3f2f2;
     overflow-x: hidden;
 }
 
