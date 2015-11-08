@@ -20,16 +20,33 @@
     <div id="top" class="top">
         <h3> eZAdvising </h3>
     </div>
-
-
 </header>
-
 <!-- Nav Bar Tabs -->
-<nav>
-    <div id="pills">
-        <ul class="nav nav-pills">
-            <li class="planpill active" id="pill0"><a href="#plan0" data-toggle="pill" id="hover0"></a></li>
-        </ul>
+<nav class="navWrapper">
+    <div id="leftNav">
+        <div id="pills">
+            <ul class="nav nav-pills">
+                <li class="planpill active" id="pill0"><a href="#plan0" data-toggle="pill" id="hover0"></a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="rightNav">
+        <div class="dropdown">
+            <a class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                Menu
+                <span class="icon-bars-button">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a onclick="RenameTab();">Change Plan Name</a></li>
+                <li><a onclick="DeletePlan();">Delete Current Plan</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a data-show="on" onclick="showHideSummers()">Show / Hide Summers</a></li>
+            </ul>
+        </div>
     </div>
 </nav>
 <!-- End Nav Bar Tabs -->
@@ -53,8 +70,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal" id="closeModal">Close</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="addPill">Submit
-                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="addPill">Submit</button>
                 </div>
             </div>
         </div>
@@ -80,14 +96,8 @@
 
             <!-- Div Main -->
             <div id="main">
-                <tr>
-                    <td>
-                        <h4>
-                            <button onclick="RenameTab()">Change Plan Name</button>
-                            <button data-show="on" onclick="showHideSummers()"> Show/Hide Summers</button>
-                        </h4>
-                    </td>
-                </tr>
+                <!-- Need this here for some reason... without it there are plans on the right bar -->
+                <button type="button" data-show="on" onclick="showHideSummers();" hidden>Submit</button>
                 <div id="thePlan0"></div>
             </div>
             <!-- End Div Main -->
