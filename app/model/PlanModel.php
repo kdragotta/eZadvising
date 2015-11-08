@@ -52,18 +52,21 @@ class PlanModel
         }
     }
 
-    public function deletePlans($plan)
+    public function deletePlan($deletePlan)
     {
         try {
-            $sql = 'DELETE *
-                    FROM saved_plans
-                    WHERE plan = :plan';
+            $sql = 'DELETE a.*, b.*
+                    FROM saved_plans a
+                    LEFT JOIN course_records b
+                    ON b.plan = a.plan
+                    WHERE a.plan = :deletePlan';
 
             $stmt = $this->conn->prepare($sql);
 
-            $stmt->bindParam(':plan', $plan);
+            $stmt->bindParam(':deletePlan', $deletePlan);
 
             $stmt->execute();
+
         } catch (PDOException $e) {
             return 500;
         }
@@ -98,6 +101,40 @@ class PlanModel
 
             $stmt->bindParam(':id', $id);
             $stmt->bindParam(':currentActive', $currentActive);
+
+            $stmt->execute();
+        } catch (PDOException $e) {
+            return 500;
+        }
+    }
+
+    public function updateValues($updateValues)
+    {
+        try {
+            $sql = 'UPDATE saved_plans
+                    SET plan = plan - 1
+                    WHERE plan > :updateValues';
+
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->bindParam(':updateValues', $updateValues);
+
+            $stmt->execute();
+        } catch (PDOException $e) {
+            return 500;
+        }
+    }
+
+    public function updatePlanValues($updateValues)
+    {
+        try {
+            $sql = 'UPDATE course_records
+                    SET plan = plan - 1
+                    WHERE plan > :updateValues';
+
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->bindParam(':updateValues', $updateValues);
 
             $stmt->execute();
         } catch (PDOException $e) {

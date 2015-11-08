@@ -2,6 +2,7 @@
  *  Functionality of Navigation Bar
  *  - Renaming of tabs
  *  - Adding new tabs
+ *  - Deletion of plans
  *  - Reloads old tabs if exists
  *  - Clear form fields on load
  *  - Color coded
@@ -58,11 +59,9 @@ $(window).load(function () {
  */
 
 $('.nav-pills').click(function (e) {
-
     lastTab = $('.nav-pills .active').index();
 
     ReloadActiveColor(($(e.target).attr("id").substring(5)));
-
 });
 
 /**
@@ -72,7 +71,6 @@ $('.nav-pills').click(function (e) {
 $(function () {
     $('#closeModal').click(function (e) {
         title = '';
-
         if ($('.modal-title').text() == "Add New Plan") {
             $('.nav-pills .active').removeClass('active');
             $('#pill' + lastTab).addClass('active');
@@ -123,6 +121,13 @@ function keyStroke(e) {
  */
 
 function AddTitle() {
+    var currentPlan = document.getElementsByClassName('semester_name');
+
+    for (var i = 0; i < currentPlan.length; i++) {
+        currentPlan[i].style.backgroundColor = 'lightgrey';
+        currentPlan[i].style.color = 'black';
+    }
+
     $("#modal").modal('show').on('shown.bs.modal', function () {
         $('.modal-title').text("Add New Plan");
         ClearFormField();
@@ -272,6 +277,75 @@ function RefreshData() {
 }
 
 /**
+ * Delete plan & tab
+ */
+
+function DeletePlan() {
+    if ($('.nav-pills .active').index() == 0) {
+        window.alert("You are not allowed to delete the default plan.");
+    } else {
+        // Grabs index of active tab to change name
+        index = $('.nav-pills .active').index();
+
+        $.ajax({
+            url: "index.php",
+            method: 'POST',
+            data: {
+                op: 'plan',
+                deletePlan: index
+            },
+            success: function () {
+                plan--;
+                ClearTabs();
+            }
+        });
+    }
+}
+
+/**
+ * Clear Tabs
+ */
+
+function ClearTabs() {
+    $.ajax({
+        url: "index.php",
+        method: 'POST',
+        data: {
+            op: 'plan',
+            updateValues: index
+        },
+        success: function () {
+            DumpData();
+        }
+    });
+}
+
+function DumpData() {
+    $("div#pills ul").empty();
+    $("div#pills ul").append("<li class='planpill' onclick='AddTitle()' id='pill" +
+        0 + "'><a href='#plan" + 0 + "'data-toggle='pill' id='hover" + 0 + "'>+</a></li>");
+
+    var defaultColor = document.getElementById('hover' + 0);
+
+    defaultColor.style.backgroundColor = lgbt[0];
+    defaultColor.style.color = 'black';
+
+    var currentPlan = document.getElementsByClassName('semester_name');
+
+    for (var i = 0; i < currentPlan.length; i++) {
+        currentPlan[i].style.backgroundColor = lgbt[0];
+        currentPlan[i].style.color = 'black';
+    }
+
+    ClearData();
+}
+
+function ClearData() {
+    $('.tab-content').empty();
+    ReloadTab();
+}
+
+/**
  * Create New Tab
  */
 
@@ -289,11 +363,8 @@ function NewTab() {
                     op: 'plan',
                     title: title,
                     plan: plan + 1,
-                    // LBGT Color
-                    color: GetLBGTColor(),
-                    // Random Color
-                    // color: GetRandomColor(),
-                    active: 'TRUE',
+                    color: GetRandomColor(),
+                    active: 'TRUE'
                 },
                 success: function () {
                     plan++;
@@ -323,15 +394,6 @@ function GetRandomColor() {
 }
 
 /**
- * Get lbgt color
- */
-
-function GetLBGTColor() {
-
-    return lgbt[plan + 1];
-}
-
-/**
  * Reload styling for tabs
  *  - Returns if value is null on click
  *      (Means user clicked somewhere between or around the pills)
@@ -345,13 +407,8 @@ function ReloadActiveColor(value) {
     var defaultColor = document.getElementById('hover' + lastTab);
     defaultColor.style.backgroundColor = '';
 
-    if (value == plan + 1) {
-        var currentPlan = document.getElementsByClassName('semester_name');
+    if (value == lastTab) {
 
-        for (var i = 0; i < currentPlan.length; i++) {
-            currentPlan[i].style.backgroundColor = 'lightgrey';
-            currentPlan[i].style.color = 'black';
-        }
     } else {
         var currentPlan = document.getElementsByClassName('semester_name');
 
@@ -362,13 +419,13 @@ function ReloadActiveColor(value) {
     }
 
     var activeColor = document.getElementById('hover' + value);
-    activeColor.style.backgroundColor = colors[value];
+    activeColor.style.backgroundColor = lgbt[value];
     activeColor.style.color = 'black';
 }
 
 function ResetActiveTabColor(value) {
     var lastActiveColor = document.getElementById('hover' + value);
-    lastActiveColor.style.backgroundColor = colors[value];
+    lastActiveColor.style.backgroundColor = lgbt[value];
 
     var lastPlan = document.getElementsByClassName('semester_name');
 
@@ -486,7 +543,7 @@ function GeneratePlan(value) {
             }
 
             // Removes 'in active' after each iteration
-            $('#plan' + value).removeClass('in active');
+            $('#plan' + length).removeClass('in active');
 
             // On final iteration add active back to plan0 for refreshes
             if (value == $('.nav-pills').length) {

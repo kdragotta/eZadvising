@@ -315,7 +315,7 @@ CREATE TABLE `saved_plans` (
 INSERT INTO `saved_plans`(`title`, `plan`, `color`, `active`) VALUES
 ('Default', 0, '#ff3e18', 'TRUE');
 
-----------------------------------------------------------
+-- ----------------------------------------------------------
 
 --
 -- Table structure for table `students`

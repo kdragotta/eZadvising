@@ -16,6 +16,8 @@ class PlanController
         $this->handleChangePlanTitle();
         $this->handleUpdateActiveTab();
         $this->handleReloadPlan();
+        $this->handleDeletePlan();
+        $this->handleUpdateValues();
     }
 
     private function handleCreatePlan()
@@ -90,7 +92,34 @@ class PlanController
         }
 
         echo $this->planModel->updateActiveTab($id, $currentActive);
+    }
 
+    private function handleDeletePlan()
+    {
+        if(isset($_POST['deletePlan']))
+            $deletePlan = $_POST['deletePlan'];
+        else
+            $deletePlan = NULL;
+
+        if(!$deletePlan) {
+            return;
+        }
+
+        echo $this->planModel->deletePlan($deletePlan);
+    }
+
+    private function handleUpdateValues() {
+        if(isset($_POST['updateValues']))
+            $updateValues = $_POST['updateValues'];
+        else
+            $updateValues = NULL;
+
+        if(!$updateValues) {
+            return;
+        }
+
+        echo $this->planModel->updateValues($updateValues);
+        echo $this->planModel->updatePlanValues($updateValues);
     }
 }
 
