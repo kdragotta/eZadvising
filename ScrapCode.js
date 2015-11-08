@@ -4,10 +4,8 @@
  */
 
 function CustomHover() {
-    var defaultColor = 'black';
+    var defaultColor = '';
 
-    // Change color of last active tab
-    // $('.nav-pills .active a').css('background-color', 'blue');
     $('#hover0').hover(function () {
         $(this).css("background-color", colors[0]);
     }, function () {

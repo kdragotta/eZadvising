@@ -26,3 +26,37 @@
     color: black;
     border: solid 1px;
 }
+
+#newPlan {
+    color: black;
+    background-color: #007073;
+}
+
+#newPlan:hover {
+    color: white;
+    background-color: #916b4a;
+}
+
+#hover0:hover {
+    background-color: #ff3e18;
+}
+
+#hover1:hover {
+    background-color: #fc9a00;
+}
+
+#hover2:hover {
+    background-color: #ffd800;
+}
+
+#hover3:hover {
+    background-color: #39ea7c;
+}
+
+#hover4:hover {
+    background-color: #0bb2ff;
+}
+
+#hover5:hover {
+    background-color: #985aff;
+}

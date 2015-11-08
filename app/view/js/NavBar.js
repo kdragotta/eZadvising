@@ -14,8 +14,8 @@
  *  - Checks if title is null & if json result is null, exit(-1)
  *
  *  TODO LIST:
- *  - Color coded hovers
- *  - Delete plan
+ *  - Instead of css hardcoded hovers, use javascript to manipulate
+ *  - Remove commenting of bootstrap.min.css due to override of active color
  *  - Return to last active tab on reload
  *  - Finalize error checking
  */
@@ -26,9 +26,6 @@ var maxNumOfPlans = 6;
 // LGBT Color Array
 var lgbt = ['#ff3e18', '#fc9a00', '#ffd800', '#39ea7c', '#0bb2ff', ' #985aff'];
 
-// Change color of last active tab
-// $('.nav-pills .active a').css('background-color', 'blue');
-
 // Initializations
 var color = '#';
 var colors = [];
@@ -37,7 +34,10 @@ var plan = 0;
 var index = -1;
 var lastTab = 0;
 
-// Load on start
+/**
+ * Loads on start, resets the color of active plan
+ */
+
 $(window).load(function () {
     ReloadTab();
 
@@ -58,6 +58,7 @@ $(window).load(function () {
  */
 
 $('.nav-pills').click(function (e) {
+
     lastTab = $('.nav-pills .active').index();
 
     ReloadActiveColor(($(e.target).attr("id").substring(5)));
@@ -72,7 +73,7 @@ $(function () {
     $('#closeModal').click(function (e) {
         title = '';
 
-        if($('.modal-title').text() == "Add New Plan") {
+        if ($('.modal-title').text() == "Add New Plan") {
             $('.nav-pills .active').removeClass('active');
             $('#pill' + lastTab).addClass('active');
             ResetActiveTabColor(lastTab);
@@ -169,13 +170,21 @@ function GenerateTab() {
     var tab = $("div#pills ul li a");
     var length = $("div#pills ul li").length;
 
-    tab.eq(length-1).text(title);
+    tab.eq(length - 1).text(title);
 
-    pills.eq(length-1).removeAttr('onclick');
+    pills.eq(length - 1).removeAttr('onclick');
 
+    // Do if the number of plans allowed has not been hit
     if (plan < maxNumOfPlans - 1) {
-        $("div#pills ul").append("<li class='planpill' onclick='AddTitle()' id='pill" + length + "'><a href='#plan" + length + "'data-toggle='pill' id='hover" + length + "'>+</a></li>");
+        $("div#pills ul").append("<li class='planpill' onclick='AddTitle()' id='pill" +
+            length + "'><a href='#plan" + length + "'data-toggle='pill' id='hover" + length + "'>+</a></li>");
     }
+
+    // Reset old tab to correct colors
+    $('#newPlan').attr('id', 'hover' + plan);
+
+    // Removes next tab coloring for some fluid appearance
+    $('#hover' + (plan + 1)).attr('id', 'newPlan');
 
     title = '';
 }
@@ -229,7 +238,6 @@ function ReloadTab() {
                     colors[count] = titleHolder[count].color;
                     GenerateTab();
                     GeneratePlan(count + 1);
-
                 }
             }
         }
@@ -337,9 +345,7 @@ function ReloadActiveColor(value) {
     var defaultColor = document.getElementById('hover' + lastTab);
     defaultColor.style.backgroundColor = '';
 
-    if(value == plan + 1) {
-        var plusButton = document.getElementById('hover');
-
+    if (value == plan + 1) {
         var currentPlan = document.getElementsByClassName('semester_name');
 
         for (var i = 0; i < currentPlan.length; i++) {
