@@ -128,7 +128,7 @@ if(isset($_POST['submit'])) {
                 }
                 else
                 {
-                    header("Location: test.php");
+                    header("Location: makecookie.php");
                 }
 
                 //echo $_SESSION['first'];
