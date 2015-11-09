@@ -206,7 +206,7 @@ if($showForm == 1){
         font-size: 3rem;
         position: relative;
         z-index: 10;
-        height: 50px;;
+        height: 50px;
     }
     p {
         margin-left: 20%;
