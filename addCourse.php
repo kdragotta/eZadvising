@@ -23,10 +23,12 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $dept = $_POST['nondept'];
+    $dept = (isset($_POST['nondept']) ? $_POST['nondept'] : null);
 
-    $sql = "SELECT * FROM `courses` WHERE `dept` LIKE '" AND `num`  ;
-    $sql .= $dept . "'";
+    $year = (isset($_POST['year']) ? $_POST['year'] : null);
+    //Grabs dept and year from the dropdown on eatouch, sorts by ascending order
+    $sql = "SELECT * FROM `courses` WHERE `dept` LIKE '" . $dept . "' AND `num` LIKE '" . $year . "' ORDER BY `courses`.`num` ASC";
+    //$sql .= $dept . "'";
 
     /*$sql = "SELECT * FROM `courses`";*/
     $result = $conn->query($sql);
@@ -45,13 +47,7 @@
 
     echo "<form action = eatouch4.php method='post'>";
 
-    echo "<form >";
-    echo "<select id=narrowSearch>";
-    echo "<option value = '1%'>100</option>";
-    echo "<option value = '2%'>200</option>";
-    echo "<option value = '3%'>300</option>";
-    echo "<option value = '4%'>400</option>";
-    echo "</form>";
+    
 
     if($result->num_rows > 0)
     {
@@ -83,6 +79,9 @@
     $conn->close();
 
     ?>
+<script>
+
+</script>
 </html>
 
 

@@ -112,8 +112,8 @@ else
         </table>
 
         <form action = "addCourse.php" value = "rbselect" method = "post">
-            <select id = "nondept" value = "rbselect" name="nondept">
-                <option selected = "Select Dept." value = "0">Select Dept</option>
+            <select id = "nondept" value = "rbselect" name="nondept" onchange="enableSubmit()">
+                <option selected value = "0">Select Dept</option>
                 <option value = "CSCI">Computer Science</option>
                 <option value = "ENGL">English</option>
                 <option value = "JOUR">Journalism</option>
@@ -123,9 +123,16 @@ else
                 <option value = "MUS">Music</option>
                 </option>
             </select>
+            <select id = "year" value = "yearSelect" name = "year" onchange="enableSubmit()">
+                <option selected value = "%">Select Year</option>
+                <option value = '1%'>100</option>;
+                <option value = '2%'>200</option>;
+                <option value = '3%'>300</option>;
+                <option value = '4%'>400</option>;
+            </select>
 
             <br/>
-            <input type="submit" class = "rbsubmit" value="Search"/>
+            <input type="submit" id = "deptSubmit" class = "rbsubmit" value="Search"/>
         </form>
 
 
@@ -161,7 +168,20 @@ else
 <div id="temp_hidden" class="temp_hidden"></div>
 <script src="advising_functions.js"></script>
 <script>
-
+    //Disables the submit button by default
+    document.getElementById("deptSubmit").setAttribute('disabled', true)
+    //Enables the submit button after a course is selected
+    //Currently disabled whatever the course thats selected even if its not the "select dept" option will only enable
+    //after another option is selected. It has to do the with the onChange event and the option not automatically set
+    //to the default every time.d
+    function enableSubmit() {
+        if (this.value != 0) {
+            document.getElementById("deptSubmit").removeAttribute('disabled');
+        }
+        else{
+            document.getElementById("deptSubmit").setAttribute('disable', true);
+        }
+    }
 </script>
 
 <script>
