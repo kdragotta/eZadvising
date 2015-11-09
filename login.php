@@ -94,7 +94,10 @@ if(isset($_POST['submit'])) {
             }
 
             if($confirm<1){
-                echo "Entered wrong Password or hash is wrong!<br/>";
+                //echo "Entered wrong Password or hash is wrong!<br/>";
+                echo "The username or password you entered is not recognized.";
+                echo "<br>";
+                echo"Please try again.";
 
             }
             else {
@@ -152,7 +155,7 @@ if($showForm == 1){
         </tr>
         <tr>
             <td>Password:</td>
-            <td><input type="password" name="password" id="password" size="20"/><a href="forgotpass" class="pass"> Forgot Password?</a></td>
+            <td><input type="password" name="password" id="password" size="20"/><a href="forgotpass.php" class="pass"> Forgot Password?</a></td>
         </tr><br><br>
         <tr>
             <td></td>

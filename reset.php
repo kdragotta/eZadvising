@@ -22,7 +22,7 @@ if(isset($_POST['submit'])){
 
     //display any errors
     if($errorMessage != ''){
-        echo 'An error has occurred: 24 ' . '<br>' .  $errorMessage;
+        echo 'An error has occurred: ' . '<br>' .  $errorMessage;
         echo '<br />';
     }
     else{
@@ -35,11 +35,11 @@ if(isset($_POST['submit'])){
             $s->execute();
             $count = $s->rowCount();
         }catch(PDOException $e){
-            echo 'Error fetching users: 37 ' .$e->getMessage();
+            echo 'Error fetching users: ' .$e->getMessage();
             exit();
         }
         if($count < 1){
-            echo 'An error has occured: 41 ' . '<br>' . $errorMessage;
+            echo 'An error has occured: ' . '<br>' . $errorMessage;
             echo '<br/>';
         }
         else{
@@ -60,8 +60,8 @@ if(isset($_POST['submit'])){
             }
             $row2 = $s2->fetch();
             if($count2 != 1){
-                echo 'An error has occured: 62' . '<br>' . $errorMessage;
-                echo 'row2 = ' . $count2;
+                echo 'An error has occured: ' . '<br>' . $errorMessage;
+               // echo 'row2 = ' . $count2;
                 exit();
             }
             else{

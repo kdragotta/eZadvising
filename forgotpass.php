@@ -5,6 +5,7 @@
  * Date: 10/27/2015
  * Time: 11:27 PM
  */
+session_start();
 $pagetitle = "Forgot Password";
 require_once 'config.php';
 
@@ -22,14 +23,14 @@ if(isset($_POST['submit'])){
     }
 
     if($errorMessage != '') {
-        echo 'in if: 25';
-        echo '<br>';
+        //echo 'in if: 25';
+        //echo '<br>';
         echo 'An error has occured: ' . '<br>' . $errorMessage;
         echo '<br/>';
-        echo 'in if: line 29';
+        //echo 'in if: line 29';
     }
     else {
-        echo 'in else:32';
+        //echo 'in else:32';
 
         //check to see if email address is in database
         $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
@@ -40,18 +41,18 @@ if(isset($_POST['submit'])){
         //$row = $s->fetch(PDO::FETCH_ASSOC);
         $rowcount = $s->rowCount();
 
-        echo "past the stmt and rowcount = " . $rowcount . '<br>';
+        //echo "past the stmt and rowcount = " . $rowcount . '<br>';
         if ($rowcount < 1) {
             $errorMessage .= 'The email you provided is not recognized.';
             echo 'Error: ' . $errorMessage;
             echo 'in if: 47';
         } else {
             $uid = TRUE;
-            echo 'in else: 50';
+            //echo 'in else: 50';
         }
     }
     if ($uid) {
-        echo 'in if: 54';
+        //echo 'in if: 54';
         //create a new, random password
         $p = substr(md5(uniqid(rand(), 1)), 3, 10);
         //create query
@@ -64,7 +65,7 @@ if(isset($_POST['submit'])){
         $count = $s->rowCount();
 
         if ($count == 1) {
-            echo 'in if; send email: 67';
+           // echo 'in if; send email: 67';
             //send email
             $body = 'Your password to log into eZadvising has been temporarirly changed to' . $p . '. Please log in using this password and your email. At that time you may change your password to something more familiar.';
             mail($_POST['email'], 'Your temporary password.', $body, 'From: admin@eZadvising.com');
@@ -73,11 +74,11 @@ if(isset($_POST['submit'])){
             $_SESSION['email'] = $confirmedemail;
             $showform = 0;
         } else {
-            echo 'in else; send email: 76';
+            //echo 'in else; send email: 76';
             $errorMessage .= 'Your password could not be changed due to a system error. We appologize for any inconvience.';
         }
     } else {
-        echo 'in else: 80';
+        //echo 'in else: 80';
         $errorMessage .= 'Please try again!';
     }
 

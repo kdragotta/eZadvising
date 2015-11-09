@@ -50,7 +50,7 @@ if(isset($_POST['submit'])){
         $hashedPassword = crypt($FORMFIELD['password'],$salt);
 
         try{
-            echo 'in try: 50';
+           // echo 'in try: 50';
             $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
             $sql = 'UPDATE accounts SET password = :password, salt = :salt WHERE email = :email';
             $sqlprep = $conn->prepare($sql);
@@ -58,7 +58,7 @@ if(isset($_POST['submit'])){
             $sqlprep->bindValue(':salt', $salt);
             $sqlprep->bindValue(':email', $_SESSION['email']);
             $sqlprep->execute();
-            echo 'after execute stmt: 58';
+            //echo 'after execute stmt: 58';
         }catch (PDOException $e){
             echo 'Error inserting into registration' . $e->getMessage();
             exit();
