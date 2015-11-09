@@ -5,10 +5,35 @@ if(!isset($_SESSION['first']))
 {
     header("Location: login.php");
 }
+$u ="";
+$t ="";
+foreach($_COOKIE as $key => $token)
+{
+    if($key == $_SESSION['username'] && $token == $_SESSION['token'])
+    {
+        $u = $key;
+        $t = $token;
+    }
+    else
+    {
+
+    }
+
+}
+if($u == "" || $t == "")
+{
+    echo "U: ".$u. "  T: ". $t;
+    header("Location: logout.php");
+}
 else
 {
-
-
+    echo"cookie is set";
+//echo $_COOKIE[time()]. "<br>";
+//    echo time();
+/*
+ *
+ * delete this later
+ * */
 
 //$_SESSION['username'] = "crystal";
 //$_SESSION['first'] = $_REQUEST['first'];
