@@ -23,8 +23,8 @@ if(isset($_POST['submit'])) {
     //cleanse the data entered
     $FORMFIELD['username'] = trim($_POST['username']);
     $FORMFIELD['password'] = trim($_POST['password']);
-    $FORMFIELD['rememberme'] = trim($_POST['yes']);
-
+    $FORMFIELD['rememberme'] = trim($_POST['rememberme']);
+    //echo $FORMFIELD['rememberme'];
 
     //check for empty fields
     //checks if the username is entered
@@ -124,17 +124,14 @@ if(isset($_POST['submit'])) {
                 $showForm = 0;
                 if($FORMFIELD['rememberme'] == "yes")
                 {
-                    header("Location: test.php");
+                    $_SESSION['password'] = $FORMFIELD['password'];
+
+                    header("Location: makecookie3.php");
                 }
                 else
                 {
-                    header("Location: makecookie.php");
+                    header("Location: makecookie2.php");
                 }
-
-                //echo $_SESSION['first'];
-                //$showForm = 0;
-
-                //header("Location: eatouch4.php");
             }
 
 
@@ -158,6 +155,7 @@ if(isset($_POST['submit'])) {
 
 
 if($showForm == 1){
+
     ?>
     <h1>Login</h1>
     <p>Please log in to access registration.</p>
@@ -166,11 +164,13 @@ if($showForm == 1){
         <table>
             <tr>
                 <td>Username:</td>
-                <td><input type="text" name="username" id="username" size="20"/></td>
+                <td><input type="text" name="username" id="username" size="20"
+                        value="<?php if(isset($_COOKIE['username'])){echo $_COOKIE['username'];} ?>"/></td>
             </tr>
             <tr>
                 <td>Password:</td>
-                <td><input type="password" name="password" id="password" size="20"/><a href="forgotpass.php" class="pass"> Forgot Password?</a></td>
+                <td><input type="password" name="password" id="password" size="20"
+                        value="<?php if(isset( $_COOKIE['password'])){echo  $_COOKIE['password'];} ?>"/><a href="forgotpass.php" class="pass"> Forgot Password?</a></td>
             </tr><br><br>
             <tr>
                 <td></td>
