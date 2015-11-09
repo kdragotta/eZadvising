@@ -1,18 +1,31 @@
+<!DOCTYPE html>
 <?php
+
 
 session_start();
 
-setcookie($_SESSION['token'], time() + 20);
-if(isset($_COOKIE[$_SESSION['token']]))
+if(isset($_COOKIE))
 {
+    echo $_SESSION['token']. "<br />";
+    echo $_SESSION['username'] . "<br />";
+    foreach($_COOKIE as $key => $token)
+    {
+        if($key == $_SESSION['username'] && $token == $_SESSION['token'])
+        {
+        header("Location: eatouch4.php");
+        }
+        else{
+            echo "error <br>";
+            echo "Key: ". $key. " Token: ". $token. "<br/>";
 
-    header("Location: eatouch4.php");
+        }
+    }
 }
 else
 {
     echo "error <br>";
-    echo $_SESSION['token']. "<br>";
-    echo $_COOKIE[time() + 20];
+    echo $_SESSION['token']. "<br />";
+    echo $_SESSION['username'] . "<br />";
 }
 
 
