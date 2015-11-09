@@ -254,7 +254,7 @@ ClassBox.prototype.addCourseToPlan = function () {
     $(newElPlan).data("plan", this.req.plan);
     $(newElPlan).data("whereami", "plan");
     $(newElPlan).addClass("req_on_plan");
-    $(newElPlan).attr('id', 'p' + this.req.plan);
+    $(newElPlan).attr('id', 'p' + this.req.plan + this.req.courseId);  //using this.req.courseId is total shit
     $(newElPlan).val(this.req.id);
 
 
@@ -267,6 +267,7 @@ ClassBox.prototype.addCourseToPlan = function () {
     });//end draggable
 
     //boxId is a workaround should use this.boxId instead of making it
-    var boxId = "plan" + this.req.plan + this.req.year + this.req.semesterCode;
+    var boxId = "plan" + this.req.plan + this.req.year +
+                this.req.semesterCode;
     $("#" + boxId).append(newElPlan);
 };

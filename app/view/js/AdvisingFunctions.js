@@ -11,14 +11,14 @@ function processReqUpdate(req) {
         classBox.createBox();
         classBox.addCourseOptions();
         classBox.addCompletedCourses();
-        classBox.addPlannedCourses();
+        //classBox.addPlannedCourses();
 
         for (var i = 0; i < count; i++) {
             classBox.addToCurrentState(i);
             classBox.addToRequiredList(i);
         }
 
-        classBox.addCourseToPlan();
+        //classBox.addCourseToPlan();
     }
 
     if (req.type == "onplan") {
@@ -319,9 +319,6 @@ function handleDropEventOnWorking(event, ui) {
         $(theCloneSelect).val(courseId);
         console.dir("value: " + courseId);
 
-        //TODO don't hardcode program id, pull from student session data
-        var programId = 1;
-
         var hours = parseInt($("#op" + reqId + " #opt" + courseId).data("hours"));
         var hoursRequired = parseInt($("#r" + reqId).data("hours"));
         var hoursCounting = parseInt($("#r" + reqId).data("hoursCounting"));
@@ -349,7 +346,7 @@ function handleDropEventOnWorking(event, ui) {
             method: 'POST',
             data: {
                 op: 'planitem',
-                programId: programId,
+                programId: 1,
                 courseId: courseId,
                 hours: hours,
                 semesterCode: semesterCode,
@@ -426,10 +423,6 @@ function handleDropEventOnPlan(event, ui) {
 
         var theCloneSelect = $("#" + targId + " " + "#op" + reqId);
         $(theCloneSelect).val(courseId);
-        console.dir("value: " + courseId);
-
-        //TODO don't hardcode program id, pull from student session data
-        var programId = 1;
 
         var hours = parseInt($("#op" + reqId + " #opt" + courseId).data("hours"));
         /*
@@ -460,7 +453,8 @@ function handleDropEventOnPlan(event, ui) {
         $("#r" + reqId + plan).removeClass("req_incomplete");
         $("#w" + reqId + plan).remove();
 
-        //insert into database
+        //TODO don't hardcode program id, pull from student session data
+        //insert
         $.ajax({
             op: 'planitem',
             url: "index.php",
@@ -468,7 +462,7 @@ function handleDropEventOnPlan(event, ui) {
             data: {
                 op: 'planitem',
                 plan: plan,
-                programId: programId,
+                programId: 1,
                 courseId: courseId,
                 hours: hours,
                 semesterCode: semesterCode,
@@ -491,9 +485,9 @@ function handleDropEventOnPlan(event, ui) {
     {
         //get source plan before moving
         var sourceParentId = ui.draggable[0].parentNode.id;
+
         //move, don't clone
         $(ui.draggable).appendTo($(this)).css({position: 'relative', top: 0, left: 0});
-
 
         var fromYear = sourceParentId.substr(5, 4);  //get 4 from plan020164
         var fromSemesterCode = sourceParentId.substr(9, 1);  //get 4 from plan020164
@@ -510,26 +504,23 @@ function handleDropEventOnPlan(event, ui) {
         var toSemesterCode = targId.substr(9, 1);
         var toPlanYear = targId.substr(5, 4);  //note:  (5, 4) to get 2015 from 'plan020153'
 
+        var courseId = ui.draggable[0].id.substr(2);  //get '7' from 'p07'
 
-        //jquery bug--doesn't properly clone or drag the selected value
-        var theSourceSelect = $("#" + sourceId);
-        //console.dir(theSourceSelect);
-        var groupId = $(theSourceSelect).val();
-
-        groupId = parseInt(groupId);
         fromSemesterCode = parseInt(fromSemesterCode);
         fromYear = parseInt(fromYear);
         toSemesterCode = parseInt(toSemesterCode);
         toPlanYear = parseInt(toPlanYear);
         plan = parseInt(plan);
+        courseId = parseInt(courseId);
 
         $.ajax({
             url: "index.php",
             method: 'POST',
             data: {
                 op: 'planitem',
-                groupId: groupId,
+                programId: 1,
                 studentId: 1,
+                courseId: courseId,
                 fromSem: fromSemesterCode,
                 fromYear: fromYear,
                 toSem: toSemesterCode,

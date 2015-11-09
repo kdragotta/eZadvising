@@ -323,6 +323,7 @@ class StudentModel
                 $c->id = $response['groupId'];
                 $c->year = $response['year'];
                 $c->semesterCode = $response['semesterCode'];
+                $c->courseId = $response['courseId'];
 
 
                 //todo fix this

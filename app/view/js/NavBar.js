@@ -308,8 +308,6 @@ function ReloadActiveColor(value) {
         return;
     }
 
-    alert(lastTab + ' | ' + value);
-
     var defaultColor = document.getElementById('hover' + lastTab);
     defaultColor.style.backgroundColor = 'black';
 

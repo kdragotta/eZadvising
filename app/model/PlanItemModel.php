@@ -10,33 +10,24 @@ class PlanItemModel {
     }
 
 
-    public function movePlanItem($token, $studentId, $groupId, $semester,
+    public function movePlanItem($token, $studentId, $courseId, $semester,
                                  $year, $toSemester, $toYear, $plan)
     {
         try {
-            // if (!validateToken($token, $studentId)) {
-            //     return 403;
-            // }
-
-            //  if(empty($studentId)) return 404;
-
             $sql = 'UPDATE course_records '.
-                'SET semesterCode = :toSemester, year = :toYear '.
-                'WHERE studentId = :studentId '.
-                'AND groupId = :groupId '.
-                'AND semesterCode = :semester '.
-                'AND year = :year '.
-                'AND plan = :plan';
+                   'SET semesterCode = :toSemester, year = :toYear '.
+                   'WHERE studentId = :studentId '.
+                   'AND courseId = :courseId '.
+                   'AND semesterCode = :semester '.
+                   'AND year = :year '.
+                   'AND plan = :plan';
 
-            //$sql = $sql. ' VALUES (null, :studentId, :courseId, null, :semester,
-            // :year, :reqId, 2, :proposedReqId)';
             $stmt = $this->conn->prepare($sql);
 
             $stmt->bindParam(':toSemester', $toSemester);
             $stmt->bindParam(':toYear', $toYear);
-
+            $stmt->bindParam(':courseId', $courseId);
             $stmt->bindParam(':studentId', $studentId);
-            $stmt->bindParam(':groupId', $groupId);
             $stmt->bindParam(':semester', $semester);
             $stmt->bindParam(':plan', $plan);
             $stmt->bindParam(':year', $year);
@@ -46,8 +37,9 @@ class PlanItemModel {
         }//end try
         catch (PDOException $e) {
             return $sql . "<br>" . $e->getMessage();
-            //return 500;
         }
+
+        echo($sql);
 
         return $success;
     }
@@ -118,6 +110,7 @@ class PlanItemModel {
             $stmt->bindParam(':semester', $semester);
             $stmt->bindParam(':year', $year);
             $stmt->bindParam(':courseId', $courseId);
+
 
             $success = $stmt->execute();
             $inserted = $success ? "yes" : "no";
