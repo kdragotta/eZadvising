@@ -46,12 +46,7 @@ $(window).load(function () {
     defaultColor.style.backgroundColor = lgbt[plan];
     defaultColor.style.color = 'black';
 
-    var currentPlan = document.getElementsByClassName('semester_name');
-
-    for (var i = 0; i < currentPlan.length; i++) {
-        currentPlan[i].style.backgroundColor = lgbt[plan];
-        currentPlan[i].style.color = 'black';
-    }
+    DefaultTab();
 });
 
 /**
@@ -315,18 +310,30 @@ function ClearTabs() {
             updateValues: index
         },
         success: function () {
-            DumpData();
+            DumpData(index);
         }
     });
 }
 
-function DumpData() {
-    $("div#pills ul").empty();
+function DumpData(index) {
+/*    $("div#pills ul").empty();
     $("div#pills ul").append("<li class='planpill' onclick='AddTitle()' id='pill" +
         0 + "'><a href='#plan" + 0 + "'data-toggle='pill' id='hover" + 0 + "'>+</a></li>");
 
-    var defaultColor = document.getElementById('hover' + 0);
+    DefaultTab();
 
+    $('#plan1').remove();
+    $('#plan2').remove();
+    $('#plan3').remove();
+    $('#plan4').remove();
+
+    ReloadTab();*/
+}
+
+function DefaultTab() {
+    $('#plan0').addClass('in active');
+
+    var defaultColor = document.getElementById('hover0');
     defaultColor.style.backgroundColor = lgbt[0];
     defaultColor.style.color = 'black';
 
@@ -336,13 +343,6 @@ function DumpData() {
         currentPlan[i].style.backgroundColor = lgbt[0];
         currentPlan[i].style.color = 'black';
     }
-
-    ClearData();
-}
-
-function ClearData() {
-    $('.tab-content').empty();
-    ReloadTab();
 }
 
 /**
@@ -475,6 +475,7 @@ function GeneratePlan(value) {
     var currentState = $(plan.children().children().children()[1]);
     currentState.attr('id', 'currentState' + length);
     currentState.children().remove();
+    currentState.empty();
 
     var stillRequiredList = $(plan.children().children().children()[6]);
     stillRequiredList.attr('id', 'stillRequiredList' + length);
