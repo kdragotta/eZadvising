@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <?php
 
-
+setcookie($_SESSION['username'], $_SESSION['token'], time() + 20);
+//sets the cookie to expire in 20 seconds
 session_start();
 
 if(isset($_COOKIE))
@@ -10,12 +11,15 @@ if(isset($_COOKIE))
     echo $_SESSION['username'] . "<br />";
     foreach($_COOKIE as $key => $token)
     {
+        //this will go through all the cookies
         if($key == $_SESSION['username'] && $token == $_SESSION['token'])
         {
+            //if the username and the token are equal to the session username and token, then it should go to eatouch4
         header("Location: eatouch4.php");
         }
         else{
             echo "error <br>";
+            //prints all the cookies. if mulitple are set correctlye. it should read. Username: ___ Token:   ___
             echo "Key: ". $key. " Token: ". $token. "<br/>";
 
         }
@@ -27,33 +31,3 @@ else
     echo $_SESSION['token']. "<br />";
     echo $_SESSION['username'] . "<br />";
 }
-
-
-
-
-
-//
-//    echo $_GET['token'];
-//    echo"<br />";
-//    //foreach ($_COOKIE as $key => $value)
-//    //{
-//    //    setcookie($key, 1);
-//    //    echo "cookie: ". $key . "<br/>";
-//    //}
-//    //
-//    //foreach ($_COOKIE as $key => $value)
-//    //{
-//    //    echo $_COOKIE[$key]. "<br/>";
-//    //}
-//
-//    if(!isset($_COOKIE[$token]))
-//    {
-//        echo "yay";
-//    }
-//    else
-//    {
-//        foreach ($_COOKIE as $key => $value)
-//        {
-//            echo $_COOKIE[$key]. "<br/>";
-//        }
-//    }
