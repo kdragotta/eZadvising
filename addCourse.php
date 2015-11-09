@@ -52,7 +52,10 @@
             echo "<tr>";
 
             echo "<td>";
-                echo "<input type='radio' class = 'check' name = 'addc' value = '" . $row["dept"] . " " . $row["num"] . "'/>";
+                echo "<input type='radio' class = 'check' name = 'addc' value = '" . "dept=" . $row["dept"] . "&num=" . $row["num"] . "&pid=" . $row["programId"] .
+                "&prereqs=" . $row["prereqs"] . "&cred=" . $row["defaultCreditHours"] . "&title=" . $row["title"] . "&descript=" . $row["description"] .
+                    "&semest=" . $row["semestersOffered"] . "'/>";
+
             echo "</td>";
 
 
