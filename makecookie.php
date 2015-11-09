@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <?php
-
-setcookie($_SESSION['username'], $_SESSION['token'], time() + 20);
-//sets the cookie to expire in 20 seconds
 session_start();
+setcookie($_SESSION['username'], $_SESSION['token'], time() + 60*60);
+//sets the cookie to expire in 20 seconds
+
 
 if(isset($_COOKIE))
 {

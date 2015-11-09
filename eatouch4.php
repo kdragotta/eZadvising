@@ -146,7 +146,7 @@ else
         }
 
         $t= $_POST['addc'];
-
+        echo $t;
         parse_str($t, $parseOutput);
 
         if ($t != NULL)
@@ -168,12 +168,18 @@ else
             $sql .= "'" . $parseOutput['descript'] . "', ";
             $sql .= "'" . $parseOutput['semest'] . "')";
 
+
+
             $result = $conn->query($sql);
 
         }
 
         $sql_pull = "SELECT * FROM `nonrequired_courses`";
+        $compare_with_groups = "SELECT * FROM `groups`";
         $result_pull = $conn->query($sql_pull);
+        $compare_with = $conn->query($compare_with_groups);
+
+        $tracker = 0;
 
         if($result_pull->num_rows > 0)
         {
@@ -181,8 +187,23 @@ else
             {
                 echo "<div draggable='true' class = 'drag' ondragstart='event.dataTransfer.setData('text/plain', 'This text may be dragged')'>";
                 echo "<div class = underline>";
-                echo $non_required["dept"] . " " . $non_required["num"];
+                $concat_dept_num = $non_required["dept"] . " " . $non_required["num"];
+                echo $concat_dept_num;
                 echo "</div>";
+
+
+                /*while($groups = $compare_with->fetch_assoc())
+                {
+
+                    if($concat_dept_num = $groups["name"] and $tracker != 99)
+                    {
+
+                        echo "&#9760";
+                        $tracker = 99;
+                    }
+                }**/
+
+
                 echo "</div>";
 
             }
