@@ -27,13 +27,6 @@ if($u == "" || $t == "")
 }
 else
 {
-    echo"cookie is set";
-//echo $_COOKIE[time()]. "<br>";
-//    echo time();
-/*
- *
- * delete this later
- * */
 
 //$_SESSION['username'] = "crystal";
 //$_SESSION['first'] = $_REQUEST['first'];
