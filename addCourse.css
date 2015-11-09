@@ -42,6 +42,11 @@ td.center
     text-align: center;
 }
 
+td.pad
+{
+    padding-left: 20px;
+}
+
 
 
 

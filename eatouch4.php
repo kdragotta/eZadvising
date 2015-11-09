@@ -131,6 +131,66 @@ else
 
         </div>
 
+        <?php
+
+        $servername = "localhost";
+        $username = "advising";
+        $password = "adv123";
+        $dbname = "ezadvising";
+
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $t= $_POST['addc'];
+
+        parse_str($t, $parseOutput);
+
+        if ($t != NULL)
+        {
+            /*echo "<div draggable='true' class = 'drag' ondragstart='event.dataTransfer.setData('text/plain', 'This text may be dragged')'>";
+            echo "<div class = underline>";
+            echo $t;
+            echo "</div>";
+            echo "</div>";*/
+
+            $sql = "INSERT INTO `ezadvising`.`nonrequired_courses` (`id`, `dept`, `num`, `programId`, `prereqs`, `defaultCreditHours`, `title`, `description`, `semestersOffered`) VALUES ";
+            $sql .= "(NULL, ";
+            $sql .= "'" . $parseOutput['dept'] . "', ";
+            $sql .= "'" . $parseOutput['num'] . "', ";
+            $sql .= "'" . $parseOutput['pid'] . "', ";
+            $sql .= "'" . $parseOutput['prereqs'] . "', ";
+            $sql .= "'" . $parseOutput['cred'] . "', ";
+            $sql .= "'" . $parseOutput['title'] . "', ";
+            $sql .= "'" . $parseOutput['descript'] . "', ";
+            $sql .= "'" . $parseOutput['semest'] . "')";
+
+            $result = $conn->query($sql);
+
+        }
+
+        $sql_pull = "SELECT * FROM `nonrequired_courses`";
+        $result_pull = $conn->query($sql_pull);
+
+        if($result_pull->num_rows > 0)
+        {
+            while($non_required = $result_pull->fetch_assoc())
+            {
+                echo "<div draggable='true' class = 'drag' ondragstart='event.dataTransfer.setData('text/plain', 'This text may be dragged')'>";
+                echo "<div class = underline>";
+                echo $non_required["dept"] . " " . $non_required["num"];
+                echo "</div>";
+                echo "</div>";
+
+            }
+        }
+
+        echo "<br/>";
+        ?>
+
         <table id = "nonRequredCourse">
             <th>Add Nonrequired Course</th>
         </table>
@@ -152,19 +212,7 @@ else
             <input type="submit" class = "rbsubmit" value="Search"/>
         </form>
 
-        <?php
-            $addCourseArray = array();
-            $arrayCount = 0;
-            $t= $_POST['addc'];
 
-            $addCourseArray[$arrayCount] = $t;
-
-            echo "<div draggable='true' class = 'drag' ondragstart='event.dataTransfer.setData('text/plain', 'This text may be dragged')'>";
-            echo $addCourseArray[$arrayCount];
-            echo "</div>";
-
-            $arrayCount++;
-        ?>
 
         <!-- end stillRequiredList div -->
 
