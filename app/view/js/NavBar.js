@@ -55,7 +55,6 @@ $(window).load(function () {
         }
     }
 
-    ReloadTab();
     DefaultTab();
 });
 
