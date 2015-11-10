@@ -55,6 +55,7 @@ $(window).load(function () {
         }
     }
 
+    ReloadTab();
     DefaultTab();
 });
 
@@ -94,6 +95,8 @@ $('#closeModal').click(function () {
     if ($('.modal-title').text() == "Add New Plan") {
         $('.nav-pills .active').removeClass('active');
         $('#pill' + lastTab).addClass('active');
+        $('#plan' + lastTab).addClass('active');
+        $('.tab-pane .active').removeClass('active');
         ResetActiveTabColor(lastTab);
     }
 });
@@ -515,7 +518,6 @@ function GeneratePlan(value) {
     var currentState = $(plan.children().children().children()[1]);
     currentState.attr('id', 'currentState' + length);
     currentState.children().remove();
-    currentState.empty();
 
     var stillRequiredList = $(plan.children().children().children()[6]);
     stillRequiredList.attr('id', 'stillRequiredList' + length);
