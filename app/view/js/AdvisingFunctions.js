@@ -201,7 +201,7 @@ function initSemesterStart(index) {
         var optId = "d" + year + sem;
         var semOptStr = "<option value='" + optId + "' id='" + optId + "' >" + headerStr + "</option>";
         var semOptEl = $(semOptStr);
-        $(semOptEl).appendTo("#semList");
+        $(semOptEl).appendTo("#semList" + index);
 
         var nextSemArray = incrementSemester(sem, year, 1);
         sem = nextSemArray[1];
@@ -504,7 +504,12 @@ function handleDropEventOnPlan(event, ui) {
         var toSemesterCode = targId.substr(9, 1);
         var toPlanYear = targId.substr(5, 4);  //note:  (5, 4) to get 2015 from 'plan020153'
 
-        var courseId = ui.draggable[0].id.substr(2);  //get '7' from 'p07'
+        //get '7' from 'p07'
+        if (ui.draggable[0].id.substr(2) <= 9) {
+            var courseId = ui.draggable[0].id.substr(2);
+        } else {
+            var courseId = ui.draggable[0].id.substr(3);
+        }
 
         fromSemesterCode = parseInt(fromSemesterCode);
         fromYear = parseInt(fromYear);

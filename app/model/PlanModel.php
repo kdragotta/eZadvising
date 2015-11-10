@@ -77,7 +77,7 @@ class PlanModel
         try {
             $sql = 'UPDATE saved_plans
                     SET title = :newTitle
-                    WHERE id = :id';
+                    WHERE plan = :id';
 
             $stmt = $this->conn->prepare($sql);
 

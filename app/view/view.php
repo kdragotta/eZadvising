@@ -114,7 +114,7 @@
                 <div id="eligibleSwitch">
                     <input type="checkbox" id="semCheckBox"/>
                     <span>Highlight Courses Eligible </span>
-                    <select id="semList"></select>
+                    <select id="semList0"></select>
                 </div>
 
                 <div id="stillRequiredList0"></div>

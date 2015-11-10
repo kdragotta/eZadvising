@@ -42,9 +42,18 @@ var lastTab = 0;
 $(window).load(function () {
     ReloadTab();
 
-    var defaultColor = document.getElementById('hover' + plan);
-    defaultColor.style.backgroundColor = lgbt[plan];
-    defaultColor.style.color = 'black';
+    if ($('#plan0').hasClass('in active')) {
+        var defaultColor = document.getElementById('hover0');
+        defaultColor.style.backgroundColor = lgbt[lastTab];
+        defaultColor.style.color = 'black';
+
+        var currentPlan = document.getElementsByClassName('semester_name');
+
+        for (var i = 0; i < currentPlan.length; i++) {
+            currentPlan[i].style.backgroundColor = lgbt[lastTab];
+            currentPlan[i].style.color = 'black';
+        }
+    }
 
     DefaultTab();
 });
@@ -54,6 +63,23 @@ $(window).load(function () {
  */
 
 $('.nav-pills').click(function (e) {
+    title = '';
+
+    if ($('#pill0').hasClass('in active')) {
+        var defaultColor = document.getElementById('hover0');
+        defaultColor.style.backgroundColor = lgbt[lastTab];
+        defaultColor.style.color = 'black';
+
+        var currentPlan = document.getElementsByClassName('semester_name');
+
+        for (var i = 0; i < currentPlan.length; i++) {
+            currentPlan[i].style.backgroundColor = lgbt[lastTab];
+            currentPlan[i].style.color = 'black';
+        }
+
+        exit(-1);
+    }
+
     lastTab = $('.nav-pills .active').index();
 
     ReloadActiveColor(($(e.target).attr("id").substring(5)));
@@ -63,15 +89,13 @@ $('.nav-pills').click(function (e) {
  * If user decides to close modal, return to last active tab
  */
 
-$(function () {
-    $('#closeModal').click(function (e) {
-        title = '';
-        if ($('.modal-title').text() == "Add New Plan") {
-            $('.nav-pills .active').removeClass('active');
-            $('#pill' + lastTab).addClass('active');
-            ResetActiveTabColor(lastTab);
-        }
-    });
+$('#closeModal').click(function () {
+    title = '';
+    if ($('.modal-title').text() == "Add New Plan") {
+        $('.nav-pills .active').removeClass('active');
+        $('#pill' + lastTab).addClass('active');
+        ResetActiveTabColor(lastTab);
+    }
 });
 
 /**
@@ -79,16 +103,26 @@ $(function () {
  *  - Sets title to value from input
  */
 
-$(function () {
-    $('#addPill').click(function () {
-        title = $('#title').val();
-        if ($('.modal-title').text() == "Add New Plan") {
-            NewTab();
-            RefreshData();
-        } else {
-            RenameTab();
-        }
-    });
+$('#addPill').click(function () {
+    title = $('#title').val();
+
+/*    if (title == '' && $('.modal-title').text() == "Add New Plan") {
+        $('.nav-pills .active').removeClass('active');
+        $('#pill' + lastTab).addClass('active');
+        ResetActiveTabColor(lastTab);
+        NewTab();
+        RefreshData();
+    } else {
+        ResetActiveTabColor(index-1);
+        RenameTab();
+    }*/
+
+    if ($('.modal-title').text() == "Add New Plan") {
+        NewTab();
+        RefreshData();
+    } else {
+        RenameTab();
+    }
 });
 
 /**
@@ -202,7 +236,7 @@ function RenameTab() {
             method: 'POST',
             data: {
                 op: 'plan',
-                id: index,
+                id: index - 1,
                 newTitle: title
             },
             success: function () {
@@ -230,7 +264,7 @@ function ReloadTab() {
             var titleHolder = JSON.parse(result);
 
             if (!result) {
-                exit(-1);
+                return;
             } else {
                 for (var count = 0; count < titleHolder.length; count++) {
                     title = titleHolder[count].title;
@@ -290,7 +324,6 @@ function DeletePlan() {
                 deletePlan: index
             },
             success: function () {
-                plan--;
                 ClearTabs();
             }
         });
@@ -310,38 +343,45 @@ function ClearTabs() {
             updateValues: index
         },
         success: function () {
-            DumpData(index);
+            DumpData();
         }
     });
 }
 
-function DumpData(index) {
-/*    $("div#pills ul").empty();
+function DumpData() {
+    $("div#pills ul").empty();
     $("div#pills ul").append("<li class='planpill' onclick='AddTitle()' id='pill" +
         0 + "'><a href='#plan" + 0 + "'data-toggle='pill' id='hover" + 0 + "'>+</a></li>");
 
-    DefaultTab();
 
-    $('#plan1').remove();
-    $('#plan2').remove();
-    $('#plan3').remove();
-    $('#plan4').remove();
+    for (var i = 1; i <= maxNumOfPlans; i++) {
+        $('#plan' + i).remove();
+        $('#thePlan' + i).remove();
+        $('#currentState' + i).remove();
+        $('#stillRequiredList' + i).remove();
+    }
 
-    ReloadTab();*/
+    ReloadTab();
+    //DefaultTab();
 }
 
 function DefaultTab() {
+    lastTab = 0;
+
+    $('#pill0').addClass('active');
     $('#plan0').addClass('in active');
 
-    var defaultColor = document.getElementById('hover0');
-    defaultColor.style.backgroundColor = lgbt[0];
-    defaultColor.style.color = 'black';
+    if ($('#plan0').hasClass('in active')) {
+        var defaultColor = document.getElementById('hover0');
+        defaultColor.style.backgroundColor = lgbt[lastTab];
+        defaultColor.style.color = 'black';
 
-    var currentPlan = document.getElementsByClassName('semester_name');
+        var currentPlan = document.getElementsByClassName('semester_name');
 
-    for (var i = 0; i < currentPlan.length; i++) {
-        currentPlan[i].style.backgroundColor = lgbt[0];
-        currentPlan[i].style.color = 'black';
+        for (var i = 0; i < currentPlan.length; i++) {
+            currentPlan[i].style.backgroundColor = lgbt[lastTab];
+            currentPlan[i].style.color = 'black';
+        }
     }
 }
 
@@ -496,6 +536,8 @@ function GeneratePlan(value) {
     $(initSemesterStart(length));
     $(init(length));
 
+   // alert(currentState.length);
+
     $.ajax({
         url: "index.php",
         method: 'POST',
@@ -519,12 +561,12 @@ function GeneratePlan(value) {
                     classBox.createBox();
                     classBox.addCourseOptions();
                     classBox.addCompletedCourses();
-                    classBox.addPlannedCourses();
+                    // classBox.addPlannedCourses();
 
                     classBox.addToCurrentState(length);
                     classBox.addToRequiredList(length);
 
-                    classBox.addCourseToPlan();
+                    // classBox.addCourseToPlan();
                 }
 
                 if (req.type == "onplan") {
