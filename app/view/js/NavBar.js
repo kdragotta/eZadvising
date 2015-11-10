@@ -117,7 +117,7 @@ $('#closeModal').click(function () {
 $('#addPill').click(function () {
     title = $('#title').val();
 
-    if (title == '') {
+    if (title == '' || title == ' ') {
         $('.alert').show();
         $('#title').focus();
         return false;
@@ -433,7 +433,7 @@ function GetRandomColor() {
 
 function ReloadActiveColor(value) {
     if (value == '') {
-        return;
+        exit(-1);
     }
 
     var defaultColor = document.getElementById('hover' + lastTab);
@@ -509,6 +509,11 @@ function GeneratePlan(value) {
     var currentState = $(plan.children().children().children()[1]);
     currentState.attr('id', 'currentState' + length);
     currentState.children().remove();
+
+    // Return if currentState exists already to try and prevent duplicates
+    if (currentState.index(length).isShown) {
+        return;
+    }
 
     var stillRequiredList = $(plan.children().children().children()[6]);
     stillRequiredList.attr('id', 'stillRequiredList' + length);
