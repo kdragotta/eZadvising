@@ -133,9 +133,9 @@ else
         $sql2 = "SELECT * FROM nonrequired_courses WHERE DEPT='$department' AND NUM='$level'";
         $result2 = $conn->query($sql2);
 
-        if($result2->num_rows >= 0){
+        /*if($result2->num_rows >= 0){
             echo "alert(Already registered for the class)";
-        }
+        }*/
 
         if ($t != NULL && $result2->num_rows == 0)
         {
@@ -232,7 +232,7 @@ else
 
 
         <?php
-            $addCourseArray = array();
+            /*$addCourseArray = array();
             $arrayCount = 0;
             $t= $_POST['addc'];
 
@@ -244,7 +244,7 @@ else
             echo "</header>";
             echo "</div>";
 
-            $arrayCount++;
+            $arrayCount++;*/
         ?>
 
         <!-- end stillRequiredList div -->
