@@ -97,7 +97,6 @@ $('#closeModal').click(function () {
     title = '';
 
     if ($('.modal-title').text() == "Add New Plan") {
-        $('.tab-content').show();
         $('.nav-pills .active').removeClass('active');
         $('#pill' + lastTab).addClass('active');
         $('#plan' + lastTab).addClass('active');
@@ -126,8 +125,6 @@ $('#addPill').click(function () {
     } else {
         $('.alert').hide();
     }
-
-    $('.tab-content').show();
 
     if ($('.modal-title').text() == "Add New Plan") {
         NewTab();
@@ -161,8 +158,6 @@ function keyStroke(e) {
  */
 
 function AddTitle() {
-    $('.tab-content').hide();
-
     var currentPlan = document.getElementsByClassName('semester_name');
 
     for (var i = 0; i < currentPlan.length; i++) {
