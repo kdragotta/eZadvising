@@ -56,6 +56,8 @@ $(window).load(function () {
 $('.nav-pills').click(function (e) {
     title = '';
 
+    lastTab = $('.nav-pills .active').index();
+
     if ($('#pill0').hasClass('in active')) {
         var defaultColor = document.getElementById('hover0');
         defaultColor.style.backgroundColor = lgbt[lastTab];
@@ -70,8 +72,6 @@ $('.nav-pills').click(function (e) {
 
         exit(-1);
     }
-
-    lastTab = $('.nav-pills .active').index();
 
     ReloadActiveColor(($(e.target).attr("id").substring(5)));
 });
@@ -96,9 +96,18 @@ $('#confirm').click(function () {
 $('#closeModal').click(function () {
     title = '';
 
+    var length = $("div#pills ul li").length;
+
     if ($('.modal-title').text() == "Add New Plan") {
         $('.nav-pills .active').removeClass('active');
         $('#pill' + lastTab).addClass('active');
+
+        $('.tab-pane .active').removeClass('active');
+        $('#plan' + lastTab).addClass('active');
+
+        // Fixes duping on each plan
+        $('#plan' + (length-1)).removeClass('active');
+
         ResetActiveTabColor(lastTab);
     }
 
