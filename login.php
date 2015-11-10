@@ -97,6 +97,18 @@ if(isset($_POST['submit'])) {
 
             if($confirm<1){
                 //echo "Entered wrong Password or hash is wrong!<br/>";
+
+//                $row2 = $s2->fetch();
+//                if ($count2 <1)
+//                {
+//                    require "lockout.php";
+//
+//
+//                    echo "<p class='error'>The uname and password combination you entered is not correct.  Please try again.</p>";
+//                }
+//
+
+
                 echo "The username or password you entered is not recognized.";
                 echo "<br>";
                 echo"Please try again.";
