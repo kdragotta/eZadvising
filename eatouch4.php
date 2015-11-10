@@ -5,35 +5,10 @@ if(!isset($_SESSION['first']))
 {
     header("Location: login.php");
 }
-$u ="";
-$t ="";
-foreach($_COOKIE as $key => $token)
-{
-    if($key == $_SESSION['username'] && $token == $_SESSION['token'])
-    {
-        $u = $key;
-        $t = $token;
-    }
-    else
-    {
-
-    }
-
-}
-if($u == "" || $t == "")
-{
-    echo "U: ".$u. "  T: ". $t;
-    header("Location: logout.php");
-}
 else
 {
-    echo"cookie is set";
-//echo $_COOKIE[time()]. "<br>";
-//    echo time();
-/*
- *
- * delete this later
- * */
+
+
 
 //$_SESSION['username'] = "crystal";
 //$_SESSION['first'] = $_REQUEST['first'];
@@ -46,7 +21,7 @@ else
 <html>
 <head>
     <title> eZAdvising </title>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 
@@ -64,6 +39,7 @@ else
     <?php
         echo 'Welcome back, ' . $_SESSION['first'];
     ?>
+    <button type="button" onclick="window.location.href='logout.php'">Log Out</button>
 </div>
 <div id="wrapper">
 
@@ -72,12 +48,12 @@ else
             <tr>
                 <th>Requirements</th>
             </tr>
-            <tr>
-                <th><button type="button" onclick="window.location.href='eligibleNow.php'">Eligible Now</button></th>
-            </tr>
-            <tr>
-                <th><button type="button" onclick="window.location.href='logout.php'">Log Out</button></th>
-            </tr>
+<!--            <tr>-->
+<!--                <th><button type="button" onclick="window.location.href='eligibleNow.php'">Eligible Now</button></th>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <th><button type="button" onclick="window.location.href='logout.php'">Log Out</button></th>-->
+<!--            </tr>-->
         </table>
         <div id="currentState">
 
@@ -217,23 +193,45 @@ else
         </table>
 
         <form action = "addCourse.php" value = "rbselect" method = "post">
-            <select id = "nondept" value = "rbselect" name="nondept">
-                <option selected = "Select Dept." value = "0">Select Dept</option>
+            <select id = "nondept" value = "rbselect" name="nondept" onchange="enableSubmit()">
+                <option selected value = "0">Select Dept</option>
                 <option value = "CSCI">Computer Science</option>
                 <option value = "ENGL">English</option>
-                <option value="JOUR">Journalism</option>
-                <option value="RSM">RSM</option>
-                <option value="POLI">Politics</option>
-                <option value="THEA">Theatre</option>
-                <option value="MUS">Music</option>
+                <option value = "JOUR">Journalism</option>
+                <option value = "RSM">RSM</option>
+                <option value = "POLI">Politics</option>
+                <option value = "THEA">Theatre</option>
+                <option value = "MUS">Music</option>
                 </option>
+            </select>
+            <select id = "year" value = "yearSelect" name = "year" onchange="enableSubmit()">
+                <option selected value = "%">Select Year</option>
+                <option value = '1%'>100</option>;
+                <option value = '2%'>200</option>;
+                <option value = '3%'>300</option>;
+                <option value = '4%'>400</option>;
             </select>
 
             <br/>
-            <input type="submit" class = "rbsubmit" value="Search"/>
+            <input type="submit" id = "deptSubmit" class = "rbsubmit" value="Search"/>
         </form>
 
 
+        <?php
+            $addCourseArray = array();
+            $arrayCount = 0;
+            $t= $_POST['addc'];
+
+            $addCourseArray[$arrayCount] = $t;
+
+            echo "<div draggable='true' class = 'req_box req_partialPlanned req_working ui-draggable ui-draggable-handle' ondragstart='event.dataTransfer.setData('text/plain', 'This text may be dragged')'>";
+            echo "<header>";
+            echo $addCourseArray[$arrayCount];
+            echo "</header>";
+            echo "</div>";
+
+            $arrayCount++;
+        ?>
 
         <!-- end stillRequiredList div -->
 
@@ -251,7 +249,20 @@ else
 <div id="temp_hidden" class="temp_hidden"></div>
 <script src="advising_functions.js"></script>
 <script>
-
+    //Disables the submit button by default
+    document.getElementById("deptSubmit").setAttribute('disabled', true)
+    //Enables the submit button after a course is selected
+    //Currently disabled whatever the course thats selected even if its not the "select dept" option will only enable
+    //after another option is selected. It has to do the with the onChange event and the option not automatically set
+    //to the default every time.d
+    function enableSubmit() {
+        if (this.value != 0) {
+            document.getElementById("deptSubmit").removeAttribute('disabled');
+        }
+        else{
+            document.getElementById("deptSubmit").setAttribute('disable', true);
+        }
+    }
 </script>
 
 <script>

@@ -2,6 +2,7 @@
 
     <head>
         <link rel="stylesheet" type="text/css" href="addCourse.css">
+        <title>Add Course</title>
     </head>
 
     <header>
@@ -22,10 +23,12 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $dept = $_POST['nondept'];
+    $dept = (isset($_POST['nondept']) ? $_POST['nondept'] : null);
 
-    $sql = "SELECT * FROM `courses` WHERE `dept` LIKE '";
-    $sql .= $dept . "'";
+    $year = (isset($_POST['year']) ? $_POST['year'] : null);
+    //Grabs dept and year from the dropdown on eatouch, sorts by ascending order
+    $sql = "SELECT * FROM `courses` WHERE `dept` LIKE '" . $dept . "' AND `num` LIKE '" . $year . "' ORDER BY `courses`.`num` ASC";
+    //$sql .= $dept . "'";
 
     /*$sql = "SELECT * FROM `courses`";*/
     $result = $conn->query($sql);
@@ -44,6 +47,8 @@
     echo "<th>Description</th>";
 
     echo "<form action = eatouch4.php method='post'>";
+
+    
 
     if($result->num_rows > 0)
     {
@@ -80,6 +85,9 @@
     $conn->close();
 
     ?>
+<script>
+
+</script>
 </html>
 
 
