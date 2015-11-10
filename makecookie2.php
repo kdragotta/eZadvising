@@ -1,6 +1,6 @@
 <?php
 session_start();
-setcookie($_SESSION['username'], $_SESSION['token'], time() + 60);
+setcookie($_SESSION['username'], $_SESSION['token'], time() + 30);
 
 header("Location: makecookie.php");
 /**
