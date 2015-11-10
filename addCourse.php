@@ -30,6 +30,8 @@
     $sql = "SELECT * FROM `courses` WHERE `dept` LIKE '" . $dept . "' AND `num` LIKE '" . $year . "' ORDER BY `courses`.`num` ASC";
     //$sql .= $dept . "'";
 
+
+
     /*$sql = "SELECT * FROM `courses`";*/
     $result = $conn->query($sql);
 

@@ -451,6 +451,7 @@ div.taken, div.planned, div.options {
 
 #eligibleSwitch {
     font-size: .8rem;
+
 }
 
 #eligibleSwitch select {
@@ -460,8 +461,16 @@ div.taken, div.planned, div.options {
 
 input.rbsubmit
 {
-    margin-top: 10px;
-    margin-left: 25px;
+    margin-left: 5px;
+}
+#nondept{
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+#year{
+    width: 100%;
+    margin-bottom: 5px;
 }
 
 div.drag

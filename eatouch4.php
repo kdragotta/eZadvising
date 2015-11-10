@@ -125,10 +125,19 @@ else
         }
 
         $t= $_POST['addc'];
-        echo $t;
         parse_str($t, $parseOutput);
 
-        if ($t != NULL)
+        $department = $parseOutput['dept'];
+        $level = $parseOutput['num'];
+
+        $sql2 = "SELECT * FROM nonrequired_courses WHERE DEPT='$department' AND NUM='$level'";
+        $result2 = $conn->query($sql2);
+
+        if($result2->num_rows >= 0){
+            echo "alert(Already registered for the class)";
+        }
+
+        if ($t != NULL && $result2->num_rows == 0)
         {
             /*echo "<div draggable='true' class = 'drag' ondragstart='event.dataTransfer.setData('text/plain', 'This text may be dragged')'>";
             echo "<div class = underline>";
@@ -154,9 +163,10 @@ else
         }
 
         $sql_pull = "SELECT * FROM `nonrequired_courses`";
-        $compare_with_groups = "SELECT * FROM `groups`";
+        $compare_with_course = "SELECT * FROM `courses`";
         $result_pull = $conn->query($sql_pull);
         $compare_with = $conn->query($compare_with_groups);
+
 
         $tracker = 0;
 
@@ -164,6 +174,7 @@ else
         {
             while($non_required = $result_pull->fetch_assoc())
             {
+
                 echo "<div draggable='true' class = 'drag' ondragstart='event.dataTransfer.setData('text/plain', 'This text may be dragged')'>";
                 echo "<div class = underline>";
                 $concat_dept_num = $non_required["dept"] . " " . $non_required["num"];
@@ -171,16 +182,16 @@ else
                 echo "</div>";
 
 
-                /*while($groups = $compare_with->fetch_assoc())
+               /* while($recs = $compare_with->fetch_assoc())
                 {
 
-                    if($concat_dept_num = $groups["name"] and $tracker != 99)
+                    if($concat_dept_num = $recs["name"] and $tracker != 99)
                     {
 
                         echo "&#9760";
                         $tracker = 99;
                     }
-                }**/
+                }*/
 
 
                 echo "</div>";
