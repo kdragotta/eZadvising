@@ -118,14 +118,14 @@ if(isset($_POST['submit'])) {
                 $_SESSION['username'] = $row['username'];
                 $_SESSION['first'] = $row['first'];
                 $_SESSION['token'] = getToken(10);
-                $_SESSION['token2'] = getToken(20);
+
                 //echo $_SESSION['token'];
 
                 //echo $_SESSION['first'];
                 $showForm = 0;
                 if($FORMFIELD['rememberme'] == "yes")
                 {
-                    $_SESSION['password'] = $FORMFIELD['password'];
+
 
                     header("Location: makecookie3.php");
                 }
@@ -153,7 +153,7 @@ if(isset($_POST['submit'])) {
 }
 
 //Test for kdragotta
-
+//<?php if(isset( $_COOKIE['password'])){echo  $_COOKIE['password'];}
 
 if($showForm == 1){
 
@@ -170,8 +170,7 @@ if($showForm == 1){
             </tr>
             <tr>
                 <td>Password:</td>
-                <td><input type="password" name="password" id="password" size="20"
-                        value="<?php if(isset( $_COOKIE['password'])){echo  $_COOKIE['password'];} ?>"/><a href="forgotpass.php" class="pass"> Forgot Password?</a></td>
+                <td><input type="password" name="password" id="password" size="20"/><a href="forgotpass.php" class="pass"> Forgot Password?</a></td>
             </tr><br><br>
             <tr>
                 <td></td>

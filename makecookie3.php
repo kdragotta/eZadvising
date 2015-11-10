@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-setcookie('username',$_SESSION['username'] , time() + 60);
-setcookie('password', $_SESSION['password'], time() + 60);
+setcookie('username',$_SESSION['username'] , time() + 60*60);
+//setcookie('password', $_SESSION['password'], time() + 60);
 
-unset($_SESSION['password']);
+
 
 //foreach($_COOKIE as $key => $t)
 //{
