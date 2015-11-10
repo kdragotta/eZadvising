@@ -39,12 +39,15 @@ else
     <?php
         echo 'Welcome back, ' . $_SESSION['first'];
     ?>
-    <button type="button" onclick="window.location.href='logout.php'">Log Out</button>
+    <!-- <button type="button" onclick="window.location.href='logout.php'">Log Out</button> -->
 </div>
 <div id="wrapper">
 
     <div id="left">
         <table>
+            <tr>
+                <button type="button" onclick="window.location.href='logout.php'">Log Out</button>
+            </tr>
             <tr>
                 <th>Requirements</th>
             </tr>
