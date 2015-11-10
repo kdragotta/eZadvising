@@ -85,11 +85,30 @@ if(isset($_POST['submit'])) {
         echo  $e->getMessage();
         exit();
     }
+    //chceck to see if the email already exists
+    try{
+        $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
+        $sql='SELECT email FROM accounts WHERE email = :email';
+        $duplicate2 = $conn->prepare($sql);
+        $duplicate2->bindParam(':email', $FORMFIELD['email']);
+        $duplicate2->execute();
+        $count2 = $duplicate2->rowCount();
+    }
+    catch(PDOException $e){
+        echo $e->getMessage();
+        exit();
+    }
 
     //is the username in the database?
     if($count > 0)
     {
-        $errorMessage .= "Entered an already existing username!";
+        $errorMessage .= "Entered an already existing username!" . "<br>";
+    }
+    //is email already in the database?
+    if($count2 > 0){
+        $errorMessage .= "Email already exists." . "<br> <br>";
+        $errorMessage .= "*Note: You can go back to the login page and click" . "<br>";
+        $errorMessage .= "the Forgotten Password link to reset your password.";
     }
 
     //do the two passwords match?
@@ -147,19 +166,19 @@ if(isset($_POST['submit'])) {
             exit();
         }
 
-        try{
-            $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
-            $sql='SELECT username FROM accounts WHERE username = :userName AND password = :password';
-            $confirmLogin = $conn->prepare($sql);
-            $confirmLogin->bindParam(':userName', $FORMFIELD['username']);
-            $confirmLogin->bindParam(':password', $FORMFIELD['password']);
-            $confirmLogin->execute();
-            $confirm = $confirmLogin->rowCount();
-        }
-        catch(PDOException $e){
-            echo  $e->getMessage();
-            exit();
-        }
+            try{
+                $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
+                $sql='SELECT username FROM accounts WHERE username = :userName AND password = :password';
+                $confirmLogin = $conn->prepare($sql);
+                $confirmLogin->bindParam(':userName', $FORMFIELD['username']);
+                $confirmLogin->bindParam(':password', $FORMFIELD['password']);
+                $confirmLogin->execute();
+                $confirm = $confirmLogin->rowCount();
+            }
+            catch(PDOException $e){
+                echo  $e->getMessage();
+                exit();
+            }
 
         echo "You successfully created a new User!";
 
@@ -186,48 +205,50 @@ if($showForm == 1){
 
     <h1>Register</h1>
 
-    <form name="register" id="register" method="post" action="register.php">
-        <table>
-            <tr>
-                <td>Username:</td>
-                <td><input type="text" name="username" id="username" size="20"/></td>
-            </tr>
-            <tr>
-                <td>Email:</td>
-                <td><input type="email" name="email" id="email" size="20"/></td>
-            </tr>
-            <tr>
-                <td>Password:</td>
-                <td><input type="password" name="password" id="password" size="20"/></td>
-            </tr>
-            <tr>
-                <td>Confirm Password:</td>
-                <td><input type="password" name="confirmPassword" id="confirmPassword" size="20"/></td>
-            </tr>
-            <tr>
-                <td>First Name:</td>
-                <td><input type="text" name="firstName" id="firstName" size="20"/></td>
-            </tr>
-            <tr>
-                <td>Middle Name:</td>
-                <td><input type="text" name="middleName" id="middleName" size="20"/></td>
-            </tr>
-            <tr>
-                <td>Last Name:</td>
-                <td><input type="text" name="lastName" id="lastName" size="20"/></td>
-            </tr>
-            <tr>
-                <td>Type</td>
-                <td><input type="number" name="type" id="type" size="1" min="0" max="1"/></td>
-            </tr>
-            <tr>
-                <td>Submit:</td>
-                <td><input type="submit" name="submit" value="Submit"/></td>
-            </tr>
-        </table>
+<form name="register" id="register" method="post" action="register.php">
+    <table>
+        <tr>
+            <td>Username:</td>
+            <td><input type="text" name="username" id="username" size="20"/></td>
+        </tr>
+        <tr>
+            <td>Email:</td>
+            <td><input type="email" name="email" id="email" size="20"/></td>
+        </tr>
+        <tr>
+            <td>Password:</td>
+            <td><input type="password" name="password" id="password" size="20"/></td>
+        </tr>
+        <tr>
+            <td>Confirm Password:</td>
+            <td><input type="password" name="confirmPassword" id="confirmPassword" size="20"/></td>
+        </tr>
+        <tr>
+            <td>First Name:</td>
+            <td><input type="text" name="firstName" id="firstName" size="20"/></td>
+        </tr>
+        <tr>
+            <td>Middle Name:</td>
+            <td><input type="text" name="middleName" id="middleName" size="20"/></td>
+        </tr>
+        <tr>
+            <td>Last Name:</td>
+            <td><input type="text" name="lastName" id="lastName" size="20"/></td>
+        </tr>
+        <tr>
+            <td>Type</td>
+            <td><input type="number" name="type" id="type" size="1" min="0" max="1"/></td>
+        </tr>
+        <tr>
+            <td>Submit:</td>
+            <td><input type="submit" name="submit" value="Submit"/></td>
+        </tr>
+    </table>
+</form>
+    <p>Already have an account? <a href="login.php">Login!</a></p>
 
 
-    </form>
+</form>
     <style>
         html, body {
             font-family: arial;
