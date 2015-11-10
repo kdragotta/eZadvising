@@ -116,6 +116,7 @@ if(isset($_POST['submit'])) {
                 $row = $welcome->fetch();
 
                 $_SESSION['username'] = $row['username'];
+                $_SESSION['studentid'] = $row['id'];
                 $_SESSION['first'] = $row['first'];
                 $_SESSION['token'] = getToken(10);
 
