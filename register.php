@@ -85,11 +85,30 @@ if(isset($_POST['submit'])) {
         echo  $e->getMessage();
         exit();
     }
+    //chceck to see if the email already exists
+    try{
+        $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
+        $sql='SELECT email FROM accounts WHERE email = :email';
+        $duplicate2 = $conn->prepare($sql);
+        $duplicate2->bindParam(':email', $FORMFIELD['email']);
+        $duplicate2->execute();
+        $count2 = $duplicate2->rowCount();
+    }
+    catch(PDOException $e){
+        echo $e->getMessage();
+        exit();
+    }
 
     //is the username in the database?
     if($count > 0)
     {
-        $errorMessage .= "Entered an already existing username!";
+        $errorMessage .= "Entered an already existing username!" . "<br>";
+    }
+    //is email already in the database?
+    if($count2 > 0){
+        $errorMessage .= "Email already exists." . "<br> <br>";
+        $errorMessage .= "*Note: You can go back to the login page and click" . "<br>";
+        $errorMessage .= "the Forgotten Password link to reset your password.";
     }
 
     //do the two passwords match?
@@ -225,9 +244,10 @@ if($showForm == 1){
             <td><input type="submit" name="submit" value="Submit"/></td>
         </tr>
     </table>
-
-
 </form>
+    <p>Already have an account? <a href="login.php">Login!</a></p>
+
+
     <style>
         html, body {
             font-family: arial;
