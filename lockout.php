@@ -53,7 +53,7 @@ else
         $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
         $sql = "SELECT * FROM lockedout WHERE usna = :uname";
         $ss = $conn->prepare($sql);
-        $ss->bindParam(':uname', $FORMFIELD['uname']);
+        $ss->bindParam(':uname', $FORMFIELD['username']);
         $ss->execute();
         $count = $ss->rowCount();
     }
@@ -75,7 +75,7 @@ else
             $sql = 'update lockedout set try = :try WHERE usna = :uname';
             $try2 = $conn->prepare($sql);
             $try2 -> bindParam(':try', $t);
-            $try2 -> bindParam(':uname', $FORMFIELD['uname']);
+            $try2 -> bindParam(':uname', $FORMFIELD['username']);
             $try2->execute();
 
         }
@@ -84,6 +84,9 @@ else
             echo 'Error fetching users: ' . $e->getMessage();
             exit();
         }
+
+        $random = $try2->fetch();
+        echo $random['try']."<br/>";
     }
     else
     {
@@ -95,7 +98,7 @@ else
             $sql = 'update lockedout set try = :try WHERE usna = :uname';
             $try2 = $conn->prepare($sql);
             $try2 -> bindParam(':try', $t);
-            $try2 -> bindParam(':uname', $FORMFIELD['uname']);
+            $try2 -> bindParam(':uname', $FORMFIELD['username']);
             $try2->execute();
 
         }

@@ -243,7 +243,30 @@ if($showForm == 1){
             </select></td>
 <!--            <td><input type="number" name="type" id="type" size="1" min="0" max="1"/></td>-->
         </tr>
-        <tr>
+<!--        <tr><td>What is Your Major?</td><td><input type="text" name="major" id="major" size="20"></td></tr>-->
+<!--        <tr><td>What is Your Minor?</td><td><input type="text" name="minor" id="minor" size="20"></td></tr>-->
+<!--        <tr><td>What is Your Catalogue Year?</td>-->
+<!--            <td><select name = "year">-->
+<!--                    <option value="2011"></option>-->
+<!--                    <option value="2012"></option>-->
+<!--                    <option value="2013"></option>-->
+<!--                    <option value="2014"></option>-->
+<!--                    <option value="2015"></option>-->
+<!--                    <option value="2016"></option>-->
+<!--            </select></td></tr>-->
+<!--        <tr><td>What are the Min - Max credit hours?</td>-->
+<!--            <td><select name="min">-->
+<!--                    option value="0">0</option>-->
+<!--                    <option value="0">3</option>-->
+<!--                    <option value="0">6</option>-->
+<!--                    <option value="0">9</option>-->
+<!--                    <option value="0">12</option>-->
+<!--                    <option value="0">15</option>-->
+<!--                    <option value="0">18</option>-->
+<!--        </select>-->
+<!--        <select name="max">-->
+<!--        </select></tr>-->
+<!--        <tr>-->
             <td>Submit:</td>
             <td><input type="submit" name="submit" value="Submit"/></td>
         </tr>

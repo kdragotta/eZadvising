@@ -25,9 +25,10 @@ $temppword = trim($temppass);
 
 try
 {
-    $sql = 'SELECT * FROM users WHERE uname = :uname';
-    $result = $pdo->prepare($sql);
-    $result->bindValue(':uname', $formfield['uname']);
+    $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
+    $sql = 'SELECT * FROM accounts WHERE username = :uname';
+    $result = $conn->prepare($sql);
+    $result->bindParam(':uname', $FORMFIELD['username']);
     $result->execute();
     $count = $result->rowCount();
 }
@@ -50,11 +51,12 @@ else
     $securepwd = crypt($temppword,$salt);
 
     try {
-        $sql = 'UPDATE accounts SET pword = :pword, salt = :salt WHERE uname = :uname';
-        $change = $pdo->prepare($sql);
-        $change->bindvalue(':pword', $securepwd);
-        $change->bindvalue(':salt', $salt);
-        $change->bindValue(':uname', $formfield['uname']);
+        $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
+        $sql = 'UPDATE accounts SET password = :pword, salt = :salt WHERE username = :uname';
+        $change = $conn->prepare($sql);
+        $change->bindParam(':pword', $securepwd);
+        $change->bindParam(':salt', $salt);
+        $change->bindParam(':uname', $FORMFIELD['username']);
 
         $change->execute();
     }
@@ -69,12 +71,13 @@ else
 
 
     $to = $row['email'];
-    $subject = "Here is ".$row['firstName'];
+    $subject = "Here is ".$row['first'];
     $from = "vadornsei@g.coastal.edu";
-    $message = "Hello ".$row['firstName'].", Here is your Temporary Password: ".$temppword."\n";
+    $message = "Hello ".$row['first'].", Here is your Temporary Password: ".$temppword."\n";
 
     if(mail($to, $subject, $message, "from:".$from))
     {
         echo "Your Password has been reset! Please check your e-mail! For your temporary password";
     }
+
 }
