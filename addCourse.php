@@ -27,6 +27,8 @@
     $sql = "SELECT * FROM `courses` WHERE `dept` LIKE '";
     $sql .= $dept . "'";
 
+
+
     /*$sql = "SELECT * FROM `courses`";*/
     $result = $conn->query($sql);
 
