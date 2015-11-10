@@ -262,7 +262,7 @@ div.req_completePlanned {
 /* some courses planned toward requirement but still not complete */
 div.req_partialPlanned {
     background-color: #FFE0CC; /* light orange */
-    color: white;
+    color: black;
 }
 
 /*no longer used? */
