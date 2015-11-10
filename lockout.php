@@ -1,13 +1,25 @@
 <?php
-require_once "connect.php";
+require_once "config.php";
 
-$formfield['uname'] = strtolower(htmlspecialchars(stripslashes(trim($_POST['uname']))));
+$FORMFIELD['username'] = strtolower(htmlspecialchars(stripslashes(trim($_POST['username']))));
 
 try
 {
+
+
+
+    $sql='SELECT * FROM accounts WHERE username = :userName';
+    $login = $conn->prepare($sql);
+    $login->bindParam(':userName', $FORMFIELD['username']);
+    $login->execute();
+    $count = $login->rowCount();
+
+
+
+    $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
     $sql = "SELECT usna FROM lockedout WHERE usna = :uname";
-    $s = $pdo->prepare($sql);
-    $s->bindValue(':uname', $formfield['uname']);
+    $s = $conn->prepare($sql);
+    $s->bindParam(':uname',  $FORMFIELD['username']);
     $s->execute();
     $count = $s->rowCount();
 }
@@ -21,9 +33,10 @@ if ($count == 0)
 {
     try
     {
+        $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
         $sql = "Insert into lockedout (`usna`) values(:uname)";
-        $try = $pdo ->prepare($sql);
-        $try -> bindvalue(':uname', $formfield['uname']);
+        $try = $conn ->prepare($sql);
+        $try -> bindParam(':uname', $FORMFIELD['username']);
         $try->execute();
     }
     catch(PDOException $e)
@@ -37,9 +50,10 @@ else
 {
     try
     {
+        $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
         $sql = "SELECT * FROM lockedout WHERE usna = :uname";
-        $ss = $pdo->prepare($sql);
-        $ss->bindValue(':uname', $formfield['uname']);
+        $ss = $conn->prepare($sql);
+        $ss->bindParam(':uname', $FORMFIELD['uname']);
         $ss->execute();
         $count = $ss->rowCount();
     }
@@ -57,10 +71,11 @@ else
         $t = $t + 1;
         try
         {
+            $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
             $sql = 'update lockedout set try = :try WHERE usna = :uname';
-            $try2 = $pdo->prepare($sql);
-            $try2 -> bindValue(':try', $t);
-            $try2 -> bindValue(':uname', $formfield['uname']);
+            $try2 = $conn->prepare($sql);
+            $try2 -> bindParam(':try', $t);
+            $try2 -> bindParam(':uname', $FORMFIELD['uname']);
             $try2->execute();
 
         }
@@ -76,10 +91,11 @@ else
         require "lockednew.php";
         try
         {
+            $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
             $sql = 'update lockedout set try = :try WHERE usna = :uname';
-            $try2 = $pdo->prepare($sql);
-            $try2 -> bindValue(':try', $t);
-            $try2 -> bindValue(':uname', $formfield['uname']);
+            $try2 = $conn->prepare($sql);
+            $try2 -> bindParam(':try', $t);
+            $try2 -> bindParam(':uname', $FORMFIELD['uname']);
             $try2->execute();
 
         }

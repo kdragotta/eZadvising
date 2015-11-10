@@ -1,5 +1,5 @@
 <?php
-require_once "connect.php";
+require_once "config.php";
 function generateRandomString($length = 10)
 {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -50,7 +50,7 @@ else
     $securepwd = crypt($temppword,$salt);
 
     try {
-        $sql = 'UPDATE users SET pword = :pword, salt = :salt WHERE uname = :uname';
+        $sql = 'UPDATE accounts SET pword = :pword, salt = :salt WHERE uname = :uname';
         $change = $pdo->prepare($sql);
         $change->bindvalue(':pword', $securepwd);
         $change->bindvalue(':salt', $salt);

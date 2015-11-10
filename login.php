@@ -95,25 +95,21 @@ if(isset($_POST['submit'])) {
                 exit();
             }
 
-            if($confirm<1){
-                //echo "Entered wrong Password or hash is wrong!<br/>";
+                if ($confirm <1)
+                {
+                    require "lockout.php";
 
-//                $row2 = $s2->fetch();
-//                if ($count2 <1)
-//                {
-//                    require "lockout.php";
+
+                    echo "<p class='error'>The uname and password combination you entered is not correct.  Please try again.</p>";
+                }
+
+
 //
-//
-//                    echo "<p class='error'>The uname and password combination you entered is not correct.  Please try again.</p>";
-//                }
-//
+//                echo "The username or password you entered is not recognized.";
+//                echo "<br>";
+//                echo"Please try again.";
 
 
-                echo "The username or password you entered is not recognized.";
-                echo "<br>";
-                echo"Please try again.";
-
-            }
             else {
                 try {
                     $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
