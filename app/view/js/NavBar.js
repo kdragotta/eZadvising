@@ -99,8 +99,6 @@ $('#closeModal').click(function () {
     if ($('.modal-title').text() == "Add New Plan") {
         $('.nav-pills .active').removeClass('active');
         $('#pill' + lastTab).addClass('active');
-        $('#plan' + lastTab).addClass('active');
-        $('.tab-pane .active').removeClass('active');
         ResetActiveTabColor(lastTab);
     }
 
