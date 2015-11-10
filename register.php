@@ -237,7 +237,11 @@ if($showForm == 1){
         </tr>
         <tr>
             <td>Type</td>
-            <td><input type="number" name="type" id="type" size="1" min="0" max="1"/></td>
+            <td><select name = "type">
+                <option value="0">Student</option>
+                <option value="1">Admin</option>
+            </select></td>
+<!--            <td><input type="number" name="type" id="type" size="1" min="0" max="1"/></td>-->
         </tr>
         <tr>
             <td>Submit:</td>
