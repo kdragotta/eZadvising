@@ -24,6 +24,15 @@
 }
 */
 
+#closeModal:hover {
+    color: white;
+    background-color: red;
+}
+
+#inputMessage {
+    font-style: italic;
+}
+
 #title {
     text-align: center;
 }
@@ -31,6 +40,10 @@
 .modal {
     height: 100%;
     text-align: center;
+}
+
+.modal-body {
+    padding-top: 20px;
 }
 
 .modal-content {

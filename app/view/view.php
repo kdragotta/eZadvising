@@ -21,6 +21,7 @@
         <h3> eZAdvising </h3>
     </div>
 </header>
+
 <!-- Nav Bar Tabs -->
 <nav class="navWrapper">
     <div id="leftNav">
@@ -42,7 +43,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li><a onclick="RenameTab();">Change Plan Name</a></li>
-                <li><a onclick="DeletePlan();">Delete Current Plan</a></li>
+                <li><a onclick="DeletePlanConfirm();">Delete Current Plan</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a data-show="on" onclick="showHideSummers()">Show / Hide Summers</a></li>
             </ul>
@@ -52,7 +53,7 @@
 <!-- End Nav Bar Tabs -->
 
 <!-- Bootstrap Form -->
-<div id="modal" class="modal fade" role="dialog" data-keyboard="false">
+<div id="modal" class="modal fade in" role="dialog" data-keyboard="false">
     <div class="vertical-alignment-helper">
         <div class="modal-dialog">
             <!-- Content -->
@@ -61,15 +62,28 @@
                     <h4 class="modal-title">Add New Plan</h4>
                 </div>
                 <div class="modal-body">
+                    <!-- Alert -->
+                    <div class="alert alert-warning fade in" id="alertNULL">
+                        <strong>Title cannot be of null value.</strong>
+                    </div>
+                    <!-- End Alert -->
+                    <!-- Alert -->
+                    <div class="alert alert-warning fade in" id="alertLENGTH">
+                        <strong>Remember the title must be between 1 - 15 characters long.</strong>
+                    </div>
+                    <!-- End Alert -->
                     <form role="form" action="" method="POST" id="form" class="changeTitle"
                           onkeydown="keyStroke(event)">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="title" value=" ">
+                            <input type="text" class="form-control" id="title" value="">
+
+                            <p id="inputMessage">Title must be between 1 - 15 characters long.</p>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" id="closeModal">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="closeModal">Cancel
+                    </button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal" id="addPill">Submit</button>
                 </div>
             </div>
@@ -77,6 +91,40 @@
     </div>
 </div>
 <!-- End Bootstrap Form -->
+
+<!-- Bootstrap Confirm -->
+<div id="confirmModal" class="modal fade in" role="dialog" data-keyboard="false">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog">
+            <!-- Content -->
+            <div class="modal-content" id="form-content">
+                <div class="modal-header">
+                    <h4 id="confirmTitle">Delete Plan</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- Alert -->
+                    <div class="alert alert-warning fade in" id="alertDELETE">
+                        <strong>Are you sure you want to delete the current plan?
+                            </br>This process cannot be undone.</strong>
+                    </div>
+                    <!-- End Alert -->
+
+                    <!-- Alert -->
+                    <div class="alert alert-warning fade in" id="alertCANNOT">
+                        <strong>You cannot delete the default plan.</strong>
+                    </div>
+                    <!-- End Alert -->
+                </div>
+                <div class="modal-footer" id="confirmFooter">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="closeModal">Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="confirm">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Bootstrap Confirm -->
 
 <body>
 <!-- Div Wrapper -->

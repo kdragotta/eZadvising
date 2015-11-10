@@ -237,8 +237,8 @@ function init(index) {
         hoverClass: "highlight_drop"
     });
 
-     //$( ".semester_plan" ).draggable( "option", "helper", 'clone' );
-     //$( ".semester_plan" ).on( "dragstop", function( event, ui ) {} ); //dragstart, drag, dragstop, dragcrete
+    //$( ".semester_plan" ).draggable( "option", "helper", 'clone' );
+    //$( ".semester_plan" ).on( "dragstop", function( event, ui ) {} ); //dragstart, drag, dragstop, dragcrete
 
 
 }
@@ -426,27 +426,27 @@ function handleDropEventOnPlan(event, ui) {
 
         var hours = parseInt($("#op" + reqId + " #opt" + courseId).data("hours"));
         /*
-        var hoursRequired = parseInt($("#r" + reqId).data("hours"));
-        var hoursCounting = parseInt($("#r" + reqId).data("hoursCounting"));
-        var hoursPlanned = parseInt($("#r" + reqId).data("hoursCountingPlanned"));
+         var hoursRequired = parseInt($("#r" + reqId).data("hours"));
+         var hoursCounting = parseInt($("#r" + reqId).data("hoursCounting"));
+         var hoursPlanned = parseInt($("#r" + reqId).data("hoursCountingPlanned"));
 
 
-        var remaining = hoursRequired - hoursCounting - hoursPlanned - hours;
-        console.dir("remaining:" + remaining);
-        if (remaining <= 0) {
-            //remove
-            $(ui.draggable).remove();
-        }
-        else {
-            ui.draggable.addClass('req_been_planned');
-            //ui.draggable.draggable('disable');
-            //ui.draggable.attr('draggable','false');
-            //ui.draggable.draggable( 'option', 'revert', false );
-        }
+         var remaining = hoursRequired - hoursCounting - hoursPlanned - hours;
+         console.dir("remaining:" + remaining);
+         if (remaining <= 0) {
+         //remove
+         $(ui.draggable).remove();
+         }
+         else {
+         ui.draggable.addClass('req_been_planned');
+         //ui.draggable.draggable('disable');
+         //ui.draggable.attr('draggable','false');
+         //ui.draggable.draggable( 'option', 'revert', false );
+         }
 
 
-        console.dir("hours: " + hours);
-        */
+         console.dir("hours: " + hours);
+         */
 
 
         $("#r" + reqId + plan).addClass("req_completePlanned");
@@ -478,11 +478,9 @@ function handleDropEventOnPlan(event, ui) {
         });
 
 
-
     }
     //move from one semester to another
-    else if (sourceId.substr(0, 1) == "p")
-    {
+    else if (sourceId.substr(0, 1) == "p") {
         //get source plan before moving
         var sourceParentId = ui.draggable[0].parentNode.id;
 
@@ -499,17 +497,13 @@ function handleDropEventOnPlan(event, ui) {
          var fromSemesterCode = $(ui.draggable).data('semesterCode');
          var fromYear = $(ui.draggable).data('year');
          var plan = $(ui.draggable).data('plan');
-        */
+         */
 
         var toSemesterCode = targId.substr(9, 1);
         var toPlanYear = targId.substr(5, 4);  //note:  (5, 4) to get 2015 from 'plan020153'
 
         //get '7' from 'p07'
-        if (ui.draggable[0].id.substr(2) <= 9) {
-            var courseId = ui.draggable[0].id.substr(2);
-        } else {
-            var courseId = ui.draggable[0].id.substr(3);
-        }
+        var courseId = ui.draggable[0].id.substr(2);
 
         fromSemesterCode = parseInt(fromSemesterCode);
         fromYear = parseInt(fromYear);
