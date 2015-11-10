@@ -210,7 +210,8 @@ ClassBox.prototype.addToRequiredList = function (index) {
         $(newEl).addClass("req_completePlanned");
     }
     else if (this.req.somePlanned) {
-        $(newEl).addClass("req_partialPlanned");
+        //no reason to change color
+        //$(newEl).addClass("req_partialPlanned");
     }
     else {
         $(newEl).addClass("req_incomplete");
