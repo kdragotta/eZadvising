@@ -7,6 +7,7 @@
  */
 session_start();
 $pagetitle = "Login";
+
 require_once 'config.php';
 require_once 'advising_functions.php';
 
@@ -20,7 +21,8 @@ if(isset($_POST['submit'])) {
     //cleanse the data entered
     $FORMFIELD['username'] = trim($_POST['username']);
     $FORMFIELD['password'] = trim($_POST['password']);
-
+    $FORMFIELD['rememberme'] = trim($_POST['rememberme']);
+    //echo $FORMFIELD['rememberme'];
 
     //check for empty fields
     //checks if the username is entered
@@ -38,7 +40,7 @@ if(isset($_POST['submit'])) {
     if($errorMessage != '')
     {
 
-       // echo 'Error: ' . $errorMessage;
+        // echo 'Error: ' . $errorMessage;
         echo 'An error has occurred: ' . '<br>' .  $errorMessage;
         echo '<br />';
     }
@@ -115,11 +117,22 @@ if(isset($_POST['submit'])) {
 
                 $_SESSION['username'] = $row['username'];
                 $_SESSION['first'] = $row['first'];
+                $_SESSION['token'] = getToken(10);
+                $_SESSION['token2'] = getToken(20);
+                //echo $_SESSION['token'];
 
                 //echo $_SESSION['first'];
                 $showForm = 0;
+                if($FORMFIELD['rememberme'] == "yes")
+                {
+                    $_SESSION['password'] = $FORMFIELD['password'];
 
-                header("Location: eatouch4.php");
+                    header("Location: makecookie3.php");
+                }
+                else
+                {
+                    header("Location: makecookie2.php");
+                }
             }
 
 
@@ -143,30 +156,33 @@ if(isset($_POST['submit'])) {
 
 
 if($showForm == 1){
-?>
-    <h1>Login</h1>
-<p>Please log in to access registration.</p>
 
-<form name="loginForm" id="loginForm" method="post" action="login.php">
-    <table>
-        <tr>
-            <td>Username:</td>
-            <td><input type="text" name="username" id="username" size="20"/></td>
-        </tr>
-        <tr>
-            <td>Password:</td>
-            <td><input type="password" name="password" id="password" size="20"/><a href="forgotpass.php" class="pass"> Forgot Password?</a></td>
-        </tr><br><br>
-        <tr>
-            <td></td>
-            <td><input type="submit" name="submit" value="Submit"/></td>
-        </tr>
-        <tr>
-            <td><br></td>
-            <td><input type="checkbox" name="rememberme" value="yes"/>Remember me!</td>
-        </tr>
-    </table>
-</form>
+    ?>
+    <h1>Login</h1>
+    <p>Please log in to access registration.</p>
+
+    <form name="loginForm" id="loginForm" method="post" action="login.php">
+        <table>
+            <tr>
+                <td>Username:</td>
+                <td><input type="text" name="username" id="username" size="20"
+                        value="<?php if(isset($_COOKIE['username'])){echo $_COOKIE['username'];} ?>"/></td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><input type="password" name="password" id="password" size="20"
+                        value="<?php if(isset( $_COOKIE['password'])){echo  $_COOKIE['password'];} ?>"/><a href="forgotpass.php" class="pass"> Forgot Password?</a></td>
+            </tr><br><br>
+            <tr>
+                <td></td>
+                <td><input type="submit" name="submit" value="Submit"/></td>
+            </tr>
+            <tr>
+                <td><br></td>
+                <td><input type="checkbox" name="rememberme" value="yes"/>Remember me!</td>
+            </tr>
+        </table>
+    </form>
     <p>Don't have an account? <a href="register.php">Click Here!</a></p>
 <?php
 }
@@ -191,7 +207,7 @@ if($showForm == 1){
         font-size: 3rem;
         position: relative;
         z-index: 10;
-        height: 50px;;
+        height: 50px;
     }
     p {
         margin-left: 20%;
@@ -207,4 +223,7 @@ if($showForm == 1){
     }
 
 
+
 </style>
+
+
