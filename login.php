@@ -21,8 +21,8 @@ if(isset($_POST['submit'])) {
     //cleanse the data entered
     $FORMFIELD['username'] = trim($_POST['username']);
     $FORMFIELD['password'] = trim($_POST['password']);
-    $FORMFIELD['rememberme'] = trim($_POST['rememberme']);
-    //echo $FORMFIELD['rememberme'];
+    $FORMFIELD['rememberme'] = trim($_POST['yes']);
+
 
     //check for empty fields
     //checks if the username is entered
@@ -119,7 +119,7 @@ if(isset($_POST['submit'])) {
                 $_SESSION['studentid'] = $row['id'];
                 $_SESSION['first'] = $row['first'];
                 $_SESSION['token'] = getToken(10);
-
+                $_SESSION['token2'] = getToken(20);
                 //echo $_SESSION['token'];
 
                 //echo $_SESSION['first'];
@@ -134,6 +134,11 @@ if(isset($_POST['submit'])) {
                 {
                     header("Location: makecookie2.php");
                 }
+
+                //echo $_SESSION['first'];
+                //$showForm = 0;
+
+                //header("Location: eatouch4.php");
             }
 
 
@@ -155,6 +160,7 @@ if(isset($_POST['submit'])) {
 
 //Test for kdragotta
 //<?php if(isset( $_COOKIE['password'])){echo  $_COOKIE['password'];}
+
 
 if($showForm == 1){
 
