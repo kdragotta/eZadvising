@@ -103,6 +103,8 @@ $('#closeModal').click(function () {
         $('.tab-pane .active').removeClass('active');
         ResetActiveTabColor(lastTab);
     }
+
+    $('.alert').hide();
 });
 
 /**
