@@ -48,6 +48,8 @@ class Record
      */
     public $proposedReqId;
 
+    public $hours;
+
     /**
      * Record constructor.
      * @param int $id : The id of the record
@@ -237,5 +239,23 @@ class Record
     {
         $this->proposedReqId = $proposedReqId;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getHours()
+    {
+        return $this->hours;
+    }
+
+    /**
+     * @param mixed $hours
+     * @return Record
+     */
+    public function setHours($hours)
+    {
+        $this->hours = $hours;
+    }
+
 
 }
