@@ -77,6 +77,11 @@ class Record
         $this->proposedReqId = $proposedReqId;
     }
 
+    public static function fromJsonObject($json) {
+        return new Record($json->id, $json->studentId, $json->course, $json->grade, $json->year, $json->reqId,
+            $json->type, $json->propoesedReqId, $json->semesterCode);
+    }
+
     public static function mapLetterGradeToNumber($grade) {
         $grade = trim($grade);
         switch ($grade) {
