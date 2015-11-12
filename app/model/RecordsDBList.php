@@ -1,5 +1,5 @@
 <?php
-require_once('RecordModel.php');
+require_once('RecordObject.php');
 /**
  * Created by PhpStorm.
  * User: phillip

@@ -1,5 +1,5 @@
 <?php
-require_once('CourseModel.php');
+require_once('CourseObject.php');
 /**
  * Created by PhpStorm.
  * User: phillip

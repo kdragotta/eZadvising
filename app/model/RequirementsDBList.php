@@ -1,5 +1,5 @@
 <?php
-require_once('RequirmentModel.php');
+require_once('RequirmentObject.php');
 /**
  * Created by PhpStorm.
  * User: phillip
