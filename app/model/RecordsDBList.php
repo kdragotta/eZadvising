@@ -22,6 +22,32 @@ class RecordsDBList
         $this->studentId = $studentId;
     }
 
+    public function addUpdateRecord(\obj\Record $record) {
+        $stmt = null;
+        if ($record->getId() == null) {
+            $sql = "Insert into course_records (studentId, courseId, grade, year, reqId, type, proposedReqId, hours, semesterCode) VALUES " .
+                "(:studentId, :courseId, :grade, :year, :reqId, :type, :proposedReqId, :hours, :semesterCode)";
+            $stmt = $this->con->prepare($sql);
+        } else {
+            $sql = "Update course_records set studentId=:studentId, courseId=:courseId, grade=:grade, year=:year, ".
+                "reqId=:reqId, type=:type, proposedReqId=:proposedReqId, hours=:hours, semesterCode=:semesterCode ".
+                "Where id=:id";
+            $stmt = $this->con->prepare($sql);
+            $stmt->bindValue(":id", $record->getId());
+        }
+        $stmt->bindValue(":studentId", $record->getStudentId());
+        $stmt->bindValue(":courseId", $record->getCourse()->getId());
+        $stmt->bindValue(":grade", $record->getGrade());
+        $stmt->bindValue(":year", $record->getYear());
+        $stmt->bindValue(":reqId", $record->getReqId());
+        $stmt->bindValue(":type", $record->getType());
+        $stmt->bindValue(":proposedReqId", $record->getProposedReqId());
+        $stmt->bindValue(":hours", $record->getHours());
+        $stmt->bindValue(":semesterCode", $record->getSemester());
+
+        $stmt->execute();
+    }
+
     public function getRecordById($id){
         $sql = "Select * from course_records where id=:id and studentId=:sid";
 
