@@ -1,0 +1,151 @@
+/* Styling for navigation bar */
+
+.navWrapper {
+    background-color: #f3f2f2;
+    position: relative;
+}
+
+#leftNav {
+    display: flex;
+    position: relative;
+    width: auto;
+    float: left;
+}
+
+#rightNav {
+    width: 9rem;
+    position: relative;
+    float: right;
+}
+
+.dropdown {
+    height: 100%;
+    position: relative;
+    padding-right: 15px;
+    transform: translateY(50%);
+    z-index: 999;
+}
+
+.dropdown a {
+    font-size: 1.0em !important;
+}
+
+.btn-primary {
+    background-color: #007073;
+}
+
+.btn-primary:hover {
+    background-color: #916b4a;
+}
+
+.dropdown-menu, .dropdown-menu a {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-weight: bold;
+    text-align: center;
+    left: auto;
+    right: 0px;
+}
+
+.dropdown:hover .dropdown-menu {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    display: block;
+}
+
+.dropdown-menu .divider {
+    color: black;
+    background-color: black;
+}
+
+.dropdown-menu li a:hover {
+    color: white;
+    background-color: #007073;
+}
+
+.dropdown-menu li a {
+    font-weight: bold;
+}
+
+.dropdown-menu li:hover {
+    cursor: pointer;
+    visibility: visible;
+}
+
+.dropdown-toggle .icon-bars-button {
+    padding-left: 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.dropdown-toggle .icon-bar {
+    margin-bottom: 2px;
+    display: block;
+    width: 22px;
+    height: 3px;
+    background-color: #cccccc;
+    border-radius: 1px;
+}
+
+.nav {
+    padding: 7px;
+    text-align: center;
+    background-color: #f3f2f2;
+    font-family: sans-serif;
+    font-size: 1.0em !important;
+}
+
+.nav-pills {
+    margin: 5px;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.nav-pills > li {
+   padding-right: 7px;
+}
+
+.nav-pills > li > a {
+    border: solid 1px;
+    font-weight: bold;
+    color: black;
+}
+
+#newPlan {
+    color: white;
+    background-color: #007073;
+}
+
+#newPlan:hover {
+    color: white;
+    background-color: #916b4a;
+}
+
+#hover0:hover {
+    background-color: #ff3e18;
+}
+
+#hover1:hover {
+    background-color: #fc9a00;
+}
+
+#hover2:hover {
+    background-color: #ffd800;
+}
+
+#hover3:hover {
+    background-color: #39ea7c;
+}
+
+#hover4:hover {
+    background-color: #0bb2ff;
+}
+
+#hover5:hover {
+    background-color: #985aff;
+}

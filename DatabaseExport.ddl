@@ -49,31 +49,39 @@ CREATE TABLE `courses` (
   `id` int(11) NOT NULL,
   `dept` varchar(10) NOT NULL,
   `num` varchar(10) NOT NULL,
+  `dif` DOUBLE NOT NULL,   -- difficulty rating (1-10)
+  `dr` FLOAT NOT NULL,     -- drop rate %
+  `fr` FLOAT NOT NULL,     -- fail rate %
   `prereqs` text,
   `defaultCreditHours` int(11) NOT NULL,
   `title` text,
   `description` text,
   `semestersOffered` varchar(30) NOT NULL COMMENT 'bitmask -positions match semester code, Y for offered, N for no, M for maybe'
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+--
+--  Difficulty determining algorithm
+--
+
+
 
 --
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`id`, `dept`, `num`, `prereqs`, `defaultCreditHours`, `title`, `description`, `semestersOffered`) VALUES
-(1, 'CSCI', '140', '', 3, 'Introduction to Algorithm Design I', 'description for CSCI 140', 'YYNNNM'),
-(2, 'CSCI', '140L', '', 1, 'Introduction to Algorithm Design I Lab', 'description for lab', 'YYNNNM'),
-(3, 'CSCI', '150', '1 and 2', 3, 'Introduction to Algorithm Design II', 'description for CSCI 150', 'YYNNNM'),
-(4, 'CSCI', '150L', '1 and 2', 1, 'Introduction to Algorithm Design II Lab', 'descriptino for CSCI 150L', 'YYNNNM'),
-(5, 'CSCI', '225', '', 3, 'Introduction to Relational Database and SQL', 'description for CSCI 225', 'YYNNNM'),
-(6, 'CSCI', '203', '6 and 7', 3, 'Introduction to Web Application Development', 'description for CSCI 203', 'YYNNNM'),
-(7, 'ENGL', '211', NULL, 3, 'Technical Writing', 'description for technical writing', 'YYNNNM'),
-(8, 'ENGL', '290', NULL, 3, 'Business Communication', 'description for Engl 290', 'YYNNNM'),
-(9, 'CSCI', '330', NULL, 3, 'Software Engineering I', 'description for SE I', 'YYNNNM'),
-(10, 'CSCI', '490', '8', 3, 'Software Engineering II', 'SE II description', 'YNNNNN'),
-(11, 'CSCI', '434', NULL, 3, 'Forensics', 'Description of forensics', 'YYNNNM'),
-(12, 'CSCI', '211', NULL, 3, 'Computer Infrastructure', 'description of 211', 'NYNNNM'),
-(13, 'CSCI', '350', '', 3, 'Programming Languages', 'description of programming languages', 'YNNNNN');
+INSERT INTO `courses` (`id`, `dept`, `num`,`dif`,`dr`, `fr`, `prereqs`, `defaultCreditHours`, `title`, `description`, `semestersOffered`) VALUES
+(1, 'CSCI', '140',0.0 , 0.05, 0.05, '' , 3, 'Introduction to Algorithm Design I', 'description for CSCI 140', 'YYNNNM'),
+(2, 'CSCI', '140L', 0.0, 0.05, 0.05, '' , 1, 'Introduction to Algorithm Design I Lab', 'description for lab', 'YYNNNM'),
+(3, 'CSCI', '150',0.0, 0.10, 0.10, '1 and 2', 3, 'Introduction to Algorithm Design II', 'description for CSCI 150', 'YYNNNM'),
+(4, 'CSCI', '150L',0.0, 0.10, 0.10,  '1 and 2', 1, 'Introduction to Algorithm Design II Lab', 'descriptino for CSCI 150L', 'YYNNNM'),
+(5, 'CSCI', '225',0.0, 0.15, 0.15,  '', 3, 'Introduction to Relational Database and SQL', 'description for CSCI 225', 'YYNNNM'),
+(6, 'CSCI', '203',0.0, 0.11, 0.11,  '6 and 7', 3, 'Introduction to Web Application Development', 'description for CSCI 203', 'YYNNNM'),
+(7, 'ENGL', '211',0.0, 0.05, 0.05,  NULL, 3, 'Technical Writing', 'description for technical writing', 'YYNNNM'),
+(8, 'ENGL', '290',0.0, 0.10, 0.10,  NULL, 3, 'Business Communication', 'description for Engl 290', 'YYNNNM'),
+(9, 'CSCI', '330',0.0, 0.20, 0.20, NULL, 3, 'Software Engineering I', 'description for SE I', 'YYNNNM'),
+(10, 'CSCI', '490',0.0, 0.25, 0.25, '8', 3, 'Software Engineering II', 'SE II description', 'YNNNNN'),
+(11, 'CSCI', '434',0.0, 0.20, 0.20,  NULL, 3, 'Forensics', 'Description of forensics', 'YYNNNM'),
+(12, 'CSCI', '211',0.0, 0.10, 0.10, NULL, 3, 'Computer Infrastructure', 'description of 211', 'NYNNNM'),
+(13, 'CSCI', '350',0.0, 0.25, 0.25, '', 3, 'Programming Languages', 'description of programming languages', 'YNNNNN');
 
 -- --------------------------------------------------------
 
@@ -130,13 +138,13 @@ CREATE TABLE `course_records` (
 -- Dumping data for table `course_records`
 --
 
-INSERT INTO `course_records` (`id`, `plan`, `studentId`, `courseId`, `grade`, `year`, `groupId`, `type`, `proposedReqId`, `hours`, `semesterCode`) VALUES
-(283, '020151', 1, 7, NULL, 2015, 1, 2, NULL, 3, 1),
-(284, '020162', 1, 5, NULL, 2016, 2, 2, NULL, 3, 2),
-(285, '020164', 1, 10, NULL, 2016, 3, 2, NULL, 3, 4),
-(286, '120166', 1, 4, NULL, 2016, 8, 2, NULL, 1, 6),
-(287, '120162', 1, 7, NULL, 2016, 1, 2, NULL, 3, 2),
-(288, '120162', 1, 9, NULL, 2016, 4, 2, NULL, 3, 2);
+-- INSERT INTO `course_records` (`id`, `plan`, `studentId`, `courseId`, `grade`, `year`, `groupId`, `type`, `proposedReqId`, `hours`, `semesterCode`) VALUES
+-- (283, '020151', 1, 7, NULL, 2015, 1, 2, NULL, 3, 1),
+-- (284, '020162', 1, 5, NULL, 2016, 2, 2, NULL, 3, 2),
+-- (285, '020164', 1, 10, NULL, 2016, 3, 2, NULL, 3, 4),
+-- (286, '120166', 1, 4, NULL, 2016, 8, 2, NULL, 1, 6),
+-- (287, '120162', 1, 7, NULL, 2016, 1, 2, NULL, 3, 2),
+-- (288, '120162', 1, 9, NULL, 2016, 4, 2, NULL, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -296,16 +304,26 @@ INSERT INTO `semester_codes` (`id`, `name`, `level`, `duration`, `order`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `plan_title`
+-- Table structure for table `saved_plans`
 --
 
-CREATE TABLE plan_title (
-  id int NOT NULL AUTO_INCREMENT,
-  title varchar(25) NOT NULL,
+CREATE TABLE `saved_plans` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(25) NOT NULL,
+  `plan` int NOT NULL,
+  `color` varchar(10) NOT NULL,
+  `active` varchar(4) NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
+--
+-- Dumping data for table `saved_plans`
+--
+
+INSERT INTO `saved_plans`(`title`, `plan`, `color`, `active`) VALUES
+('Default', 0, '#ff3e18', 'TRUE');
+
+-- ----------------------------------------------------------
 
 --
 -- Table structure for table `students`
