@@ -54,6 +54,27 @@ class RequirementsDBList
 
     }
 
+    public function getRequirementById($id) {
+        $sql = "Select * from program_requirements where id=:id";
+
+        $stmt = $this->con->prepare($sql);
+        $stmt->bindValue(":id", $this->programId);
+        $stmt->bindValue(":year", $this->year);
+        $stmt->execute();
+        $row = $stmt->fetch();
+
+        $req = new \obj\Requirment($row['id'], $row['title'], $row['category'], $row['programId'], $row['groupId'],
+            $row['numCreditHours'], $row['minGrade'], $row['catalogYear']);
+
+        $req->setCourseOptions($this->getCoursesForRequirement($row['groupId']));
+        $req->setCoursesCounting($this->reclist->getCompletedRecordsForRequirement($req));
+        $req->setCoursesCountingPlanned($this->reclist->getPendingRecordsForRequirement($req));
+        $ret[]=$req;
+
+        return $ret;
+
+    }
+
     private function getCoursesForRequirement($groupId) {
         $sql = "Select courseId from course_groups where groupId=:id";
 
