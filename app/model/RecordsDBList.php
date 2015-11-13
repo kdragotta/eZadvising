@@ -25,12 +25,12 @@ class RecordsDBList
     public function addUpdateRecord(\obj\Record $record) {
         $stmt = null;
         if ($record->getId() == null) {
-            $sql = "Insert into course_records (studentId, courseId, grade, year, reqId, type, proposedReqId, hours, semesterCode) VALUES " .
-                "(:studentId, :courseId, :grade, :year, :reqId, :type, :proposedReqId, :hours, :semesterCode)";
+            $sql = "Insert into course_records (studentId, courseId, grade, year, reqId, type, proposedReqId, hours, semesterCode, plan) VALUES " .
+                "(:studentId, :courseId, :grade, :year, :reqId, :type, :proposedReqId, :hours, :semesterCode, :plan)";
             $stmt = $this->con->prepare($sql);
         } else {
             $sql = "Update course_records set studentId=:studentId, courseId=:courseId, grade=:grade, year=:year, ".
-                "reqId=:reqId, type=:type, proposedReqId=:proposedReqId, hours=:hours, semesterCode=:semesterCode ".
+                "reqId=:reqId, type=:type, proposedReqId=:proposedReqId, hours=:hours, semesterCode=:semesterCode, plan=:plan ".
                 "Where id=:id";
             $stmt = $this->con->prepare($sql);
             $stmt->bindValue(":id", $record->getId());
@@ -44,6 +44,7 @@ class RecordsDBList
         $stmt->bindValue(":proposedReqId", $record->getProposedReqId());
         $stmt->bindValue(":hours", $record->getHours());
         $stmt->bindValue(":semesterCode", $record->getSemester());
+        $stmt->bindValue(":plan", $record->getPlan());
 
         $stmt->execute();
     }
@@ -59,7 +60,7 @@ class RecordsDBList
 
         $course = $this->clist->getCourseById($result['courseId']);
         return new \obj\Record($result['id'], $result['studentId'], $course, $result['grade'], $result['year'], $result['reqId'],
-            $result['type'], $result['proposedReqId'], $result['semesterCode']);
+            $result['type'], $result['proposedReqId'], $result['semesterCode'], $result['plan']);
     }
     
     public function getRecordsByCourseId($id) {
@@ -75,7 +76,7 @@ class RecordsDBList
         foreach ($results as $row) {
             $course = $this->clist->getCourseById($row['courseId']);
             $ret[]=new \obj\Record($row['id'], $row['studentId'], $course, $row['grade'], $row['year'], $row['reqId'],
-                $row['type'], $row['proposedReqId'], $row['semesterCode']);
+                $row['type'], $row['proposedReqId'], $row['semesterCode'], $row['plan']);
         }
         return $ret;
 
@@ -95,7 +96,7 @@ class RecordsDBList
             if (\obj\Record::mapLetterGradeToNumber($row['grade']) < $req->getGrade()) {continue;}
             $course = $this->clist->getCourseById($row['courseId']);
             $ret[]=new \obj\Record($row['id'], $row['studentId'], $course, $row['grade'], $row['year'], $row['reqId'],
-                $row['type'], $row['proposedReqId'], $row['semesterCode']);
+                $row['type'], $row['proposedReqId'], $row['semesterCode'], $row['plan']);
         }
         return $ret;
 
@@ -112,8 +113,11 @@ class RecordsDBList
         $ret = array();
         foreach ($results as $row) {
             $course = $this->clist->getCourseById($row['courseId']);
-            $ret[]=new \obj\Record($row['id'], $row['studentId'], $course, $row['grade'], $row['year'], $row['reqId'],
-                $row['type'], $row['proposedReqId'], $row['semesterCode']);
+            if (!array_key_exists($row['plan'], $ret)) {
+                $ret[$row['plan']] = [];
+            }
+            $ret['plan'][]=new \obj\Record($row['id'], $row['studentId'], $course, $row['grade'], $row['year'], $row['reqId'],
+                $row['type'], $row['proposedReqId'], $row['semesterCode'], $row['plan']);
         }
         return $ret;
     }
@@ -133,7 +137,7 @@ class RecordsDBList
         foreach ($results as $row) {
             $course = $this->clist->getCourseById($row['courseId']);
             $ret[]=new \obj\Record($row['id'], $row['studentId'], $course, $row['grade'], $row['year'], $row['reqId'],
-                $row['type'], $row['proposedReqId'], $row['semesterCode']);
+                $row['type'], $row['proposedReqId'], $row['semesterCode'], $row['plan']);
         }
         return $ret;
     }

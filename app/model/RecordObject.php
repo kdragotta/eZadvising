@@ -49,6 +49,7 @@ class Record
     public $proposedReqId;
 
     public $hours;
+    public $plan;
 
     /**
      * Record constructor.
@@ -63,7 +64,7 @@ class Record
      * @param int $semesterCode : The semester the class took/will take place in
      */
     public function __construct($id=0, $studentId=0, $course=null, $grade=0, $year=0, $reqId=0, $type=0,
-                                $proposedReqId=0, $semesterCode=0)
+                                $proposedReqId=0, $semesterCode=0, $plan=0)
     {
         if (is_string($grade)) {$grade = Record::mapLetterGradeToNumber($grade);}
         $this->semester = $semesterCode;
@@ -75,6 +76,7 @@ class Record
         $this->reqId = $reqId;
         $this->type = $type;
         $this->proposedReqId = $proposedReqId;
+        $this->plan = $plan;
     }
 
     public static function fromJsonObject($json) {
@@ -260,6 +262,22 @@ class Record
     public function setHours($hours)
     {
         $this->hours = $hours;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPlan()
+    {
+        return $this->plan;
+    }
+
+    /**
+     * @param int $plan
+     */
+    public function setPlan($plan)
+    {
+        $this->plan = $plan;
     }
 
 
