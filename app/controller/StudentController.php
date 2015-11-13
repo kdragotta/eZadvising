@@ -3,9 +3,11 @@ require_once(__DIR__ . '/../model/StudentModel.php');
 
 class StudentController {
     private $studentModel = NULL;
+    private $requirementsModel;
 
-    public function __construct() {
+    public function __construct($requirementsModel) {
         $this->studentModel = new StudentModel();
+        $this->requirementsModel = $requirementsModel;
     }
 
     public function handleRequest() {
@@ -44,33 +46,13 @@ class StudentController {
     }
 
     private function handleGetRequirementsForStudent() {
-        if(isset($_POST ['token']))
-            $token = $_POST['token'];
-        else
-            $token = NULL;
-
-        if(isset($_POST['studentId']))
-            $studentId = $_POST['studentId'];
-        else
-            $studentId = NULL;
-
-        if(isset($_POST['programId']))
-            $programId = $_POST['programId'];
-        else
-            $programId = NULL;
-
-        if(isset($_POST['year']))
-            $year = $_POST['year'];
-        else
-            $year = NULL;
-
-        if(!$token || !$studentId || !$programId || !$year) {
+        if (!isset($_POST['requirements'])) {
             return;
-            //echo 'something null';
         }
 
-        echo $this->studentModel->getRequirementsForStudent($token, $studentId,
-                                                            $programId, $year);
+        $reqs = $this->requirementsModel->getRequirements();
+
+        echo json_encode($reqs);
     }
 }
 ?>
