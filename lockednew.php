@@ -49,14 +49,15 @@ else
     $salt = '$2a$07$' . $char22;
     echo "<br>";
     $securepwd = crypt($temppword,$salt);
-
+    $lockedout = 1;
     try {
         $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
-        $sql = 'UPDATE accounts SET password = :pword, salt = :salt WHERE username = :uname';
+        $sql = 'UPDATE accounts SET resetpassword = :pword, salt = :salt, lockedout = :lockedout WHERE username = :uname';
         $change = $conn->prepare($sql);
         $change->bindParam(':pword', $securepwd);
         $change->bindParam(':salt', $salt);
         $change->bindParam(':uname', $FORMFIELD['username']);
+        $change->bindParam(':lockedout', $lockedout);
 
         $change->execute();
     }
@@ -78,6 +79,10 @@ else
     if(mail($to, $subject, $message, "from:".$from))
     {
         echo "Your Password has been reset! Please check your e-mail! For your temporary password";
+    }
+    else{
+        echo "Your Password has been reset! Please check your e-mail! For your temporary password";
+
     }
 
 }

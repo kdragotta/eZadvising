@@ -66,7 +66,7 @@ else
                 <th>Requirements</th>
             </tr>
             <tr>
-                <th><button type="button" onclick="window.location.href='eligibleNow.php'">Eligible Now</button></th>
+<!--                <th><button type="button" onclick="window.location.href='eligibleNow.php'">Eligible Now</button></th>-->
             </tr>
             <tr>
                 <th><button type="button" onclick="window.location.href='logout.php'">Log Out</button></th>

@@ -187,7 +187,7 @@ if($showForm == 1){
             </tr>
             <tr>
                 <td><br></td>
-                <td><input type="checkbox" name="rememberme" value="yes"/>Remember me!</td>
+                <td><input type="checkbox" name="rememberme" value="yes" <?php if(isset($_COOKIE['username'])){?> checked <?php }?>/>Remember me!</td>
             </tr>
         </table>
     </form>

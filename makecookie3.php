@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-setcookie('username',$_SESSION['username'] , time() + 60*60);
+setcookie('username',$_SESSION['username'] , time() + 30);
 //setcookie('password', $_SESSION['password'], time() + 60);
 
 
