@@ -66,7 +66,7 @@ else
     $t = $rows['try'];
 
 
-    if($t < 4)
+    if($t < 4 && $t >=0)
     {
         $t = $t + 1;
         try
@@ -88,9 +88,9 @@ else
         $random = $try2->fetch();
         echo $random['try']."<br/>";
     }
-    else
+    elseif ($t >=4)
     {
-        $t = 0;
+        $t = -1;
         require "lockednew.php";
         try
         {
@@ -107,6 +107,12 @@ else
             echo 'Error fetching users: ' . $e->getMessage();
             exit();
         }
+
+
+    }
+    elseif($t == -1)
+    {
+        echo "You are Locked Out!";
 
     }
 

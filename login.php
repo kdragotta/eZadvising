@@ -98,9 +98,10 @@ if(isset($_POST['submit'])) {
                 if ($confirm <1)
                 {
                     require "lockout.php";
-
-
-                    echo "<p class='error'>The uname and password combination you entered is not correct.  Please try again.</p>";
+                    if($t >= 0 && $t < 4)
+                    {
+                        echo "<p class='error'>The uname and password combination you entered is not correct.  Please try again.</p>";
+                    }
                 }
 
 
