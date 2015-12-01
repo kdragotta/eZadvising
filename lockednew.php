@@ -52,13 +52,13 @@ else
     $lockedout = 1;
     try {
         $conn = new PDO(DBCONNECTSTRING, DBUSER, DBPASSWORD);
-        $sql = 'UPDATE accounts SET resetpassword = :pword, salt = :salt, lockedout = :lockedout WHERE username = :uname';
+        $sql = 'UPDATE accounts SET password = :pword, salt = :salt, lockedout = :lockedout, resetpassword = :resetpass WHERE username = :uname';
         $change = $conn->prepare($sql);
         $change->bindParam(':pword', $securepwd);
         $change->bindParam(':salt', $salt);
         $change->bindParam(':uname', $FORMFIELD['username']);
         $change->bindParam(':lockedout', $lockedout);
-
+        $change->bindParam(':resetpass', $temppword);
         $change->execute();
     }
     catch(PDOException $e)
@@ -117,7 +117,7 @@ include("class.smtp.php");
     if(!$mail->Send()) {
         echo "Mailer Error: " . $mail->ErrorInfo;
     } else {
-        echo "Message sent!";
+        echo "Message sent! this is the";
     }
 }
 // Test the connection
