@@ -96,8 +96,8 @@ include("class.smtp.php");
     $mail->SMTPSecure = 'tls';                  // Supported
     $mail->Host       = "smtp.gmail.com";       // sets the SMTP server
     $mail->Port       = 587;                    // set the SMTP port for the GMAIL server
-    $mail->Username   = "ferretqueen1313@gmail.com";         // SMTP account username (how you login at gmail)
-    $mail->Password   = "ferrets1313";      // SMTP account password (how you login at gmail)
+    $mail->Username   = "youremail@gmail.com";         // SMTP account username (how you login at gmail)
+    $mail->Password   = "yourpassword";      // SMTP account password (how you login at gmail)
     $mail->setFrom('noreply@gmail.com', 'ezadvising');
 
     $mail->addReplyTo('noreply@gmail.com', "ezadvising");
@@ -117,7 +117,7 @@ include("class.smtp.php");
     if(!$mail->Send()) {
         echo "Mailer Error: " . $mail->ErrorInfo;
     } else {
-        echo "Message sent! this is the";
+        echo "Email Message Here";
     }
 }
 // Test the connection
