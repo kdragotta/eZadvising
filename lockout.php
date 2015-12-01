@@ -88,9 +88,9 @@ else
         $random = $try2->fetch();
         echo $random['try']."<br/>";
     }
-    elseif ($t >=4)
+    elseif ($t >=4 || $t == -1)
     {
-        $t = -1;
+        $t = 0;
         require "lockednew.php";
         try
         {
@@ -107,11 +107,6 @@ else
             echo 'Error fetching users: ' . $e->getMessage();
             exit();
         }
-
-
-    }
-    elseif($t == -1)
-    {
         echo "You are Locked Out!";
 
     }
