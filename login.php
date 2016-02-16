@@ -15,6 +15,8 @@ require_once 'advising_functions.php';
 $showForm = 1;
 $errorMessage = '';
 
+
+
 //if the formfield is submitted
 
 if(isset($_POST['submit'])) {
