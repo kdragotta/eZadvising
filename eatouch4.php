@@ -7,26 +7,25 @@ if(!isset($_SESSION['first']))
 }
 $u ="";
 $t ="";
-foreach($_COOKIE as $key => $token)
-{
-    if($key == $_SESSION['username'] && $token == $_SESSION['token'])
-    {
-        $u = $key;
-        $t = $token;
-    }
-    else
-    {
+//foreach($_COOKIE as $key => $token)
+//{
+//    if($key == $_SESSION['username'] && $token == $_SESSION['token'])
+//    {
+//        $u = $key;
+//        $t = $token;
+//    }
+//    else
+//    {
+//
+//    }
+//
+//}
+//if($u == "" || $t == "")
+//{
+//    echo "U: ".$u. "  T: ". $t;
+//    header("Location: logout.php");
+//}
 
-    }
-
-}
-if($u == "" || $t == "")
-{
-    echo "U: ".$u. "  T: ". $t;
-    header("Location: logout.php");
-}
-else
-{
 
 //$_SESSION['username'] = "crystal";
 //$_SESSION['first'] = $_REQUEST['first'];
@@ -70,6 +69,8 @@ else
             </tr>
             <tr>
                 <th><button type="button" onclick="window.location.href='logout.php'">Log Out</button></th>
+                <?php echo '<tr><td><a href="update.php?x='.$_SESSION['studentid'].'">Update</a></td>'?>
+                <?php echo '<tr><td><a href="newPassword.php?x='.$_SESSION['studentid'].'">Change Password</a></td>'?>
             </tr>
         </table>
         <div id="currentState">
@@ -229,5 +230,3 @@ else
 <script>
 
 </script>
-<?php
-}
