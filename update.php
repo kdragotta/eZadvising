@@ -29,7 +29,7 @@ if (isset($_POST['submit']))
     $formfield['maxCredit'] = stripslashes(trim($_POST['maxCredit']));
     $formfield['email'] = stripslashes(trim($_POST['email']));
 
-echo $formfield['firstName'];
+
     //finish the rest of the error checking
     if(empty($formfield['firstName']))
 
@@ -228,6 +228,7 @@ if($showform == 1)
             <input type="hidden" name="origeemail" id="origeemail" value="<?php echo $row['email'];?>">
             <input type="hidden" name="x" id="x" value="<?php echo $row['id'];?>">
             <tr><td>Submit</td><td><input type="submit" name="submit" value="submit"></td>
+
             </tr>
         </table>
     </form>
